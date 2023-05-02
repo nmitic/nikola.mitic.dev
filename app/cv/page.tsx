@@ -1,5 +1,5 @@
 const Cv = () => {
-  return <main>Cv</main>;
+  return <section>Cv</section>;
 };
 
 export default Cv;

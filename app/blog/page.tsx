@@ -3,17 +3,17 @@ import { getPostMetaData } from "../../utils/getPostMetaData";
 
 const Blog = () => {
   return (
-    <main>
+    <section>
       {getPostMetaData().map((post) => {
         return (
           <ul>
             <li>
-              <Link href={`/posts/${post.slug}`}>{post.title}</Link>
+              <Link href={`/blog/${post.slug}`}>{post.title}</Link>
             </li>
           </ul>
         );
       })}
-    </main>
+    </section>
   );
 };
 

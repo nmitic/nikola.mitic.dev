@@ -3,10 +3,20 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main>
-      <Link href="/blog">Blog</Link>
-      <Link href="/portfolio">Portfolio</Link>
-      <Link href="/cv">Cv</Link>
-    </main>
+    <section>
+      <ul>
+        <li>
+          <Link href="/blog" className="">
+            BLOG
+          </Link>
+        </li>
+        <li>
+          <Link href="/portfolio">PORTFOLIO</Link>
+        </li>
+        <li>
+          <Link href="/cv">CV</Link>
+        </li>
+      </ul>
+    </section>
   );
 }

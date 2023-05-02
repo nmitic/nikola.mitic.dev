@@ -10,7 +10,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Header />
-        {children}
+        <main className="container mx-auto px-4">{children}</main>
       </body>
     </html>
   );
