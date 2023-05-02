@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <section>
+    <section className="flex h-full justify-center items-center">
       <ul>
         <li>
           <Link href="/blog" className="">
