@@ -1,5 +1,3 @@
-"use client";
-
 import styles from "./cv.module.css";
 // begging 1
 // end 10
@@ -7,10 +5,7 @@ import styles from "./cv.module.css";
 // output (input/end)*100
 const JobCircle = ({ date, offset }: { date: string; offset: number }) => {
   return (
-    <div
-      className={styles.circle}
-      style={{ transform: `translateX(${offset}px)` }}
-    >
+    <div className={styles.circle} style={{ left: `${offset}%` }}>
       <div className={styles.date}>{date}</div>
     </div>
   );
@@ -37,7 +32,7 @@ const Cv = () => {
   const jobCirclePositionOffset = getAmountSpentBetweenTwoDatesInPercentage(
     "2013-03",
     "2023-03",
-    "2016-02"
+    "2021-04"
   );
   console.log(jobCirclePositionOffset);
   return (

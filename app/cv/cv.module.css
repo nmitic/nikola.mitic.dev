@@ -10,6 +10,7 @@
   height: lineHeight;
   background-color: white;
   align-self: flex-end;
+  position: relative;
 }
 
 .circle {
@@ -17,12 +18,11 @@
     height: circleRad;
     background-color: white;
     border-radius: 100%;
-    position: relative;
+    position: absolute;
     top: calc(circleRad/-2);
 }
 
 .date {
-    position: absolute;
     width: 80px;
     transform: rotate(310deg) translateX(28px);
     transform-origin: left;
