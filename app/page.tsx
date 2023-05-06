@@ -17,7 +17,7 @@ export default function Home() {
             </Link>
           </li>
           <li>
-            <Link href="/cv" className="text-6xl hover:underline">
+            <Link href="/cv/dresscode" className="text-6xl hover:underline">
               CV
             </Link>
           </li>
