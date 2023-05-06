@@ -14,7 +14,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className="grid h-screen grid-rows-[auto,1fr] container mx-auto p-4">
+        <div className="grid gap-10 h-screen grid-rows-[auto,1fr] container mx-auto p-4">
           <header>
             <Link href="/">
               <Image

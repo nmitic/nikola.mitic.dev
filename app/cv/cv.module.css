@@ -1,0 +1,29 @@
+@value lineHeight: 2px;
+@value circleRad: 12px;
+
+.cvWrapper {
+    height: 100%;
+    display: flex;
+}
+.line {
+  width: 100%;
+  height: lineHeight;
+  background-color: white;
+  align-self: flex-end;
+}
+
+.circle {
+    width: circleRad;
+    height: circleRad;
+    background-color: white;
+    border-radius: 100%;
+    position: relative;
+    top: calc(circleRad/-2);
+}
+
+.date {
+    position: absolute;
+    width: 80px;
+    transform: rotate(310deg) translateX(28px);
+    transform-origin: left;
+}
