@@ -1,8 +1,6 @@
+import { getMarkdown } from "../../utils/getMarkdown";
 import styles from "./cv.module.css";
-// begging 1
-// end 10
-// input 4
-// output (input/end)*100
+
 const JobCircle = ({ date, offset }: { date: string; offset: number }) => {
   return (
     <div className={styles.circle} style={{ left: `${offset}%` }}>
@@ -29,16 +27,21 @@ const getAmountSpentBetweenTwoDatesInPercentage = (
 };
 
 const Cv = () => {
-  const jobCirclePositionOffset = getAmountSpentBetweenTwoDatesInPercentage(
-    "2013-03",
-    "2023-03",
-    "2021-04"
-  );
-  console.log(jobCirclePositionOffset);
+  const jobs = getMarkdown("jobs");
+
   return (
     <section className={styles.cvWrapper}>
       <div className={styles.line}>
-        <JobCircle date="2016-02" offset={jobCirclePositionOffset} />
+        {jobs.map(({ data: { startDate } }) => (
+          <JobCircle
+            date={startDate}
+            offset={getAmountSpentBetweenTwoDatesInPercentage(
+              "2013-03",
+              "2023-03",
+              startDate
+            )}
+          />
+        ))}
       </div>
     </section>
   );
