@@ -2,7 +2,8 @@
 
 .line {
   width: 100%;
-  position: relative;
+  position: sticky;
+  top: 1rem;
 }
 
 @media (min-width: 768px) {
