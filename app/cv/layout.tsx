@@ -1,5 +1,5 @@
 import { getAllMarkdowns, markdown } from "../../utils/getMarkdown";
-import styles from "./cv.module.css";
+import styles from "./layout.module.css";
 import TimeLine from "../../components/Timeline/Timeline";
 
 export type jobType = {

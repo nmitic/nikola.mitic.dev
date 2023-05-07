@@ -3,6 +3,7 @@
 import { COMPANY_TO_LOGO } from "../../../../static-data/company-to-logo-map";
 import styles from "./JobLineItem.module.css";
 import Image from "next/image";
+import cn from "classnames";
 
 const JobLineItem = ({
   date,
@@ -21,7 +22,7 @@ const JobLineItem = ({
     COMPANY_TO_LOGO[companyName as keyof typeof COMPANY_TO_LOGO];
 
   return (
-    <div className={styles.jobLineItem} style={{ left: `${offset}%` }}>
+    <div className={cn(styles.jobLineItem)} style={{ left: `${offset}%` }}>
       <div className={styles.date}>{date}</div>
       <div>{companyName}</div>
 
