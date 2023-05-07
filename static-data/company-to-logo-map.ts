@@ -1,5 +1,5 @@
 import FolkmaticLogo from "./../jobs/assets/folkmatic.jpeg";
-import DresscodeLogo from "./../jobs/assets/folkmatic.jpeg";
+import DresscodeLogo from "./../jobs/assets/dresscode.png";
 import GymondoLogo from "./../jobs/assets/gymondo.jpeg";
 import JETLogo from "./../jobs/assets/jet.jpeg";
 import NamicsLogo from "./../jobs/assets/namics.jpeg";
