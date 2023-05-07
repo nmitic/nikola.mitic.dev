@@ -7,4 +7,30 @@ companyName: Oetkerdigital
 themeColor: 0f64ab
 ---
 
-My main responsibility during my employment in Dresscode was converting design files such as PSD into static websites templates using html, css and javascript, and latter into CMS systems, such as Wordpress. Although my main focus as a developer was always on front end technologies in order to integrate static templates into wordpress I needed to get familiar with whole wordpress ecosystem and also php as a programing language, which was great experience from which I have learned a lot, but most importantly ability to look at the bigger picture plus diving into other programing languages is always fun.
+# Frontend Engineer
+
+### Oetker Digital GmbH
+
+### Location: Germany, Berlin
+
+##### Oct. 2019 - Apr. 2021
+
+##### Link: [https://www.oetkerdigital.com/](https://www.oetkerdigital.com/)
+
+Worked on [Belvini](https://www.belvini.de/), online shop for wines.
+Joined in the finishing phase of product development, some of my tasks were:
+
+- Refactoring the way products categories were develop, by using different set of data structure in order to make server side rendering more efficient.
+- Supporting design and UX changes - Bug fixes
+
+Worked on [Backen](https://backen.de/) helping bakers with in detail recipe instructions and laying the groundwork for integrated online shop.
+
+- Supporting the product development as well as working on refactoring the frontend tech stack from php templates and jQuery to Vue.js, componentizing frontend and making website frontend agnostic.
+- Moving from traditional PIM system to Jamstack.
+- Integrating third party online-shop into already existing PIM system
+
+**Field:**
+FinTech, Food industry
+
+**Tech Stack(+tools):**
+PIMCORE, php, Webpack, Vue.js, gridsome, sass, Jenkins, Docker, Git, Cypress JS

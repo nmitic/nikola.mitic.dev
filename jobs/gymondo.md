@@ -9,7 +9,13 @@ themeColor: f08e7b
 
 # Senior Frontend Developer
 
-## Gymondo GmbH
+### Gymondo GmbH
+
+### Location: Germany, Berlin
+
+##### Feb. 2022 - Mar. 2023
+
+##### Link: [https://www.gymondo.com/](https://www.gymondo.com/)
 
 Responsible for developing and maintaining before and after login user experience for https://www.gymondo.com. Everything related to checkout, on-boarding of new users to the platform and also retaining them.
 
@@ -18,7 +24,8 @@ Responsible for developing and maintaining before and after login user experienc
 - Responsible for mentoring less experienced engineers.
 - Actively shaping frontend guild and leading initiatives for bettering the work processes.
 
-Field:
+**Field**:
 Health tech industry
-Tech Stack (+tools):
-NEXT.js, node.js, Webpack, , Typescript, react.js, sass, Jenkins, Docker, Git, Codeceptjs, React Testing Lib, angular, Jest, Design System, Firebase, Google optimize
+
+**Tech Stack (+tools):**
+NEXT.js, node.js, Webpack, Typescript, react.js, sass, Jenkins, Docker, Git, Codeceptjs, React Testing Lib, angular, Jest, Design System, Firebase, Google optimize
