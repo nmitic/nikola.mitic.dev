@@ -4,7 +4,7 @@ startDate: 2016-02
 endDate: 2017-05
 slug: folkmatic
 companyName: Folkmatic
-themeColor: "000"
+themeColor: "fff"
 ---
 
 Focusing just on a front-end technologies led me to discovering a wonderful world of component based development, rich new features of ES6, preprocessors, automated tasks, and Yeoman generator for faster kick starting new project using tools that compliance best practices.

@@ -10,6 +10,11 @@
   transform: rotate(310deg) translateX(40px);
   transform-origin: left;
   text-align: center;
+  color: white;
+}
+
+.companyName {
+  color: white;
 }
 
 .companyLogo {
@@ -19,4 +24,16 @@
   top: calc(circleRad / -2);
   border: 4px solid black;
   position: absolute;
+}
+
+.active {
+  .companyLogo {
+    transform: scale(1.8)
+  }
+  .date {
+    color: currentColor;
+  }
+  .companyName {
+    color: currentColor;
+  }
 }

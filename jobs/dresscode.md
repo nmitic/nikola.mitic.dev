@@ -4,7 +4,7 @@ startDate: 2013-03
 endDate: 2016-01
 slug: dresscode
 companyName: Dresscode
-themeColor: "000"
+themeColor: "fff"
 ---
 
 # Frontend developer

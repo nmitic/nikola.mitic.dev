@@ -22,9 +22,12 @@ const JobLineItem = ({
     COMPANY_TO_LOGO[companyName as keyof typeof COMPANY_TO_LOGO];
 
   return (
-    <div className={cn(styles.jobLineItem)} style={{ left: `${offset}%` }}>
+    <div
+      className={cn(styles.jobLineItem, { [styles.active]: isActive })}
+      style={{ left: `${offset}%`, color: `#${themeColor}` }}
+    >
       <div className={styles.date}>{date}</div>
-      <div>{companyName}</div>
+      <div className={styles.companyName}>{companyName}</div>
 
       <Image
         src={companyLogoSrc}
