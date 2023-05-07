@@ -1,8 +1,10 @@
 ---
-title: Oetkerdigital
+title: Senior Frontend Developer
 startDate: 2022-02
 endDate: 2023-03
 slug: gymondo
+companyName: Gymondo
+themeColor: f08e7b
 ---
 
 Responsible for developing and maintaining before and after login user experience for https://www.gymondo.com. Everything related to checkout, on-boarding of new users to the platform and also retaining them.

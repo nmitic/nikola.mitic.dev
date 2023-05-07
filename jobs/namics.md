@@ -1,8 +1,10 @@
 ---
-title: Namics
+title: Frontend Engineer
 startDate: 2017-05
 endDate: 2018-04
 slug: namics
+companyName: Namics
+themeColor: ee1e43
 ---
 
 Namics, as a company which is well established added so much to my experience as a developer. I was working on small and big project, ranging from 2 to 10 team members in agile like setup. I also worked on legacy project as well as project which used latest FE stack such as React|Redux|Webpack.

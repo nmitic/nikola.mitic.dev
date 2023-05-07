@@ -6,14 +6,14 @@ import { usePathname } from "next/navigation";
 const ActiveLink = ({
   children,
   ...rest
-}: { children: React.ReactNode } & LinkProps) => {
+}: { children: (isActive: boolean) => React.ReactNode } & LinkProps) => {
   const { href } = rest;
   const pathName = usePathname();
 
   const isActive = pathName === href;
   return (
     <Link {...rest} className={isActive ? "activeLink" : ""}>
-      {children}
+      {children(isActive)}
     </Link>
   );
 };

@@ -1,8 +1,10 @@
 ---
-title: Just Eat Takeaway.com
+title: Senior Frontend Developer
 startDate: 2021-04
 endDate: 2022-02
 slug: justeattakeaway
+companyName: JET
+themeColor: ff7f02
 ---
 
 Developing new features, maintaining as well as refactoring help center and internal back office tools used to connect customers with customer support.

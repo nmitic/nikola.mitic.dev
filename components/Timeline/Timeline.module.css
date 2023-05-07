@@ -2,19 +2,6 @@
 @value circleRad: 25px;
 @value activeLinkCircleMultiplier: 1.8;
 
-.cvWrapper {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  padding-top: 7rem;
-}
-
-.cvWrapper :global .activeLink {
-  .companyLogo {
-    transform: scale(activeLinkCircleMultiplier);
-  }
-}
-
 .jobLineItem {
   position: absolute;
 }

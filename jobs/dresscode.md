@@ -1,8 +1,10 @@
 ---
-title: Dresscode
+title: Web Developer
 startDate: 2013-03
 endDate: 2016-01
 slug: dresscode
+companyName: Dresscode
+themeColor: "000"
 ---
 
 # Frontend developer

@@ -1,65 +1,23 @@
-import { getAllMarkdowns } from "../../utils/getMarkdown";
+import { getAllMarkdowns, markdown } from "../../utils/getMarkdown";
 import styles from "./cv.module.css";
-import ActiveLink from "../../components/ActiveLink";
+import TimeLine from "../../components/Timeline/Timeline";
 
-const JobCircle = ({
-  date,
-  offset,
-  title,
-}: {
-  date: string;
-  offset: number;
-  title: string;
-}) => {
-  return (
-    <div className={styles.circle} style={{ left: `${offset}%` }}>
-      <div className={styles.date}>{date}</div>
-      <div>{title}</div>
-    </div>
-  );
+export type jobType = {
+  startDate: string;
+  slug: string;
+  themeColor: string;
+  companyName: string;
 };
 
-const diffMonths = (date1: string, date2: string) => {
-  return (
-    (new Date(date2).getFullYear() - new Date(date1).getFullYear()) * 12 +
-    (new Date(date2).getMonth() - new Date(date1).getMonth())
-  );
-};
-
-const getAmountSpentBetweenTwoDatesInPercentage = (
-  startDate: string,
-  endDate: string,
-  targetData: string
-) => {
-  return Math.round(
-    (diffMonths(startDate, targetData) / diffMonths(startDate, endDate)) * 100
-  );
-};
-
-const firstJobStartDate = "2013-03";
-const lastJobEndDate = "2023-03";
+export type jobsType = markdown<jobType>[];
 
 const CvLayout = ({ children }: { children: React.ReactNode }) => {
-  const jobs = getAllMarkdowns("jobs");
+  const jobs = getAllMarkdowns("jobs") as jobsType;
 
   return (
     <section className={styles.cvWrapper}>
+      <TimeLine jobs={jobs} />
       {<article className={styles.jobPost}>{children}</article>}
-      <div className={styles.line}>
-        {jobs.map(({ data: { startDate, slug, title } }) => (
-          <ActiveLink href={`/cv/${slug}`}>
-            <JobCircle
-              date={startDate}
-              title={title}
-              offset={getAmountSpentBetweenTwoDatesInPercentage(
-                firstJobStartDate,
-                lastJobEndDate,
-                startDate
-              )}
-            />
-          </ActiveLink>
-        ))}
-      </div>
     </section>
   );
 };
