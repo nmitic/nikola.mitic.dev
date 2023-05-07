@@ -12,11 +12,11 @@ type FooterProps = {
 
 const Footer = ({ links }: FooterProps): JSX.Element => {
   return (
-    <footer>
-      <ul className="flex flex-row">
+    <footer className="py-4">
+      <ul className="flex flex-row justify-between md:justify-normal">
         {links.map(({ href, logo, logoAltText }) => {
           return (
-            <li className=" me-6">
+            <li className="md:mr-4">
               <a href={href} target="_blank" rel="noopener noreferrer">
                 <Image
                   className="w-20 aspect-[5/2] object-contain inline-block"
