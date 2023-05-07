@@ -27,7 +27,7 @@ const lastJobEndDate = "2023-03";
 
 const TimeLine = ({ jobs }: { jobs: jobsType }) => {
   return (
-    <nav>
+    <nav className={styles.timeLine}>
       <ul className={styles.line}>
         {jobs.map(({ data: { startDate, slug, themeColor, companyName } }) => (
           <li>

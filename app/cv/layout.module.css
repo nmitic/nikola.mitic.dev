@@ -4,13 +4,21 @@
 
 .cvWrapper {
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  padding-top: 7rem;
+
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-gap: 0.5rem;
 }
 
 .jobPost {
   flex-grow: 1;
-  width: 800px;
+  max-width: 800px;
   margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .cvWrapper {
+    display: flex;
+    flex-direction: column;
+  }
 }

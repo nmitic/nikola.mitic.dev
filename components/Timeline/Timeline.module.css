@@ -2,8 +2,14 @@
 
 .line {
   width: 100%;
-  height: lineHeight;
-  background-color: white;
   position: relative;
-  margin-bottom: 6rem;
+}
+
+@media (min-width: 768px) {
+  .line {
+    height: lineHeight;
+    background-color: white;
+    margin-bottom: 6rem;
+    margin-top: 7rem;
+  }
 }
