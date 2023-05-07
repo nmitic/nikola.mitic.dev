@@ -7,6 +7,10 @@ companyName: Gymondo
 themeColor: f08e7b
 ---
 
+# Senior Frontend Developer
+
+## Gymondo GmbH
+
 Responsible for developing and maintaining before and after login user experience for https://www.gymondo.com. Everything related to checkout, on-boarding of new users to the platform and also retaining them.
 
 - Conducting AB test experiments in order to drive data driven decisions.

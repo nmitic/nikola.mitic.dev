@@ -14,7 +14,11 @@ const JobPage = (props: any) => {
   const slug = props.params.slug;
   const post = getJob(slug);
 
-  return <Markdown>{post.content}</Markdown>;
+  return (
+    <article className="prose dark:prose-invert">
+      <Markdown>{post.content}</Markdown>
+    </article>
+  );
 };
 
 export const generateStaticParams = async () => {
