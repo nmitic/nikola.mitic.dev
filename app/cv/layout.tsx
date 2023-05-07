@@ -13,10 +13,14 @@ export type jobsType = markdown<jobType>[];
 
 const CvLayout = ({ children }: { children: React.ReactNode }) => {
   const jobs = getAllMarkdowns("jobs") as jobsType;
+  const sortedJobsByStartDate = jobs.sort(
+    // using + as unary operator here to convert date into a number
+    (a, b) => +new Date(b.data.startDate) - +new Date(a.data.startDate)
+  );
 
   return (
     <section className={styles.cvWrapper}>
-      <TimeLine jobs={jobs} />
+      <TimeLine jobs={sortedJobsByStartDate} />
       {<article className={styles.jobPost}>{children}</article>}
     </section>
   );
