@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const CvSwitch = ({ defaultChecked = true }: { defaultChecked: boolean }) => {
+const CvSwitch = ({ defaultChecked = true }: { defaultChecked?: boolean }) => {
   const router = useRouter();
   const [isChecked, setIsChecked] = useState(defaultChecked);
 
