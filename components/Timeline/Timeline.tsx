@@ -3,7 +3,7 @@
 import styles from "./Timeline.module.css";
 import ActiveLink from "../ActiveLink";
 import JobLineItem from "./components/JobLineItem/JobLineItem";
-import { jobsType } from "../../app/cv/layout";
+import { jobsType } from "../../app/cv/types";
 
 const diffMonths = (date1: string, date2: string) => {
   return (
