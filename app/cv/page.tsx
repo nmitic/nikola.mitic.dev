@@ -9,14 +9,7 @@ const CvPage = () => {
   const jobs = getAllJobsAndSortThemByStartDate();
 
   return (
-    <section className="grid grid-cols-[auto,1fr] gap-6">
-      <div>
-        {jobs.map((job) => (
-          <article className="prose prose-invert">
-            <Markdown>{job.content}</Markdown>
-          </article>
-        ))}
-      </div>
+    <section className="grid md:grid-cols-[auto,1fr] gap-6">
       <aside className="flex items-center flex-col">
         <div className="sticky top-5">
           <Image
@@ -33,6 +26,13 @@ const CvPage = () => {
           </a>
         </div>
       </aside>
+      <div>
+        {jobs.map((job) => (
+          <article className="prose prose-invert">
+            <Markdown>{job.content}</Markdown>
+          </article>
+        ))}
+      </div>
     </section>
   );
 };
