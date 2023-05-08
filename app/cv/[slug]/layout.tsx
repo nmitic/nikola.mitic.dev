@@ -1,6 +1,7 @@
-import { getAllMarkdowns, markdown } from "../../utils/getMarkdown";
+import { markdown } from "../../../utils/getMarkdown";
 import styles from "./layout.module.css";
-import TimeLine from "../../components/Timeline/Timeline";
+import TimeLine from "../../../components/Timeline/Timeline";
+import { getAllJobsAndSortThemByStartDate } from "../utils";
 
 export type jobType = {
   startDate: string;
@@ -12,15 +13,11 @@ export type jobType = {
 export type jobsType = markdown<jobType>[];
 
 const CvLayout = ({ children }: { children: React.ReactNode }) => {
-  const jobs = getAllMarkdowns("jobs") as jobsType;
-  const sortedJobsByStartDate = jobs.sort(
-    // using + as unary operator here to convert date into a number
-    (a, b) => +new Date(b.data.startDate) - +new Date(a.data.startDate)
-  );
+  const jobs = getAllJobsAndSortThemByStartDate();
 
   return (
     <section className={styles.cvWrapper}>
-      <TimeLine jobs={sortedJobsByStartDate} />
+      <TimeLine jobs={jobs} />
       {<article className={styles.jobPost}>{children}</article>}
     </section>
   );

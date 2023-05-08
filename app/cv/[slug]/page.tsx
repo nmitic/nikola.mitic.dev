@@ -12,11 +12,11 @@ const getJob = (slug: string) => {
 
 const JobPage = (props: any) => {
   const slug = props.params.slug;
-  const post = getJob(slug);
+  const job = getJob(slug);
 
   return (
     <article className="prose prose-invert">
-      <Markdown>{post.content}</Markdown>
+      <Markdown>{job.content}</Markdown>
     </article>
   );
 };
