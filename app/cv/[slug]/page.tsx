@@ -4,7 +4,6 @@ import matter from "gray-matter";
 import { getAllMarkdowns } from "../../../utils/getMarkdown";
 import TimeLine from "../../../components/Timeline/Timeline";
 import { getAllJobsAndSortThemByStartDate } from "../utils";
-import CvSwitch from "../../../components/CvSwitch/CvSwitch";
 
 const getJob = (slug: string) => {
   const folder = "jobs";
@@ -20,7 +19,6 @@ const JobPage = (props: any) => {
 
   return (
     <div>
-      <CvSwitch checked={false} />
       <div className="grid grid-cols-[auto,1fr] md:flex flex-col gap-3 mt-5">
         <TimeLine jobs={jobs} />
         <article className="prose prose-invert mx-auto">

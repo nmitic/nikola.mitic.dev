@@ -2,7 +2,6 @@ import Markdown from "markdown-to-jsx";
 import Image from "next/image";
 import ProfilePicture from "../../public/cv_photo_nikola_mitic.jpeg";
 import { getAllJobsAndSortThemByStartDate } from "./utils";
-import CvSwitch from "../../components/CvSwitch/CvSwitch";
 
 const contactEmail = "nikola.mitic.dev@gmal.com";
 
@@ -11,7 +10,6 @@ const CvPage = () => {
 
   return (
     <section>
-      <CvSwitch checked={true} />
       <div className="grid md:grid-cols-[auto,1fr] gap-6 mt-5">
         <aside className="flex items-center flex-col">
           <div className="sticky top-5">
