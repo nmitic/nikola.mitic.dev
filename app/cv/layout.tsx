@@ -1,6 +1,5 @@
 import CvSwitch from "../../components/CvSwitch/CvSwitch";
 import { markdown } from "../../utils/getMarkdown";
-import styles from "./layout.module.css";
 
 export type jobType = {
   startDate: string;
