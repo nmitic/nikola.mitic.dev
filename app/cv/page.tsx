@@ -3,7 +3,7 @@ import Image from "next/image";
 import ProfilePicture from "../../public/cv_photo_nikola_mitic.jpeg";
 import { getAllJobsAndSortThemByStartDate } from "./utils";
 
-const contactEmail = "nikola.mitic.dev@gmal.com";
+const contactEmail = "nikola.mitic.dev@gmail.com";
 
 const CvPage = () => {
   const jobs = getAllJobsAndSortThemByStartDate();
