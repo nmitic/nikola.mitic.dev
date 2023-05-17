@@ -2,11 +2,14 @@ import Image from "next/image";
 import coverPhoto from "../../public/cover_photo.jpeg";
 import profilePhoto from "../../public/profile_photo.jpeg";
 import emailIcon from "../../public/email-icon.svg";
+import workIcon from "../../public/work-icon.svg";
+import locationIcon from "../../public/location-icon.svg";
+import linkIcon from "../../public/link-icon.svg";
 
 const Sings = () => (
   <div className="sings container max-w-3xl mx-auto">
     <div className="sticky top-0 z-10 bg-black/60 backdrop-blur-sm">
-      <section className="stickyInfo max-w-xl mx-auto py-2 flex flex-col">
+      <section className="px-4 py-2 flex flex-col">
         <span className="fullName text-2xl">Nikola Mitic</span>
         <span className="singsCount text-sm text-slate-500">2459 Sings</span>
       </section>
@@ -26,7 +29,7 @@ const Sings = () => (
         />
       </div>
     </div>
-    <div className="contact sticky top-0 z-50 flex justify-end py-4 items-center">
+    <div className="contact sticky top-0 z-50 flex justify-end py-4 items-center mb-4">
       <a
         href="mailto:nikola.mitic.dev@gmail.com"
         className="mr-2 hover:opacity-90"
@@ -38,19 +41,33 @@ const Sings = () => (
       </button>
     </div>
     <div className="desc">
-      <span className="name">Nikola Mitic</span>
-      <span className="tagName">@nmitic</span>
-      <p className="text">
+      <span className="name text-3xl block">Nikola Mitic</span>
+      <span className="tagName block mb-10 text-gray-500">@nmitic</span>
+      <p className="text mb-2">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque
         placeat iusto cum a ducimus, culpa tempore alias.
       </p>
-      <div className="meta">
-        <span className="occupation">UI developer</span>
-        <span className="location">Berlin</span>
-        <span className="web">
+      <div className="meta py-4">
+        <Image
+          src={workIcon}
+          alt="work icon"
+          className="inline-block align-middle mr-2"
+        />
+        <span className="occupation mr-3">UI developer</span>
+        <Image
+          src={locationIcon}
+          alt="work icon"
+          className="inline-block align-middle mr-2"
+        />
+        <span className="location mr-3">Berlin</span>
+        <Image
+          src={linkIcon}
+          alt="work icon"
+          className="inline-block align-middle mr-2"
+        />
+        <span className="web mr-3">
           <a href="nikola-mitic-dev.vercel.app">nikola-mitic-dev.vercel.app</a>
         </span>
-        <span className="dateJoined">31.12.1991</span>
       </div>
     </div>
     <article className="sing">
