@@ -1,9 +1,7 @@
+import Sings from "../../components/Sings/Sings";
+
 const Blog = () => {
-  return (
-    <section>
-      <div>Work in progress</div>
-    </section>
-  );
+  return <Sings />;
 };
 
 export default Blog;

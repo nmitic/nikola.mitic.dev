@@ -8,7 +8,7 @@ export default function Home() {
         <ul className="leading-10">
           <li>
             <Link href="/blog" className="text-6xl hover:underline">
-              BLOG
+              SINGS
             </Link>
           </li>
           <li>
