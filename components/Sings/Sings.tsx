@@ -17,15 +17,14 @@ const Sings = () => (
     <div>
       <div className="relative">
         <Image
-          className="object-cover h-96 rounded-lg"
+          className="object-cover max-h-96 rounded-lg"
           src={coverPhoto}
           alt="Nikola Mitic cover photo"
         />
         <Image
-          className="border-solid border-4 border-black rounded-full absolute left-6 bottom-[-75px]"
+          className="border-solid border-4 border-black rounded-full absolute left-3 md:left-6 bottom-[-50px] md:bottom-[-75px] w-[100px] md:w-[150px]"
           src={profilePhoto}
           alt="Nikola Mitic profile photo"
-          width={150}
         />
       </div>
     </div>
@@ -40,7 +39,7 @@ const Sings = () => (
         Subscribe
       </button>
     </div>
-    <div className="desc">
+    <div className="mb-5 md:mb-10">
       <span className="text-3xl block">Nikola Mitic</span>
       <span className="block mb-10 text-gray-500">@nmitic</span>
       <p className="text mb-2">
