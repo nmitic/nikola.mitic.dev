@@ -7,14 +7,14 @@ import locationIcon from "../../public/location-icon.svg";
 import linkIcon from "../../public/link-icon.svg";
 
 const Sings = () => (
-  <div className="sings container max-w-3xl mx-auto">
+  <div className="container max-w-3xl mx-auto">
     <div className="sticky top-0 z-10 bg-black/60 backdrop-blur-sm">
       <section className="px-4 py-2 flex flex-col">
         <span className="fullName text-2xl">Nikola Mitic</span>
         <span className="singsCount text-sm text-slate-500">2459 Sings</span>
       </section>
     </div>
-    <div className="hero">
+    <div>
       <div className="relative">
         <Image
           className="object-cover h-96 rounded-lg"
@@ -41,8 +41,8 @@ const Sings = () => (
       </button>
     </div>
     <div className="desc">
-      <span className="name text-3xl block">Nikola Mitic</span>
-      <span className="tagName block mb-10 text-gray-500">@nmitic</span>
+      <span className="text-3xl block">Nikola Mitic</span>
+      <span className="block mb-10 text-gray-500">@nmitic</span>
       <p className="text mb-2">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque
         placeat iusto cum a ducimus, culpa tempore alias.
@@ -59,7 +59,7 @@ const Sings = () => (
           alt="work icon"
           className="inline-block align-middle mr-2"
         />
-        <span className="location mr-3">Berlin</span>
+        <span className="mr-3">Berlin</span>
         <Image
           src={linkIcon}
           alt="work icon"
@@ -70,18 +70,25 @@ const Sings = () => (
         </span>
       </div>
     </div>
-    <article className="sing">
-      <Image src={profilePhoto} alt="Nikola Mitic profile photo" />
-      <section className="meta">
-        <span className="fullName">Nikola Mitic</span>
-        <span className="tagName">@nmitic</span>
-        <span className="date"></span>
-      </section>
-      <section className="content">
-        Discipline is the key to success. If you cannot force yourself to do
-        something you don’t want to do, how are you ever gonna put yourself
-        through the suffering required for greatness?
-      </section>
+    <article className="mx-auto max-w-xl border-2 p-4 flex">
+      <Image
+        className="rounded-full mr-3 self-start"
+        src={profilePhoto}
+        alt="Nikola Mitic profile photo"
+        width={40}
+      />
+      <div>
+        <section className="mb-4">
+          <span className="text-white text-xl">Nikola Mitic </span>
+          <span className="text-gray-500">@nmitic - </span>
+          <span className="text-gray-500">31.12.1991</span>
+        </section>
+        <section className="prose prose-invert max-w-none">
+          Discipline is the key to success. If you cannot force yourself to do
+          something you don’t want to do, how are you ever gonna put yourself
+          through the suffering required for greatness?
+        </section>
+      </div>
     </article>
   </div>
 );
