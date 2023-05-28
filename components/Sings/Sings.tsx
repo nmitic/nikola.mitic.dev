@@ -44,12 +44,11 @@ const Sings = ({ sings }: { sings: singsType }) => (
       <span className="text-3xl block">Nikola Mitic</span>
       <span className="block mb-10 text-gray-500">@nmitic</span>
       <p className="text mb-2">
-        Hi my name is Nikola. My wife calls me Niko, my family calls me Johney,
-        you can choose yours :) <br />
-        Here is the collection of my random thoughts, it is an opportunity to
-        get me know more then just a UI developer.
-        <br />
-        Thoughts are of my own!
+        Greetings! I'm Nikola, also known as Niko to my wife and Johney to my
+        family. Feel free to choose your own moniker for me. Here, I present a
+        collection of my random thoughts, providing an opportunity for you to
+        discover more about me beyond my work as a UI developer. Rest assured,
+        these thoughts are entirely my own!
       </p>
       <div className="meta py-4">
         <Image
