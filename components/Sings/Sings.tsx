@@ -12,7 +12,7 @@ const Sings = ({ sings }: { sings: singsType }) => (
     <div className="sticky top-0 z-10 bg-black/60 backdrop-blur-sm">
       <section className="px-4 py-2 flex flex-col">
         <span className="fullName text-2xl">Nikola Mitic</span>
-        <span className="text-sm text-slate-500">2459 Sings</span>
+        <span className="text-sm text-slate-500">{sings.length} thoughts</span>
       </section>
     </div>
     <div>
@@ -44,8 +44,12 @@ const Sings = ({ sings }: { sings: singsType }) => (
       <span className="text-3xl block">Nikola Mitic</span>
       <span className="block mb-10 text-gray-500">@nmitic</span>
       <p className="text mb-2">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque
-        placeat iusto cum a ducimus, culpa tempore alias.
+        Hi my name is Nikola. My wife calls me Niko, my family calls me Johney,
+        you can choose yours :) <br />
+        Here is the collection of my random thoughts, it is an opportunity to
+        get me know more then just a UI developer.
+        <br />
+        Thoughts are of my own!
       </p>
       <div className="meta py-4">
         <Image
