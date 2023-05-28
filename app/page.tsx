@@ -7,8 +7,8 @@ export default function Home() {
       <nav>
         <ul className="leading-10">
           <li>
-            <Link href="/blog" className="text-6xl hover:underline">
-              SINGS
+            <Link href="/cv/gymondo" className="text-6xl hover:underline">
+              CV
             </Link>
           </li>
           <li>
@@ -17,8 +17,13 @@ export default function Home() {
             </Link>
           </li>
           <li>
-            <Link href="/cv/gymondo" className="text-6xl hover:underline">
-              CV
+            <Link href="/blog" className="text-6xl hover:underline">
+              BLOG
+            </Link>
+          </li>
+          <li>
+            <Link href="/tiny_thoughts" className="text-6xl hover:underline">
+              TINY THOUGHTS
             </Link>
           </li>
         </ul>

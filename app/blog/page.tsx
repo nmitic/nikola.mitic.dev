@@ -1,7 +1,5 @@
-import Sings from "../../components/Sings/Sings";
-
 const Blog = () => {
-  return <Sings />;
+  return <div>Coming soon</div>;
 };
 
 export default Blog;

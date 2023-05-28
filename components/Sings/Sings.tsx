@@ -5,13 +5,14 @@ import emailIcon from "../../public/email-icon.svg";
 import workIcon from "../../public/work-icon.svg";
 import locationIcon from "../../public/location-icon.svg";
 import linkIcon from "../../public/link-icon.svg";
+import { singsType } from "../../app/tiny_thoughts/types";
 
-const Sings = () => (
+const Sings = ({ sings }: { sings: singsType }) => (
   <div className="container max-w-3xl mx-auto">
     <div className="sticky top-0 z-10 bg-black/60 backdrop-blur-sm">
       <section className="px-4 py-2 flex flex-col">
         <span className="fullName text-2xl">Nikola Mitic</span>
-        <span className="singsCount text-sm text-slate-500">2459 Sings</span>
+        <span className="text-sm text-slate-500">2459 Sings</span>
       </section>
     </div>
     <div>
@@ -69,26 +70,26 @@ const Sings = () => (
         </span>
       </div>
     </div>
-    <article className="mx-auto max-w-xl border-2 p-4 flex">
-      <Image
-        className="rounded-full mr-3 self-start"
-        src={profilePhoto}
-        alt="Nikola Mitic profile photo"
-        width={40}
-      />
-      <div>
-        <section className="mb-4">
-          <span className="text-white text-xl">Nikola Mitic </span>
-          <span className="text-gray-500">@nmitic - </span>
-          <span className="text-gray-500">31.12.1991</span>
-        </section>
-        <section className="prose prose-invert max-w-none">
-          Discipline is the key to success. If you cannot force yourself to do
-          something you don’t want to do, how are you ever gonna put yourself
-          through the suffering required for greatness?
-        </section>
-      </div>
-    </article>
+    {sings.map((sing) => (
+      <article className="mx-auto max-w-xl border-[1px] p-4 flex">
+        <Image
+          className="rounded-full mr-3 self-start"
+          src={profilePhoto}
+          alt="Nikola Mitic profile photo"
+          width={40}
+        />
+        <div>
+          <section className="mb-4">
+            <span className="text-white text-xl">Nikola Mitic </span>
+            <span className="text-gray-500">@nmitic - </span>
+            <span className="text-gray-500">{sing.data.date}</span>
+          </section>
+          <section className="prose prose-invert max-w-none">
+            {sing.content}
+          </section>
+        </div>
+      </article>
+    ))}
   </div>
 );
 
