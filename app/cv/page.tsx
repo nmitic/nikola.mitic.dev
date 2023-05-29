@@ -2,7 +2,6 @@ import Markdown from "markdown-to-jsx";
 import Image from "next/image";
 import ProfilePicture from "../../public/cv_photo_nikola_mitic.jpeg";
 import { getAllJobsAndSortThemByStartDate } from "./utils";
-import Link from "next/link";
 import { DownloadCvLink } from "../../components/DownloadCv";
 
 const contactEmail = "nikola.mitic.dev@gmail.com";
