@@ -19,7 +19,7 @@ const CvSwitch = ({ defaultChecked = true }: { defaultChecked?: boolean }) => {
   };
 
   return (
-    <label className="relative inline-flex items-center cursor-pointer mb-8 md:mb-12">
+    <label className="relative inline-flex items-center cursor-pointer mb-8 md:mb-12 print:hidden">
       <input
         type="checkbox"
         className="sr-only peer"
