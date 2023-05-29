@@ -20,7 +20,9 @@ const JobPage = (props: any) => {
 
   return (
     <div>
-      <DownloadCvLink />
+      <div className="mb-8">
+        <DownloadCvLink />
+      </div>
 
       <div className="grid grid-cols-[auto,1fr] md:flex flex-col gap-3 mt-5">
         <TimeLine jobs={jobs} />
