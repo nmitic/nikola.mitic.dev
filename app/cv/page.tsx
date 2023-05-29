@@ -21,7 +21,7 @@ const CvPage = () => {
               width={240}
               height={240}
             />
-            <p className="font-mono text-3xl uppercase">Nikola Mitic</p>
+            <p className="font-mono text-3xl uppercase">Nikola Mitić</p>
             <p>Berlin, Germany</p>
             <a
               className="hover:underline block mb-4"
