@@ -1,5 +1,8 @@
 ---
 title: How to save the world in 3 easy steps
+date: 25.06.1988
+slug: how_to_save_the_world
+intro: Here I am being positive, here is how you can save the world from going under
 ---
 
 ### How to save the world in 3 easy steps

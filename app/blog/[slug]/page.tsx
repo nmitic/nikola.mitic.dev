@@ -15,7 +15,7 @@ const PostPage = (props: any) => {
   const post = getPost(slug);
 
   return (
-    <article className="prose prose-invert">
+    <article className="prose prose-invert mx-auto">
       <Markdown>{post.content}</Markdown>
     </article>
   );

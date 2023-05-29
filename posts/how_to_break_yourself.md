@@ -1,5 +1,8 @@
 ---
 title: How to break yourself?
+date: 31.12.1991
+slug: how_to_break_yourself
+intro: Here I am talking about how to ruin your life and have troubles with it
 ---
 
 ### 10 WAYS TO RUIN YOUR LIFE
