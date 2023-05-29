@@ -3,6 +3,7 @@ import Image from "next/image";
 import ProfilePicture from "../../public/cv_photo_nikola_mitic.jpeg";
 import { getAllJobsAndSortThemByStartDate } from "./utils";
 import Link from "next/link";
+import { DownloadCvLink } from "../../components/DownloadCv";
 
 const contactEmail = "nikola.mitic.dev@gmail.com";
 
@@ -29,13 +30,7 @@ const CvPage = () => {
             >
               {contactEmail}
             </a>
-            <a
-              className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow self-start"
-              href="/nikola_mitic_cv.pdf"
-              download="nikola_mitic_cv"
-            >
-              Download CV
-            </a>
+            <DownloadCvLink />
           </div>
         </aside>
         <div>
