@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test:e2e": "playwright test",
+    "generate:pdf": "node cv-to-pdf.ts"
   },
   "dependencies": {
     "@types/node": "18.15.13",
@@ -26,6 +28,7 @@
     "typescript": "5.0.4"
   },
   "devDependencies": {
+    "@playwright/test": "^1.34.3",
     "@tailwindcss/typography": "^0.5.9",
     "postcss-nested": "^6.0.1"
   }
