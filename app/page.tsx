@@ -6,22 +6,22 @@ export default function Home() {
     <section className="flex h-full justify-center items-center">
       <nav>
         <ul className="leading-10">
-          <li>
+          <li className="hover:translate-x-8 transition">
             <Link href="/cv/gymondo" className="text-6xl hover:underline">
               CV
             </Link>
           </li>
-          <li>
+          <li className="hover:translate-x-8 transition">
             <Link href="/portfolio" className="text-6xl hover:underline">
               PORTFOLIO
             </Link>
           </li>
-          <li>
+          <li className="hover:translate-x-8 transition">
             <Link href="/blog" className="text-6xl hover:underline">
               BLOG
             </Link>
           </li>
-          <li>
+          <li className="hover:translate-x-8 transition">
             <Link href="/tiny_thoughts" className="text-6xl hover:underline">
               TINY THOUGHTS
             </Link>
