@@ -12,16 +12,6 @@ export default function Home() {
             </Link>
           </li>
           <li className="hover:translate-x-8 transition">
-            <Link href="/portfolio" className="text-6xl hover:underline">
-              PORTFOLIO
-            </Link>
-          </li>
-          <li className="hover:translate-x-8 transition">
-            <Link href="/blog" className="text-6xl hover:underline">
-              BLOG
-            </Link>
-          </li>
-          <li className="hover:translate-x-8 transition">
             <Link href="/tiny_thoughts" className="text-6xl hover:underline">
               TINY THOUGHTS
             </Link>
