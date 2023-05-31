@@ -11,7 +11,7 @@ const CvPage = () => {
 
   return (
     <section className="md:grid md:grid-cols-[auto,1fr] gap-5 ">
-      <aside className="flex items-center flex-col">
+      <aside className="flex items-center flex-col mb-5">
         <div className="sticky top-5 text-center">
           <Image
             src={ProfilePicture}
