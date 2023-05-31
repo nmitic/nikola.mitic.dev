@@ -1,5 +1,4 @@
 import CvSwitch from "../../components/CvSwitch/CvSwitch";
-import { DownloadCvLink } from "../../components/DownloadCv";
 import TimeLine from "../../components/Timeline/Timeline";
 import { markdown } from "../../utils/getMarkdown";
 import { getAllJobsAndSortThemByStartDate } from "./utils";
@@ -20,9 +19,6 @@ const CvLayout = ({ children }: { children: React.ReactNode }) => {
     <section className="h-full">
       <div>
         <CvSwitch />
-      </div>
-      <div>
-        <DownloadCvLink />
       </div>
       <div className="grid grid-cols-[auto,1fr] md:flex flex-col gap-3 mt-5">
         <TimeLine jobs={jobs} />

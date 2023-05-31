@@ -2,6 +2,7 @@ import Markdown from "markdown-to-jsx";
 import Image from "next/image";
 import ProfilePicture from "../../public/cv_photo_nikola_mitic.jpeg";
 import { getAllJobsAndSortThemByStartDate } from "./utils";
+import { DownloadCvLink } from "../../components/DownloadCv";
 
 const contactEmail = "nikola.mitic.dev@gmail.com";
 
@@ -9,7 +10,7 @@ const CvPage = () => {
   const jobs = getAllJobsAndSortThemByStartDate();
 
   return (
-    <section>
+    <section className="md:grid md:grid-cols-[auto,1fr] gap-5 ">
       <aside className="flex items-center flex-col">
         <div className="sticky top-5 text-center">
           <Image
@@ -27,6 +28,7 @@ const CvPage = () => {
           >
             {contactEmail}
           </a>
+          <DownloadCvLink />
         </div>
       </aside>
       <div>

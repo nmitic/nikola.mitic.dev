@@ -2,8 +2,6 @@ import Markdown from "markdown-to-jsx";
 import fs from "fs";
 import matter from "gray-matter";
 import { getAllMarkdowns } from "../../../utils/getMarkdown";
-import TimeLine from "../../../components/Timeline/Timeline";
-import { getAllJobsAndSortThemByStartDate } from "../utils";
 import { DownloadCvLink } from "../../../components/DownloadCv";
 
 const getJob = (slug: string) => {
@@ -18,9 +16,16 @@ const JobPage = (props: any) => {
   const job = getJob(slug);
 
   return (
-    <article className="prose prose-invert mx-auto">
-      <Markdown>{job.content}</Markdown>
-    </article>
+    <section className="md:flex md:flex-row">
+      <div>
+        <div className="md:sticky md:top-5 mb-4">
+          <DownloadCvLink />
+        </div>
+      </div>
+      <article className="prose prose-invert mx-auto">
+        <Markdown>{job.content}</Markdown>
+      </article>
+    </section>
   );
 };
 
