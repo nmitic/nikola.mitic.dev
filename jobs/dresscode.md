@@ -15,6 +15,6 @@ themeColor: "fff"
 
 ##### Mar. 2013 - Jan. 2016
 
-Main responsibility during my employment in Dresscode was converting design files such as PSD into static websites templates using html, css and javascript, and latter into CMS systems, such as Wordpress.
+During my tenure at Dresscode, my primary role was to accomplish the conversion of design files, specifically PSD, into dynamic website templates. Through my utilization of HTML, CSS, and JavaScript, I successfully transformed these static templates into CMS systems like WordPress.
 
-Although my main focus as a developer was always on front end technologies in order to integrate static templates into wordpress I needed to get familiar with whole wordpress ecosystem and also php as a programing language, which was great experience from which I have learned a lot, but most importantly ability to look at the bigger picture plus diving into other programing languages is always fun.
+While my primary focus revolved around front-end technologies, I recognized the necessity of delving into the entirety of the WordPress ecosystem and getting to know PHP as a programming language. This valuable experience not only broadened my perspective but also enhanced my ability to comprehend the larger scope of web development. Exploring different programming languages has always been an enjoyable endeavor, allowing me to continuously expand my skill set.
