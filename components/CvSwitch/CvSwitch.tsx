@@ -2,17 +2,28 @@
 
 import { usePathname, useRouter } from "next/navigation";
 
-const CvSwitch = () => {
+const CvSwitch = ({
+  onSwitch,
+}: {
+  onSwitch?: (isSwitched: boolean) => void;
+}) => {
   const router = useRouter();
   const pathName = usePathname();
   const isChecked = pathName !== "/cv";
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.checked) {
-      router.back();
-    } else {
-      router.push("/cv");
+    const isSwitched = e.target.checked;
+
+    if (onSwitch) {
+      onSwitch(isSwitched);
     }
+
+    if (isSwitched) {
+      router.back();
+      return;
+    }
+
+    router.push("/cv");
   };
 
   return (

@@ -17,3 +17,9 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+/* fixing links overflowing the container in articles */
+@layer base {
+  .prose a {
+    word-break: break-all;
+  }
+}

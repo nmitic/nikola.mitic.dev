@@ -1,5 +1,5 @@
-@value circleRad: 25px;
-@value activeLinkCircleMultiplier: 1.8;
+@value circleRad: 35px;
+@value activeLinkCircleMultiplier: 1.7;
 
 .jobLineItem {
   margin-bottom: 0.5rem;
@@ -25,13 +25,11 @@
   border-radius: 100%;
   border: 4px solid black;
   transform: translate(-25%, 25%);
+  transition: transform 0.1s ease;
 }
 
 .active {
   background-color: currentColor;
-  .companyLogo {
-    transform: scale(1.8) translate(-25%, 25%);
-  }
   .date {
     color: currentColor;
     filter: invert();
@@ -52,12 +50,13 @@
       filter: none;
     }
     .companyLogo {
-      transform: scale(2.3);
+      transform: scale(activeLinkCircleMultiplier);
     }
   }
   .jobLineItem {
     position: absolute;
     padding: 0;
+    width: circleRad;
   }
   .companyLogo {
     top: calc(circleRad / -2);
