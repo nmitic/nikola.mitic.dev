@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 
 const CvSwitch = ({
   onSwitch,
@@ -13,6 +14,7 @@ const CvSwitch = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isSwitched = e.target.checked;
+    console.log(window.location.href, "HER");
 
     if (onSwitch) {
       onSwitch(isSwitched);

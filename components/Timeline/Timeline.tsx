@@ -32,33 +32,25 @@ const TimeLine = ({ jobs }: { jobs: jobsType }) => {
   return (
     <nav className={`${shouldCollapse && "hidden"}`}>
       <div className="md:py-24 sticky top-0 md:static">
-        <ul className="w-full md:bg-white md:h-[2px] relative">
+        <ul className="w-full relative">
+          <div className="md:bg-white md:h-[2px] w-full top-[17px] absolute"></div>
           {jobs.map(
             ({ data: { startDate, slug, themeColor, companyName } }) => (
               <li>
-                <ActiveLink href={`/cv/${slug}`}>
-                  {(isActive: boolean) => {
-                    return (
-                      <JobLineItem
-                        date={new Date(startDate).toLocaleDateString(
-                          undefined,
-                          {
-                            year: "numeric",
-                            month: "long",
-                          }
-                        )}
-                        themeColor={themeColor}
-                        companyName={companyName}
-                        offset={getAmountSpentBetweenTwoDatesInPercentage(
-                          firstJobStartDate,
-                          lastJobEndDate,
-                          startDate
-                        )}
-                        isActive={isActive}
-                      />
-                    );
-                  }}
-                </ActiveLink>
+                <JobLineItem
+                  slug={slug}
+                  date={new Date(startDate).toLocaleDateString(undefined, {
+                    year: "numeric",
+                    month: "long",
+                  })}
+                  themeColor={themeColor}
+                  companyName={companyName}
+                  offset={getAmountSpentBetweenTwoDatesInPercentage(
+                    firstJobStartDate,
+                    lastJobEndDate,
+                    startDate
+                  )}
+                />
               </li>
             )
           )}

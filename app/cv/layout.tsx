@@ -21,7 +21,9 @@ const CvLayout = ({ children }: { children: React.ReactNode }) => {
         <CvSwitch />
       </div>
       <div className="grid grid-cols-[auto,1fr] md:flex flex-col gap-3 mt-5">
-        <TimeLine jobs={jobs} />
+        <div className=" mb-8">
+          <TimeLine jobs={jobs} />
+        </div>
         {children}
       </div>
     </section>

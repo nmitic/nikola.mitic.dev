@@ -16,7 +16,7 @@ export default function RootLayout({
       <body>
         <div className="grid gap-4 md:gap-10 h-screen grid-rows-[auto,1fr] container mx-auto p-4">
           <header>
-            <Link href="/">
+            <Link href="/" className="inline-block">
               <Image
                 priority
                 src={logoIcon}

@@ -11,11 +11,7 @@ const ActiveLink = ({
   const pathName = usePathname();
 
   const isActive = pathName === href;
-  return (
-    <Link {...rest} className={isActive ? "activeLink" : ""}>
-      {children(isActive)}
-    </Link>
-  );
+  return <Link {...rest}>{children(isActive)}</Link>;
 };
 
 export default ActiveLink;
