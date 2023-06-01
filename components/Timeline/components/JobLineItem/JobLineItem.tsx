@@ -23,11 +23,7 @@ const JobLineItem = ({
     COMPANY_TO_LOGO[companyName as keyof typeof COMPANY_TO_LOGO];
 
   return (
-    <div
-      className="md:absolute mb-3"
-      style={{ left: `${offset}%` }}
-      // style={{ left: `${offset}%`, color: `#${themeColor}` }}
-    >
+    <div className="md:absolute mb-3" style={{ left: `${offset}%` }}>
       <ActiveLink href={`/cv/${slug}`}>
         {(isActive: boolean) => {
           return (
@@ -36,7 +32,7 @@ const JobLineItem = ({
                 color: `${isActive ? `#${themeColor}` : "white"}`,
               }}
               className={cn(
-                "relative md:bg-transparent text-current rounded-2xl p-2 text-xs md:text-lg md:p-0",
+                "relative md:bg-transparent text-current rounded-2xl text-xs md:text-lg md:flex-col items-center w-[60px] h-[60px] flex justify-center md:justify-normal",
                 {
                   ["bg-current"]: isActive,
                 }
@@ -44,18 +40,21 @@ const JobLineItem = ({
             >
               <div
                 className={cn(
-                  "md:absolute md:top-[-55px] md:invert-0 transition-all",
+                  "md:absolute md:top-[-65px] md:invert-0 transition-all md:text-center hidden md:block",
                   {
-                    ["invert md:top-[-75px]"]: isActive,
+                    ["invert md:top-[-85px]"]: isActive,
                   }
                 )}
               >
                 {date}
               </div>
               <div
-                className={cn("md:absolute md:top-[50px] md:invert-0", {
-                  ["invert md:top-[65px]"]: isActive,
-                })}
+                className={cn(
+                  "md:absolute md:top-[50px] md:invert-0 md:text-center hidden md:block",
+                  {
+                    ["invert md:top-[70px]"]: isActive,
+                  }
+                )}
               >
                 {companyName}
               </div>
@@ -66,10 +65,9 @@ const JobLineItem = ({
                 width={35}
                 height={35}
                 className={cn(
-                  "rounded-full transition-all md:border-none md:translate-x-0 md:translate-y-0 mt-2 md:mt-0",
+                  "rounded-full transition-all md:border-none mt-2 md:mt-0",
                   {
-                    ["md:scale-[1.8] translate-x-[-15px] translate-y-[15px] border-black border-4 mt-0"]:
-                      isActive,
+                    ["md:scale-[1.8] border-black border-[3px] mt-0"]: isActive,
                   }
                 )}
               />

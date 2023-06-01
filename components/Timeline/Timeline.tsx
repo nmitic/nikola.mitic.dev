@@ -30,7 +30,7 @@ const TimeLine = ({ jobs }: { jobs: jobsType }) => {
   const shouldCollapse = pathName === "/cv";
 
   return (
-    <nav className={`${shouldCollapse ? "hidden" : ""}`}>
+    <nav className={`${shouldCollapse ? "hidden" : ""} sticky top-3 md:static`}>
       <div className="md:py-24 sticky top-0 md:static">
         <ul className="w-full relative">
           <div className="md:bg-white md:h-[2px] w-full top-[17px] absolute"></div>
