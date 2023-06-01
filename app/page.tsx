@@ -1,21 +1,37 @@
 import Image from "next/image";
 import Link from "next/link";
 
+const MenuItem = ({ href, text }: { href: string; text: string }) => {
+  return (
+    <li className="hover:translate-x-8 transition">
+      <Link href={href} className="text-6xl hover:underline">
+        {text}
+      </Link>
+    </li>
+  );
+};
+
+const MENU_ITEMS = [
+  {
+    href: "/cv/gymondo",
+    text: "CV",
+  },
+  {
+    href: "/tiny_thoughts",
+    text: "TINY THOUGHTS",
+  },
+];
+
 export default function Home() {
   return (
     <section className="flex h-full justify-center items-center">
       <nav>
         <ul className="leading-10">
-          <li className="hover:translate-x-8 transition">
-            <Link href="/cv/gymondo" className="text-6xl hover:underline">
-              CV
-            </Link>
-          </li>
-          <li className="hover:translate-x-8 transition">
-            <Link href="/tiny_thoughts" className="text-6xl hover:underline">
-              TINY THOUGHTS
-            </Link>
-          </li>
+          {MENU_ITEMS.map((item) => {
+            return (
+              <MenuItem href={item.href} text={item.text} key={item.href} />
+            );
+          })}
         </ul>
       </nav>
     </section>
