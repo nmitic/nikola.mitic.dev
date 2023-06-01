@@ -69,7 +69,7 @@ const Sings = ({ sings }: { sings: singsType }) => (
           className="inline-block align-middle mr-2"
         />
         <span className="web mr-3">
-          <a href="nikola-mitic-dev.vercel.app">nikola-mitic-dev.vercel.app</a>
+          <a href="https://nikola-mitic.dev/">nikola-mitic.dev</a>
         </span>
       </div>
     </div>
