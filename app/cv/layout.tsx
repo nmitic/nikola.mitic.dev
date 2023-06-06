@@ -2,6 +2,7 @@ import { GraphQLClient, gql } from "graphql-request";
 import CvSwitch from "../../components/CvSwitch/CvSwitch";
 import TimeLine from "../../components/Timeline/Timeline";
 import { markdown } from "../../utils/getMarkdown";
+import { JobsData } from "../../types/cv";
 
 const client = new GraphQLClient(
   process.env.NEXT_PUBLIC_HYGRAPH_READ_ONLY as string
@@ -34,15 +35,7 @@ const CvLayout = async ({ children }: { children: React.ReactNode }) => {
     }
   `;
 
-  const data: {
-    jobs: {
-      companyName: string;
-      endDate: string;
-      startDate: string;
-      themeColor: { hex: string };
-      slug: string;
-    }[];
-  } = await client.request(query);
+  const data: JobsData = await client.request(query);
 
   return (
     <section className="h-full">

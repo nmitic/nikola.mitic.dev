@@ -3,11 +3,35 @@ import Image from "next/image";
 import ProfilePicture from "../../public/cv_photo_nikola_mitic.jpeg";
 import { getAllJobsAndSortThemByStartDate } from "./utils";
 import { DownloadCvLink } from "../../components/DownloadCv";
+import { GraphQLClient, gql } from "graphql-request";
+import { JobsData } from "../../types/cv";
 
 const contactEmail = "nikola.mitic.dev@gmail.com";
 
-const CvPage = () => {
-  const jobs = getAllJobsAndSortThemByStartDate();
+const client = new GraphQLClient(
+  process.env.NEXT_PUBLIC_HYGRAPH_READ_ONLY as string
+);
+
+const CvPage = async () => {
+  const query = gql`
+    query GetJobsForTimeLine {
+      jobs {
+        description {
+          markdown
+        }
+        location
+        companyName
+        companyWebsite
+        endDate
+        title
+        startDate
+        industry
+        techStackTools
+      }
+    }
+  `;
+
+  const data: JobsData = await client.request(query);
 
   return (
     <section className="md:grid md:grid-cols-[auto,1fr] gap-5 ">
@@ -32,11 +56,48 @@ const CvPage = () => {
         </div>
       </aside>
       <div>
-        {jobs.map((job) => (
-          <article className="prose prose-invert">
-            <Markdown>{job.content}</Markdown>
-          </article>
-        ))}
+        {data.jobs.map(
+          ({
+            title,
+            companyName,
+            location,
+            companyWebsite,
+            endDate,
+            startDate,
+            description: { markdown },
+            techStackTools,
+            industry,
+          }) => (
+            <section className="md:flex md:flex-row mb-10 border-b-2 pb-10">
+              <article className="prose prose-invert mx-auto">
+                <h1>{title}</h1>
+                <h2>{companyName}</h2>
+                <h3>{location}</h3>
+                <a href={companyWebsite}>{companyWebsite}</a>
+                <div>
+                  {new Date(startDate).toLocaleDateString(undefined, {
+                    year: "numeric",
+                    month: "long",
+                  })}
+                  -
+                  {new Date(endDate).toLocaleDateString(undefined, {
+                    year: "numeric",
+                    month: "long",
+                  })}
+                </div>
+                <article>
+                  <Markdown>{markdown}</Markdown>
+                </article>
+                <p>{industry}</p>
+                <div>
+                  {techStackTools.map((item) => (
+                    <span>{item},</span>
+                  ))}
+                </div>
+              </article>
+            </section>
+          )
+        )}
       </div>
     </section>
   );
