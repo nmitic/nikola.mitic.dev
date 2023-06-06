@@ -1,19 +1,24 @@
 import Markdown from "markdown-to-jsx";
-import fs from "fs";
-import matter from "gray-matter";
-import { getAllMarkdowns } from "../../../utils/getMarkdown";
+import { GraphQLClient, gql } from "graphql-request";
 import { DownloadCvLink } from "../../../components/DownloadCv";
 
-const getJob = (slug: string) => {
-  const folder = "jobs";
-  const file = `${folder}/${slug}.md`;
+const client = new GraphQLClient(
+  process.env.NEXT_PUBLIC_HYGRAPH_READ_ONLY as string
+);
 
-  return matter(fs.readFileSync(file, "utf8"));
-};
-
-const JobPage = (props: any) => {
+const JobPage = async (props: any) => {
   const slug = props.params.slug;
-  const job = getJob(slug);
+  const query = gql`
+    query GetJobBySlug($slug: String) {
+      job(where: { slug: $slug }) {
+        description {
+          markdown
+        }
+      }
+    }
+  `;
+  const data: { job: { description: { markdown: string } } } =
+    await client.request(query, { slug });
 
   return (
     <section className="md:flex md:flex-row">
@@ -23,16 +28,24 @@ const JobPage = (props: any) => {
         </div>
       </div>
       <article className="prose prose-invert mx-auto">
-        <Markdown>{job.content}</Markdown>
+        <Markdown>{data.job.description.markdown}</Markdown>
       </article>
     </section>
   );
 };
 
 export const generateStaticParams = async () => {
-  const jobs = getAllMarkdowns("jobs/");
+  const query = gql`
+    query Jobs {
+      jobs {
+        slug
+      }
+    }
+  `;
 
-  return jobs.map(({ data: { slug } }) => ({ slug: slug }));
+  const data: { jobs: { slug: string }[] } = await client.request(query);
+
+  return data.jobs.map((jobs) => ({ slug: jobs.slug }));
 };
 
 export default JobPage;

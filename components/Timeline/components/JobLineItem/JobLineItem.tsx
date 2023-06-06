@@ -1,7 +1,5 @@
 "use client";
 
-import { COMPANY_TO_LOGO } from "../../../../static-data/company-to-logo-map";
-import styles from "./JobLineItem.module.css";
 import Image from "next/image";
 import cn from "classnames";
 import ActiveLink from "../../../ActiveLink";
@@ -12,16 +10,15 @@ const JobLineItem = ({
   companyName,
   themeColor,
   slug,
+  companyLogoSrc,
 }: {
   date: string;
   slug: string;
   offset: number;
   companyName: string;
   themeColor: string;
+  companyLogoSrc: string;
 }) => {
-  const companyLogoSrc =
-    COMPANY_TO_LOGO[companyName as keyof typeof COMPANY_TO_LOGO];
-
   return (
     <div className="md:absolute mb-3" style={{ left: `${offset}%` }}>
       <ActiveLink href={`/cv/${slug}`}>
@@ -29,7 +26,7 @@ const JobLineItem = ({
           return (
             <div
               style={{
-                color: `${isActive ? `#${themeColor}` : "white"}`,
+                color: `${isActive ? `${themeColor}` : "white"}`,
               }}
               className={cn(
                 "relative md:bg-transparent text-current rounded-2xl text-xs md:text-lg md:flex-col items-center w-[60px] h-[60px] flex justify-center md:justify-normal",

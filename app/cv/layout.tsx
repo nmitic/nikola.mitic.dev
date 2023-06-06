@@ -1,7 +1,11 @@
+import { GraphQLClient, gql } from "graphql-request";
 import CvSwitch from "../../components/CvSwitch/CvSwitch";
 import TimeLine from "../../components/Timeline/Timeline";
 import { markdown } from "../../utils/getMarkdown";
-import { getAllJobsAndSortThemByStartDate } from "./utils";
+
+const client = new GraphQLClient(
+  process.env.NEXT_PUBLIC_HYGRAPH_READ_ONLY as string
+);
 
 export type jobType = {
   startDate: string;
@@ -12,8 +16,35 @@ export type jobType = {
 
 export type jobsType = markdown<jobType>[];
 
-const CvLayout = ({ children }: { children: React.ReactNode }) => {
-  const jobs = getAllJobsAndSortThemByStartDate();
+const CvLayout = async ({ children }: { children: React.ReactNode }) => {
+  const query = gql`
+    query GetJobsForTimeLine {
+      jobs {
+        companyName
+        endDate
+        startDate
+        themeColor {
+          hex
+        }
+        logo {
+          url
+        }
+        slug
+      }
+    }
+  `;
+
+  const data: {
+    jobs: {
+      companyName: string;
+      endDate: string;
+      startDate: string;
+      themeColor: { hex: string };
+      slug: string;
+    }[];
+  } = await client.request(query);
+
+  console.log(data.jobs);
 
   return (
     <section className="h-full">
@@ -22,7 +53,7 @@ const CvLayout = ({ children }: { children: React.ReactNode }) => {
       </div>
       <div className="grid grid-cols-[auto,1fr] md:flex flex-col gap-3 mt-5">
         <div className=" mb-8">
-          <TimeLine jobs={jobs} />
+          <TimeLine jobs={data.jobs} />
         </div>
         {children}
       </div>

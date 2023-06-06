@@ -4,6 +4,19 @@ const nextConfig = {
   experimental: {
     appDir: true,
   },
+  images: {
+    domains: ["https://media.graphassets.com"],
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "media.graphassets.com",
+        port: "",
+        pathname: "/**",
+      },
+    ],
+  },
 };
 
 module.exports = nextConfig;

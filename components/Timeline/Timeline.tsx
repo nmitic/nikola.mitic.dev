@@ -25,7 +25,7 @@ const getAmountSpentBetweenTwoDatesInPercentage = (
 const firstJobStartDate = "2013-03";
 const lastJobEndDate = "2023-03";
 
-const TimeLine = ({ jobs }: { jobs: jobsType }) => {
+const TimeLine = ({ jobs }: any) => {
   const pathName = usePathname();
   const shouldCollapse = pathName === "/cv";
 
@@ -35,15 +35,22 @@ const TimeLine = ({ jobs }: { jobs: jobsType }) => {
         <ul className="w-full relative">
           <div className="md:bg-white md:h-[2px] w-full top-[17px] absolute"></div>
           {jobs.map(
-            ({ data: { startDate, slug, themeColor, companyName } }) => (
+            ({
+              startDate,
+              slug,
+              themeColor,
+              companyName,
+              logo: { url: companyLogoSrc },
+            }: any) => (
               <li>
                 <JobLineItem
+                  companyLogoSrc={companyLogoSrc}
                   slug={slug}
                   date={new Date(startDate).toLocaleDateString(undefined, {
                     year: "numeric",
                     month: "long",
                   })}
-                  themeColor={themeColor}
+                  themeColor={themeColor.hex}
                   companyName={companyName}
                   offset={getAmountSpentBetweenTwoDatesInPercentage(
                     firstJobStartDate,
