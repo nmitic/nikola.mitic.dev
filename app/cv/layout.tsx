@@ -42,8 +42,8 @@ const CvLayout = async ({ children }: { children: React.ReactNode }) => {
       <div>
         <CvSwitch />
       </div>
-      <div className="grid grid-cols-[auto,1fr] md:flex flex-col gap-3 mt-5">
-        <div className=" mb-8">
+      <div className="grid grid-cols-[auto,1fr] md:flex flex-col gap-3">
+        <div className="mb-8">
           <TimeLine jobs={data.jobs} />
         </div>
         {children}
