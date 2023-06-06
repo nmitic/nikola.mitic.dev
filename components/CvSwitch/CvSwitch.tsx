@@ -14,7 +14,6 @@ const CvSwitch = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isSwitched = e.target.checked;
-    console.log(window.location.href, "HER");
 
     if (onSwitch) {
       onSwitch(isSwitched);

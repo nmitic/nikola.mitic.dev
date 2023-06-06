@@ -44,8 +44,6 @@ const CvLayout = async ({ children }: { children: React.ReactNode }) => {
     }[];
   } = await client.request(query);
 
-  console.log(data.jobs);
-
   return (
     <section className="h-full">
       <div>
