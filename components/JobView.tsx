@@ -22,7 +22,7 @@ export const JobView = ({
   job: Job;
 }) => {
   const shouldMakeTextColorWhite = hex !== "#ffffff";
-  console.log({ shouldMakeTextColorWhite });
+
   return (
     <article
       className="prose prose-invert mx-auto"
