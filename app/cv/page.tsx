@@ -1,17 +1,43 @@
-import Markdown from "markdown-to-jsx";
 import Image from "next/image";
 import ProfilePicture from "../../public/cv_photo_nikola_mitic.jpeg";
-import { getAllJobsAndSortThemByStartDate } from "./utils";
 import { DownloadCvLink } from "../../components/DownloadCv";
+import { GraphQLClient, gql } from "graphql-request";
+import { JobsData } from "../../types/cv";
+import { JobView } from "../../components/JobView";
 
 const contactEmail = "nikola.mitic.dev@gmail.com";
 
-const CvPage = () => {
-  const jobs = getAllJobsAndSortThemByStartDate();
+const client = new GraphQLClient(
+  process.env.NEXT_PUBLIC_HYGRAPH_READ_ONLY as string
+);
+
+const CvPage = async () => {
+  const query = gql`
+    query GetJobsForTimeLine {
+      jobs {
+        description {
+          markdown
+        }
+        location
+        companyName
+        companyWebsite
+        endDate
+        title
+        startDate
+        industry
+        techStackTools
+        themeColor {
+          hex
+        }
+      }
+    }
+  `;
+
+  const data: JobsData = await client.request(query);
 
   return (
-    <section className="md:grid md:grid-cols-[auto,1fr] gap-5 ">
-      <aside className="flex items-center flex-col mb-5">
+    <section className="md:grid md:grid-cols-6 gap-5">
+      <aside className="flex items-center flex-col mb-5  col-span-2">
         <div className="sticky top-5 text-center">
           <Image
             src={ProfilePicture}
@@ -31,11 +57,11 @@ const CvPage = () => {
           <DownloadCvLink />
         </div>
       </aside>
-      <div>
-        {jobs.map((job) => (
-          <article className="prose prose-invert">
-            <Markdown>{job.content}</Markdown>
-          </article>
+      <div className=" col-span-4">
+        {data.jobs.map((job) => (
+          <div className="border-b-2 mb-10 pb-10 last:border-b-0">
+            <JobView job={job} />
+          </div>
         ))}
       </div>
     </section>

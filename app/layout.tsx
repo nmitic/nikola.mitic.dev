@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import logoIcon from "../public/logo-inverted.svg";
+import logoIcon from "../public/logo-inverted.svg?url";
 import Footer from "../components/footer";
 import { footerLinks } from "../static-data/footer-links";
 
