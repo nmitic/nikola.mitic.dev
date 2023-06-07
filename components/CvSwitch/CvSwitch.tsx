@@ -1,7 +1,6 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
 
 const CvSwitch = ({
   onSwitch,
@@ -28,7 +27,7 @@ const CvSwitch = ({
   };
 
   return (
-    <label className="relative inline-flex items-center cursor-pointer mb-8 md:mb-12 print:hidden">
+    <label className="relative inline-flex items-center cursor-pointer print:hidden">
       <input
         type="checkbox"
         className="sr-only peer"

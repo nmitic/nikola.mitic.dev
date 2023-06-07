@@ -20,7 +20,7 @@ const JobLineItem = ({
   companyLogoSrc: string;
 }) => {
   return (
-    <div className="md:absolute mb-3" style={{ left: `${offset}%` }}>
+    <div className="lg:absolute mb-3" style={{ left: `${offset}%` }}>
       <ActiveLink href={`/cv/${slug}`}>
         {(isActive: boolean) => {
           return (
@@ -29,7 +29,7 @@ const JobLineItem = ({
                 color: `${isActive ? `${themeColor}` : "white"}`,
               }}
               className={cn(
-                "relative md:bg-transparent text-current rounded-2xl text-xs md:text-lg md:flex-col items-center w-[60px] h-[60px] flex justify-center md:justify-normal",
+                "relative lg:bg-transparent text-current rounded-2xl text-xs lg:text-lg lg:flex-col items-center w-[60px] h-[60px] flex justify-center lg:justify-normal",
                 {
                   ["bg-current"]: isActive,
                 }
@@ -37,9 +37,9 @@ const JobLineItem = ({
             >
               <div
                 className={cn(
-                  "md:absolute md:top-[-65px] md:invert-0 transition-all md:text-center hidden md:block",
+                  "lg:absolute lg:top-[-65px] lg:invert-0 transition-all lg:text-center hidden lg:block",
                   {
-                    ["invert md:top-[-85px]"]: isActive,
+                    ["invert lg:top-[-85px]"]: isActive,
                   }
                 )}
               >
@@ -47,9 +47,9 @@ const JobLineItem = ({
               </div>
               <div
                 className={cn(
-                  "md:absolute md:top-[50px] md:invert-0 md:text-center hidden md:block",
+                  "lg:absolute lg:top-[50px] lg:invert-0 lg:text-center hidden lg:block",
                   {
-                    ["invert md:top-[70px]"]: isActive,
+                    ["invert lg:top-[70px]"]: isActive,
                   }
                 )}
               >
@@ -62,9 +62,9 @@ const JobLineItem = ({
                 width={35}
                 height={35}
                 className={cn(
-                  "rounded-full transition-all md:border-none md:mt-0",
+                  "rounded-full transition-all lg:border-none lg:mt-0",
                   {
-                    ["md:scale-[1.8] border-black border-[3px]"]: isActive,
+                    ["lg:scale-[1.8] border-black border-[3px]"]: isActive,
                   }
                 )}
               />

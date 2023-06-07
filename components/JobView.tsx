@@ -28,18 +28,14 @@ export const JobView = ({
         color: `${hex}`,
       }}
     >
-      <h1 className="text-current">{title}</h1>
-      <div className="bg-current inline-block p-4 rounded-xl float-left mr-4 mb-4 w-full md:w-auto">
+      <div className="bg-current inline-block p-4 rounded-xl float-left mr-4 mb-4 w-full md:w-auto relative z-0">
         <div className="invert text-current text-2xl mb-5">{companyName}</div>
         <div className="invert text-current">
           <LocationIcon className="inline-block align-middle w-6 h-6 fill-current mr-2 mb-2" />
           <span>{location}</span>
         </div>
         {companyWebsite && (
-          <a
-            href={companyWebsite}
-            className="invert text-current no-underline hover:underline"
-          >
+          <a href={companyWebsite} className="invert text-current">
             <LinkIcon className="inline-block align-middle w-6 h-6 fill-current mr-2 mb-2" />
 
             {companyWebsite}
@@ -58,6 +54,8 @@ export const JobView = ({
           })}
         </div>
       </div>
+      <h1 className="text-current">{title}</h1>
+
       <Markdown className="text-white">{markdown}</Markdown>
       <p className="text-white">{industry}</p>
       <div className="text-white">

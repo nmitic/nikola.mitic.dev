@@ -1,4 +1,3 @@
-import Markdown from "markdown-to-jsx";
 import { GraphQLClient, gql } from "graphql-request";
 import { DownloadCvLink } from "../../../components/DownloadCv";
 import { JobData } from "../../../types/cv";
@@ -33,12 +32,7 @@ const JobPage = async ({ params }: { params: { slug: string } }) => {
   const data: JobData = await client.request(query, { slug });
 
   return (
-    <section className="md:flex md:flex-row">
-      <div>
-        <div className="md:sticky md:top-5 mb-4">
-          <DownloadCvLink />
-        </div>
-      </div>
+    <section>
       <JobView job={data.job} />
     </section>
   );

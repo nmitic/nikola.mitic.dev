@@ -30,39 +30,42 @@ const TimeLine = ({ jobs }: any) => {
   const shouldCollapse = pathName === "/cv";
 
   return (
-    <nav className={`${shouldCollapse ? "hidden" : ""} sticky top-3 md:static`}>
-      <div className="md:py-24 sticky top-0 md:static">
-        <ul className="w-full relative">
-          <div className="md:bg-white md:h-[2px] w-full top-[17px] absolute"></div>
-          {jobs.map(
-            ({
-              startDate,
-              slug,
-              themeColor,
-              companyName,
-              logo: { url: companyLogoSrc },
-            }: any) => (
-              <li>
-                <JobLineItem
-                  companyLogoSrc={companyLogoSrc}
-                  slug={slug}
-                  date={new Date(startDate).toLocaleDateString(undefined, {
-                    year: "numeric",
-                    month: "long",
-                  })}
-                  themeColor={themeColor.hex}
-                  companyName={companyName}
-                  offset={getAmountSpentBetweenTwoDatesInPercentage(
-                    firstJobStartDate,
-                    lastJobEndDate,
-                    startDate
-                  )}
-                />
-              </li>
-            )
-          )}
-        </ul>
-      </div>
+    <nav
+      className={`${
+        shouldCollapse ? "hidden" : ""
+      } top-0 overflow-scroll sm:overflow-visible sticky sm:static bg-black py-2 z-10 lg:relative`}
+    >
+      <div className="w-full absolute hidden lg:bg-white lg:block lg:top-[125px] lg:h-[2px]"></div>
+
+      <ul className="flex sm:block sm:sticky sm:top-0 w-[calc(100vw-2rem)] sm:w-auto lg:h-[200px] lg:flex lg:items-center lg:static">
+        {jobs.map(
+          ({
+            startDate,
+            slug,
+            themeColor,
+            companyName,
+            logo: { url: companyLogoSrc },
+          }: any) => (
+            <li>
+              <JobLineItem
+                companyLogoSrc={companyLogoSrc}
+                slug={slug}
+                date={new Date(startDate).toLocaleDateString(undefined, {
+                  year: "numeric",
+                  month: "long",
+                })}
+                themeColor={themeColor.hex}
+                companyName={companyName}
+                offset={getAmountSpentBetweenTwoDatesInPercentage(
+                  firstJobStartDate,
+                  lastJobEndDate,
+                  startDate
+                )}
+              />
+            </li>
+          )
+        )}
+      </ul>
     </nav>
   );
 };
