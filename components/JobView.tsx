@@ -1,4 +1,5 @@
 import Markdown from "markdown-to-jsx";
+import cn from "classnames";
 import { Job } from "../types/cv";
 import LocationIcon from "../public/location-icon.svg";
 import DateIcon from "../public/date-icon.svg";
@@ -20,6 +21,8 @@ export const JobView = ({
 }: {
   job: Job;
 }) => {
+  const shouldMakeTextColorWhite = hex !== "#ffffff";
+  console.log({ shouldMakeTextColorWhite });
   return (
     <article
       className="prose prose-invert mx-auto"
@@ -28,19 +31,38 @@ export const JobView = ({
       }}
     >
       <div className="bg-current inline-block p-4 rounded-xl float-left mr-4 mb-4 w-full md:w-auto relative z-0">
-        <div className="invert text-current text-2xl mb-5">{companyName}</div>
-        <div className="invert text-current">
+        <div
+          className={cn(" text-black text-2xl mb-5", {
+            "text-white": shouldMakeTextColorWhite,
+          })}
+        >
+          {companyName}
+        </div>
+        <div
+          className={cn(" text-black", {
+            "text-white": shouldMakeTextColorWhite,
+          })}
+        >
           <LocationIcon className="inline-block align-middle w-6 h-6 fill-current mr-2 mb-2" />
           <span>{location}</span>
         </div>
         {companyWebsite && (
-          <a href={companyWebsite} className="invert text-current">
+          <a
+            href={companyWebsite}
+            className={cn(" text-black", {
+              "text-white": shouldMakeTextColorWhite,
+            })}
+          >
             <LinkIcon className="inline-block align-middle w-6 h-6 fill-current mr-2 mb-2" />
 
             {companyWebsite}
           </a>
         )}
-        <div className="invert text-current">
+        <div
+          className={cn(" text-black", {
+            "text-white": shouldMakeTextColorWhite,
+          })}
+        >
           <DateIcon className="inline-block align-middle w-6 h-6 mr-2 mb-2" />
           {new Date(startDate).toLocaleDateString(undefined, {
             year: "numeric",
