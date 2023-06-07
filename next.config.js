@@ -5,9 +5,6 @@ const nextConfig = {
     appDir: true,
   },
   images: {
-    domains: ["https://media.graphassets.com"],
-  },
-  images: {
     remotePatterns: [
       {
         protocol: "https",
@@ -32,9 +29,8 @@ const nextConfig = {
       },
       // Convert all other *.svg imports to React components
       {
-        test: /\.svg$/i,
-        issuer: /\.[jt]sx?$/,
         resourceQuery: { not: /url/ }, // exclude if *.svg?url
+        test: /\.svg$/,
         use: ["@svgr/webpack"],
       }
     );

@@ -1,7 +1,9 @@
 import Image from "next/image";
 import Markdown from "markdown-to-jsx";
 import { Job } from "../types/cv";
-import locationIcon from "../public/location-icon.svg?url";
+import LocationIcon from "../public/location-icon.svg";
+import DateIcon from "../public/date-icon.svg";
+import LinkIcon from "../public/link-icon.svg";
 
 export const JobView = ({
   job: {
@@ -28,22 +30,23 @@ export const JobView = ({
     >
       <h1 className="text-current">{title}</h1>
       <div className="bg-current inline-block p-4 rounded-xl float-left mr-4 mb-4 w-full md:w-auto">
-        <div className="invert text-current text-2xl mb-3">{companyName}</div>
+        <div className="invert text-current text-2xl mb-5">{companyName}</div>
         <div className="invert text-current">
-          <Image
-            src={locationIcon}
-            alt="location icon"
-            className="inline-block fill-current align-middle"
-          />
+          <LocationIcon className="inline-block align-middle w-6 h-6 fill-current mr-2 mb-2" />
           <span>{location}</span>
         </div>
-        <a
-          href={companyWebsite}
-          className="invert text-current hover:text-black transition-all"
-        >
-          {companyWebsite}
-        </a>
+        {companyWebsite && (
+          <a
+            href={companyWebsite}
+            className="invert text-current no-underline hover:underline"
+          >
+            <LinkIcon className="inline-block align-middle w-6 h-6 fill-current mr-2 mb-2" />
+
+            {companyWebsite}
+          </a>
+        )}
         <div className="invert text-current">
+          <DateIcon className="inline-block align-middle w-6 h-6 mr-2 mb-2" />
           {new Date(startDate).toLocaleDateString(undefined, {
             year: "numeric",
             month: "long",

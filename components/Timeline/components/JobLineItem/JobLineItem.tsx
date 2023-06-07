@@ -62,9 +62,9 @@ const JobLineItem = ({
                 width={35}
                 height={35}
                 className={cn(
-                  "rounded-full transition-all md:border-none mt-2 md:mt-0",
+                  "rounded-full transition-all md:border-none md:mt-0",
                   {
-                    ["md:scale-[1.8] border-black border-[3px] mt-0"]: isActive,
+                    ["md:scale-[1.8] border-black border-[3px]"]: isActive,
                   }
                 )}
               />
