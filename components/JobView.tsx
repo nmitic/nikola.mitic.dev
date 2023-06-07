@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Markdown from "markdown-to-jsx";
 import { Job } from "../types/cv";
 import LocationIcon from "../public/location-icon.svg";

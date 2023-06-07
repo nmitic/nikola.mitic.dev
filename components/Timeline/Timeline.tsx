@@ -1,8 +1,6 @@
 "use client";
 
-import ActiveLink from "../ActiveLink";
 import JobLineItem from "./components/JobLineItem/JobLineItem";
-import { jobsType } from "../../app/cv/types";
 import { usePathname } from "next/navigation";
 
 const diffMonths = (date1: string, date2: string) => {
