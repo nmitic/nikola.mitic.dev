@@ -1,10 +1,10 @@
 import Image from "next/image";
 import coverPhoto from "../../public/cover_photo.jpeg";
 import profilePhoto from "../../public/profile_photo.jpeg";
-import emailIcon from "../../public/email-icon.svg";
-import workIcon from "../../public/work-icon.svg";
-import locationIcon from "../../public/location-icon.svg";
-import linkIcon from "../../public/link-icon.svg";
+import emailIcon from "../../public/email-icon.svg?url";
+import workIcon from "../../public/work-icon.svg?url";
+import locationIcon from "../../public/location-icon.svg?url";
+import linkIcon from "../../public/link-icon.svg?url";
 import { singsType } from "../../app/tiny_thoughts/types";
 
 const Sings = ({ sings }: { sings: singsType }) => (

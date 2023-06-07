@@ -1,7 +1,5 @@
-import Markdown from "markdown-to-jsx";
 import Image from "next/image";
 import ProfilePicture from "../../public/cv_photo_nikola_mitic.jpeg";
-import { getAllJobsAndSortThemByStartDate } from "./utils";
 import { DownloadCvLink } from "../../components/DownloadCv";
 import { GraphQLClient, gql } from "graphql-request";
 import { JobsData } from "../../types/cv";
@@ -28,6 +26,9 @@ const CvPage = async () => {
         startDate
         industry
         techStackTools
+        themeColor {
+          hex
+        }
       }
     }
   `;

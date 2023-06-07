@@ -1,5 +1,5 @@
-import SoLogoIcon from "../public/so-logo.svg";
-import CodepenLogoIcon from "../public/codepen-logo.svg";
+import SoLogoIcon from "../public/so-logo.svg?url";
+import CodepenLogoIcon from "../public/codepen-logo.svg?url";
 import GithubLogo from "../public/GitHub_Logo_White.png";
 import LinkedinLogo from "../public/LI-Logo.png";
 

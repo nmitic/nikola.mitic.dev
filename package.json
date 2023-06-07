@@ -31,6 +31,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.34.3",
+    "@svgr/webpack": "^8.0.1",
     "@tailwindcss/typography": "^0.5.9",
     "postcss-nested": "^6.0.1"
   }

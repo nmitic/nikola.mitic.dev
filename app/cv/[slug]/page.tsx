@@ -24,6 +24,9 @@ const JobPage = async ({ params }: { params: { slug: string } }) => {
         startDate
         industry
         techStackTools
+        themeColor {
+          hex
+        }
       }
     }
   `;

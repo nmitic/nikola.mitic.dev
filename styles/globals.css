@@ -22,4 +22,8 @@ body {
   .prose a {
     word-break: break-all;
   }
+  /* Fixing werid wrapping issues around floats */
+  ul {
+    clear: both;
+  }
 }
