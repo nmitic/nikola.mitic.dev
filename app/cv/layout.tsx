@@ -3,6 +3,7 @@ import CvSwitch from "../../components/CvSwitch/CvSwitch";
 import TimeLine from "../../components/Timeline/Timeline";
 import { markdown } from "../../utils/getMarkdown";
 import { JobsData } from "../../types/cv";
+import { DownloadCvLink } from "../../components/DownloadCv";
 
 const client = new GraphQLClient(
   process.env.NEXT_PUBLIC_HYGRAPH_READ_ONLY as string
@@ -39,8 +40,11 @@ const CvLayout = async ({ children }: { children: React.ReactNode }) => {
 
   return (
     <section className="h-full">
-      <div>
+      <div className=" mb-5 sm:mb-10">
         <CvSwitch />
+      </div>
+      <div className=" mb-5 sm:mb-10">
+        <DownloadCvLink />
       </div>
       <div className="grid sm:grid-cols-[auto,1fr] gap-3 lg:flex lg:flex-col">
         <TimeLine jobs={data.jobs} />

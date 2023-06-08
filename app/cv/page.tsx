@@ -1,6 +1,5 @@
 import Image from "next/image";
 import ProfilePicture from "../../public/cv_photo_nikola_mitic.jpeg";
-import { DownloadCvLink } from "../../components/DownloadCv";
 import { GraphQLClient, gql } from "graphql-request";
 import { JobsData } from "../../types/cv";
 import { JobView } from "../../components/JobView";
@@ -36,13 +35,13 @@ const CvPage = async () => {
   const data: JobsData = await client.request(query);
 
   return (
-    <section className="md:grid md:grid-cols-6 gap-5">
-      <aside className="flex items-center flex-col mb-5  col-span-2">
+    <section className="lg:grid lg:grid-cols-6 gap-5">
+      <aside className=" text-center mb-10  lg:col-span-2">
         <div className="sticky top-5 text-center">
           <Image
             src={ProfilePicture}
             alt="Nikola Mitic profile picture"
-            className="rounded-full mb-4"
+            className="rounded-full mb-4 inline-block"
             width={240}
             height={240}
           />
@@ -54,10 +53,9 @@ const CvPage = async () => {
           >
             {contactEmail}
           </a>
-          <DownloadCvLink />
         </div>
       </aside>
-      <div className=" col-span-4">
+      <div className=" lg:col-span-4">
         {data.jobs.map((job) => (
           <div className="border-b-2 mb-10 pb-10 last:border-b-0">
             <JobView job={job} />
