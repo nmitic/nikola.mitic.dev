@@ -20,7 +20,7 @@ export type jobsType = markdown<jobType>[];
 const CvLayout = async ({ children }: { children: React.ReactNode }) => {
   const query = gql`
     query GetJobsForTimeLine {
-      jobs {
+      jobs(orderBy: startDate_ASC) {
         companyName
         endDate
         startDate
