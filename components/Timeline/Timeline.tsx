@@ -1,7 +1,8 @@
 "use client";
 
-import JobLineItem from "./components/JobLineItem/JobLineItem";
 import { usePathname } from "next/navigation";
+import { useEffect, useRef } from "react";
+import JobLineItem from "./components/JobLineItem/JobLineItem";
 
 const diffMonths = (date1: string, date2: string) => {
   return (
@@ -26,6 +27,16 @@ const lastJobEndDate = "2023-03";
 const TimeLine = ({ jobs }: any) => {
   const pathName = usePathname();
   const shouldCollapse = pathName === "/cv";
+  const listRef = useRef<null | HTMLUListElement>(null);
+
+  useEffect(() => {
+    if (listRef) {
+      const element = listRef.current;
+      if (element) {
+        element.scrollLeft = element.clientWidth - element.scrollWidth;
+      }
+    }
+  }, []);
 
   return (
     <nav
@@ -35,7 +46,10 @@ const TimeLine = ({ jobs }: any) => {
     >
       <div className="w-full absolute hidden lg:bg-white lg:block lg:top-[125px] lg:h-[2px]"></div>
 
-      <ul className="flex sm:block sm:sticky sm:top-0 w-[calc(100vw-2rem)] sm:w-auto lg:h-[200px] lg:flex lg:items-center lg:static">
+      <ul
+        ref={listRef}
+        className="flex flex-row-reverse overflow-auto sm:flex-col-reverse sm:sticky sm:top-0 w-[calc(100vw-2rem)] sm:w-auto lg:h-[200px] lg:flex lg:items-center lg:static lg:flex-row"
+      >
         {jobs.map(
           ({
             startDate,
@@ -44,7 +58,7 @@ const TimeLine = ({ jobs }: any) => {
             companyName,
             logo: { url: companyLogoSrc },
           }: any) => (
-            <li>
+            <li className="mr-auto">
               <JobLineItem
                 companyLogoSrc={companyLogoSrc}
                 slug={slug}
