@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 const MenuItem = ({ href, text }: { href: string; text: string }) => {
