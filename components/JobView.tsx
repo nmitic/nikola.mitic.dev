@@ -30,7 +30,7 @@ export const JobView = ({
         color: `${hex}`,
       }}
     >
-      <div className="bg-current inline-block p-4 rounded-xl float-left mr-4 mb-4 w-full md:w-auto relative z-0">
+      <div className="bg-current inline-block p-4 rounded-xl float-left mr-4 mb-4 w-full md:w-auto relative z-0 break-inside-avoid">
         <div
           className={cn(" text-black text-2xl mb-5", {
             "text-white": shouldMakeTextColorWhite,
