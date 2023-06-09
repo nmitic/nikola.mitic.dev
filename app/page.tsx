@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const MenuItem = ({ href, text }: { href: string; text: string }) => {
   return (
-    <li className="hover:translate-x-8 transition">
+    <li className="transition lg:hover:translate-x-8">
       <Link href={href} className="text-6xl hover:underline">
         {text}
       </Link>
