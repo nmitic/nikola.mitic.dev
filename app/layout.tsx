@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Analytics } from "@vercel/analytics/react";
 import Image from "next/image";
 import logoIcon from "../public/logo-inverted.svg?url";
 import Footer from "../components/footer";
@@ -27,6 +28,7 @@ export default function RootLayout({
           </header>
           <main>{children}</main>
           <Footer links={footerLinks} />
+          <Analytics />
         </div>
       </body>
     </html>
