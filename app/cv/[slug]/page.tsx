@@ -1,5 +1,4 @@
 import { GraphQLClient, gql } from "graphql-request";
-import { DownloadCvLink } from "../../../components/DownloadCv";
 import { JobData } from "../../../types/cv";
 import { JobView } from "../../../components/JobView";
 
@@ -53,3 +52,40 @@ export const generateStaticParams = async () => {
 };
 
 export default JobPage;
+
+export const generateMetadata = async ({
+  params,
+}: {
+  params: { slug: string };
+}) => {
+  const slug = params.slug;
+  const query = gql`
+    query GetJobBySlug($slug: String) {
+      job(where: { slug: $slug }) {
+        location
+        companyName
+        companyWebsite
+        endDate
+        title
+        startDate
+        industry
+      }
+    }
+  `;
+  const {
+    job: {
+      location,
+      companyName,
+      companyWebsite,
+      endDate,
+      title,
+      startDate,
+      industry,
+    },
+  }: JobData = await client.request(query, { slug });
+
+  return {
+    title: `Nikola Mitic - ${companyName} - ${location} - ${title} - ${industry}`,
+    description: `See Nikola Mitic experiance at ${companyName}, ${location} for the job role ${title}, where he worked from ${startDate} until ${endDate}`,
+  };
+};

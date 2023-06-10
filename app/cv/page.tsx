@@ -3,6 +3,7 @@ import ProfilePicture from "../../public/cv_photo_nikola_mitic.jpeg";
 import { GraphQLClient, gql } from "graphql-request";
 import { JobsData } from "../../types/cv";
 import { JobView } from "../../components/JobView";
+import { Metadata } from "next";
 
 const contactEmail = "nikola.mitic.dev@gmail.com";
 
@@ -67,3 +68,9 @@ const CvPage = async () => {
 };
 
 export default CvPage;
+
+export const metadata: Metadata = {
+  title: "Nikola Mitic - Senior Frontend Developer - CV download",
+  description:
+    "Discover the comprehensive professional journey of Nikola Mitic. Explore a rich portfolio of diverse experiences spanning 7 years in web development. Unlock the potential of collaborating with a seasoned professional to elevate your web development.",
+};

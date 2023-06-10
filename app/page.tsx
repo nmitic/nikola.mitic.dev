@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Metadata } from "next";
 
 const MenuItem = ({ href, text }: { href: string; text: string }) => {
   return (
@@ -36,3 +37,9 @@ export default function Home() {
     </section>
   );
 }
+
+export const metadata: Metadata = {
+  title: "Nikola Mitic - Senior Frontend Developer",
+  description:
+    "Discover the impressive expertise and talent of a seasoned professional in web development. Explore a captivating portfolio showcasing a wide range of skills and accomplishments. Unlock the possibilities of collaborating with an accomplished individual passionate about web development.",
+};
