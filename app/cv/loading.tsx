@@ -1,4 +1,9 @@
-import { LoadingIndicator } from "../../components/loadingIndicator/LoadingIndicator";
+import dynamic from "next/dynamic";
+
+const LoadingIndicator = dynamic<{}>(
+  () => import("../../components/loadingIndicator/LoadingIndicator"),
+  { ssr: false }
+);
 
 const Loading = () => {
   return (

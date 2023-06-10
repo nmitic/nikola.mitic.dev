@@ -3,7 +3,7 @@
 import { createPortal } from "react-dom";
 import styles from "./LoadingIndicator.module.css";
 
-export const LoadingIndicator = () => {
+const LoadingIndicator = () => {
   return createPortal(
     <div className="fixed top-[50px] right-[100px]">
       <div className={styles.spinner} />
@@ -11,3 +11,5 @@ export const LoadingIndicator = () => {
     document.body
   );
 };
+
+export default LoadingIndicator;
