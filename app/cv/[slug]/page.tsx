@@ -89,3 +89,5 @@ export const generateMetadata = async ({
     description: `See Nikola Mitic experiance at ${companyName}, ${location} for the job role ${title}, where he worked from ${startDate} until ${endDate}`,
   };
 };
+
+export const dynamicParams = false;
