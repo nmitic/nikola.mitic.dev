@@ -21,11 +21,13 @@ const Sings = ({ sings }: { sings: singsType }) => (
           className="object-cover max-h-96 rounded-lg"
           src={coverPhoto}
           alt="Nikola Mitic cover photo"
+          placeholder="blur"
         />
         <Image
           className="border-solid border-4 border-black rounded-full absolute left-3 md:left-6 bottom-[-50px] md:bottom-[-75px] w-[100px] md:w-[150px]"
           src={profilePhoto}
           alt="Nikola Mitic profile photo"
+          placeholder="blur"
         />
       </div>
     </div>
