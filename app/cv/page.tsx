@@ -45,6 +45,8 @@ const CvPage = async () => {
             className="rounded-full mb-4 inline-block"
             width={240}
             height={240}
+            priority
+            placeholder="blur"
           />
           <p className="font-mono text-3xl uppercase">Nikola Mitić</p>
           <p>Berlin, Germany</p>
