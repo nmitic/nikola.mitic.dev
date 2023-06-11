@@ -1,4 +1,7 @@
+"use client";
+
 import Markdown from "markdown-to-jsx";
+import { motion } from "framer-motion";
 import cn from "classnames";
 import { Job } from "../types/cv";
 import LocationIcon from "../public/location-icon.svg";
@@ -24,11 +27,14 @@ export const JobView = ({
   const shouldMakeTextColorWhite = hex !== "#ffffff";
 
   return (
-    <article
+    <motion.article
       className="prose prose-invert mx-auto"
       style={{
         color: `${hex}`,
       }}
+      initial={{ opacity: 0, scale: 0.6 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.6 }}
     >
       <div className="bg-current inline-block p-4 rounded-xl float-left mr-4 mb-4 w-full md:w-auto relative z-0 break-inside-avoid">
         <div
@@ -89,6 +95,6 @@ export const JobView = ({
           </span>
         ))}
       </div>
-    </article>
+    </motion.article>
   );
 };
