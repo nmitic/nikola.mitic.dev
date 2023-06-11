@@ -18,8 +18,9 @@ const client = new GraphQLClient(
 
 const TinyThoughts = async () => {
   const query = gql`
-    query TTQuery {
-      tinyThoughts {
+    query TinyThoughtsQuery {
+      tinyThoughts(orderBy: publishedAt_ASC) {
+        id
         createdAt
         content {
           markdown
