@@ -7,7 +7,6 @@ import TimeLine from "../../components/Timeline/Timeline";
 import { markdown } from "../../utils/getMarkdown";
 import { JobsData } from "../../types/cv";
 import { DownloadCvLink } from "../../components/DownloadCv";
-import { Children } from "react";
 
 const client = new GraphQLClient(
   process.env.NEXT_PUBLIC_HYGRAPH_READ_ONLY as string

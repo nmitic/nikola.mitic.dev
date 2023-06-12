@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Metadata } from "next";
 import { GraphQLClient, gql } from "graphql-request";
 import { JobsData } from "../../types/cv";

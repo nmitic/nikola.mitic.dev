@@ -15,7 +15,7 @@ const CvSwitch = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsSwitched(!isSwitched);
     if (onSwitch) {
-      onSwitch(isSwitched);
+      onSwitch(!isSwitched);
     }
 
     if (!isSwitched) {
