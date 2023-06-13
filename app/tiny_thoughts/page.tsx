@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import Image from "next/image";
 import { GraphQLClient, gql } from "graphql-request";
+import Markdown from "markdown-to-jsx";
 
 import coverPhoto from "../../public/cover_photo.jpeg";
 import profilePhoto from "../../public/profile_photo.jpeg";
@@ -8,9 +9,8 @@ import emailIcon from "../../public/email-icon.svg?url";
 import workIcon from "../../public/work-icon.svg?url";
 import locationIcon from "../../public/location-icon.svg?url";
 import linkIcon from "../../public/link-icon.svg?url";
-import { getAllThoughtsAndSortThemByStartDate } from "./utils";
 import { tinyThoughtsData } from "../../types/tt";
-import Markdown from "markdown-to-jsx";
+import { ClientDate } from "../../components/ClientDate";
 
 const client = new GraphQLClient(
   process.env.NEXT_PUBLIC_HYGRAPH_READ_ONLY as string
@@ -115,12 +115,7 @@ const TinyThoughts = async () => {
               <span className="text-white text-xl">Nikola Mitic </span>
               <span className="text-gray-500">@nmitic - </span>
               <span className="text-gray-500">
-                {new Date(tinyThought.createdAt).toLocaleDateString(undefined, {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                  hour: "2-digit",
-                })}
+                <ClientDate date={tinyThought.createdAt} />
               </span>
             </section>
             <section className="prose prose-invert max-w-none">
