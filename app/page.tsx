@@ -6,7 +6,7 @@ const MenuItem = ({ href, text }: { href: string; text: string }) => {
     <li className="group relative">
       <Link
         href={href}
-        className="text-6xl group-hover:translate-x-8 transition inline-block group-hover:underline"
+        className="text-6xl group-hover:translate-x-8 transition w-full block group-hover:underline"
       >
         {text}
       </Link>
