@@ -3,8 +3,11 @@ import { Metadata } from "next";
 
 const MenuItem = ({ href, text }: { href: string; text: string }) => {
   return (
-    <li className="transition lg:hover:translate-x-8">
-      <Link href={href} className="text-6xl hover:underline">
+    <li className="group relative">
+      <Link
+        href={href}
+        className="text-6xl group-hover:translate-x-8 transition inline-block hover:underline"
+      >
         {text}
       </Link>
     </li>
