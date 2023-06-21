@@ -19,7 +19,7 @@ const client = new GraphQLClient(
 const TinyThoughts = async () => {
   const query = gql`
     query TinyThoughtsQuery {
-      tinyThoughts(orderBy: publishedAt_DESC) {
+      tinyThoughts(orderBy: createdAt_ASC) {
         id
         createdAt
         content {
