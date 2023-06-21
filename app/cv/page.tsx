@@ -13,7 +13,7 @@ const client = new GraphQLClient(
 const CvPage = async () => {
   const query = gql`
     query GetJobs {
-      jobs(orderBy: createdAt_ASC) {
+      jobs(orderBy: startDate_DESC) {
         description {
           markdown
         }
