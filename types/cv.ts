@@ -62,7 +62,8 @@ export type SplitTestingOnJob = {
 }[]
 
 export type JobData<T> = {
-  job: T
+  job: T,
+  splitTestings: SplitTesting[]
 }
 
 export type JobsData = {
