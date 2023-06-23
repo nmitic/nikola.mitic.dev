@@ -37,20 +37,6 @@ const JobPage = async ({ params }: { params: { slug: string } }) => {
   );
 };
 
-export const generateStaticParams = async () => {
-  const query = gql`
-    query Jobs {
-      jobs {
-        slug
-      }
-    }
-  `;
-
-  const data: { jobs: { slug: string }[] } = await client.request(query);
-
-  return data.jobs.map((jobs) => ({ slug: jobs.slug }));
-};
-
 export default JobPage;
 
 export const generateMetadata = async ({
