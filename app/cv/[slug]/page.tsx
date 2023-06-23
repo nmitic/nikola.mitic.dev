@@ -1,5 +1,10 @@
 import { GraphQLClient, gql } from "graphql-request";
-import { JobData } from "../../../types/cv";
+import {
+  JobData,
+  SplitTestingsData,
+  JobWithSplitTesting,
+  Job,
+} from "../../../types/cv";
 import { JobView } from "../../../components/JobView";
 
 const client = new GraphQLClient(
@@ -8,9 +13,22 @@ const client = new GraphQLClient(
 
 const JobPage = async ({ params }: { params: { slug: string } }) => {
   const slug = params.slug;
-  const query = gql`
+  const querySPLIT_TESTINGS = gql`
+    query GetSplitTestings {
+      splitTestings {
+        id
+        name
+        enableSplitTesting
+        splittingTestingResource {
+          id
+        }
+      }
+    }
+  `;
+  const queryJOB = gql`
     query GetJobBySlug($slug: String) {
       job(where: { slug: $slug }) {
+        id
         description {
           markdown
         }
@@ -25,14 +43,49 @@ const JobPage = async ({ params }: { params: { slug: string } }) => {
         themeColor {
           hex
         }
+        splitTesting {
+          variantName
+          weight
+          variantResource {
+            description {
+              markdown
+            }
+            location
+            companyName
+            companyWebsite
+            endDate
+            title
+            startDate
+            industry
+            techStackTools
+            themeColor {
+              hex
+            }
+          }
+        }
       }
     }
   `;
-  const data: JobData = await client.request(query, { slug });
+  const data: JobData<JobWithSplitTesting> = await client.request(queryJOB, {
+    slug,
+  });
+  const splitTestingData: SplitTestingsData = await client.request(
+    querySPLIT_TESTINGS,
+    { slug }
+  );
+  const hasRunningSplitTest = splitTestingData.splitTestings.some(
+    (item) =>
+      item.enableSplitTesting &&
+      item.splittingTestingResource.id === data.job.id
+  );
+
+  const JobData = hasRunningSplitTest
+    ? data.job.splitTesting[0].variantResource
+    : data.job;
 
   return (
     <section>
-      <JobView job={data.job} />
+      <JobView job={JobData} />
     </section>
   );
 };
@@ -68,7 +121,7 @@ export const generateMetadata = async ({
       startDate,
       industry,
     },
-  }: JobData = await client.request(query, { slug });
+  }: JobData<Job> = await client.request(query, { slug });
 
   return {
     title: `Nikola Mitic - ${companyName} - ${location} - ${title} - ${industry}`,
