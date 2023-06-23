@@ -18,6 +18,7 @@ export type Job = {
 }
 
 export type JobWithSplitTesting = {
+  originalVariantWeight: number
   description: {
     markdown: string
   },
@@ -38,6 +39,7 @@ export type JobWithSplitTesting = {
 }
 
 export type SplitTestingOnJob = {
+  weight: number
   variantResource: {
     description: {
       markdown: string
