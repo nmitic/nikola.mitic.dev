@@ -1,4 +1,5 @@
 import { GraphQLClient, gql } from "graphql-request";
+import { cookies } from "next/headers";
 import {
   JobData,
   SplitTestingsData,
@@ -6,13 +7,14 @@ import {
   Job,
 } from "../../../types/cv";
 import { JobView } from "../../../components/JobView";
+import { CookieSetter } from "../../../components/CookieSetter";
 
 type WeightedObject<T> = {
   weight: number;
   value: T;
 };
 
-function getRandomItem<T>(weightedArray: WeightedObject<T>[]): T | null {
+function getRandomItem<T>(weightedArray: WeightedObject<T>[]): T {
   const totalWeight = weightedArray.reduce((sum, item) => sum + item.weight, 0);
   let randomValue = Math.random() * totalWeight;
 
@@ -23,7 +25,8 @@ function getRandomItem<T>(weightedArray: WeightedObject<T>[]): T | null {
     }
   }
 
-  return null;
+  // If the loop completes without returning a value, we can assume the array is empty.
+  throw new Error("Weighted array is empty");
 }
 
 const client = new GraphQLClient(
@@ -64,6 +67,7 @@ const JobPage = async ({ params }: { params: { slug: string } }) => {
           variantName
           weight
           variantResource {
+            id
             description {
               markdown
             }
@@ -91,10 +95,10 @@ const JobPage = async ({ params }: { params: { slug: string } }) => {
     { id: data.job.id }
   );
 
+  const cookieStore = cookies();
+
   const hasSplitTestRunning =
     splitTestingData.splitTestings[0]?.enableSplitTesting;
-
-  console.log({ hasSplitTestRunning });
 
   const variants: WeightedObject<Job>[] = [
     { weight: data.job.originalVariantWeight, value: data.job },
@@ -104,13 +108,29 @@ const JobPage = async ({ params }: { params: { slug: string } }) => {
     })),
   ];
 
-  const randomizedJobContent = getRandomItem(variants);
+  const cookieVariant = cookieStore.get(
+    `split.test.${splitTestingData.splitTestings[0].id}`
+  );
 
-  console.log({ randomizedJobContent });
+  const jobViewData = hasSplitTestRunning
+    ? cookieVariant
+      ? variants.find((item) => item.value.id === cookieVariant?.value)?.value
+      : getRandomItem(variants)
+    : data.job;
 
+  if (!jobViewData) {
+    return null;
+  }
   return (
     <section>
-      <JobView job={randomizedJobContent} />
+      {hasSplitTestRunning ? (
+        <CookieSetter
+          name={`split.test.${splitTestingData.splitTestings[0].id}`}
+          value={jobViewData.id}
+        />
+      ) : null}
+
+      <JobView job={jobViewData} />
     </section>
   );
 };

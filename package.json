@@ -11,6 +11,7 @@
     "generate:pdf": "node cv-to-pdf.ts"
   },
   "dependencies": {
+    "@types/js-cookie": "^3.0.3",
     "@types/node": "18.15.13",
     "@types/react": "18.0.38",
     "@types/react-dom": "18.0.11",
@@ -22,6 +23,7 @@
     "framer-motion": "^10.12.16",
     "graphql-request": "^6.1.0",
     "gray-matter": "^4.0.3",
+    "js-cookie": "^3.0.5",
     "markdown-to-jsx": "^7.2.0",
     "next": "13.3.2",
     "postcss": "8.4.23",

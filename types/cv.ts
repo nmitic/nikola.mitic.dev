@@ -9,7 +9,7 @@ export type Job = {
   location: string
   title: string
   startDate: string
-  id: number
+  id: string
   industry: string
   techStackTools: string[]
   themeColor: {
@@ -29,7 +29,7 @@ export type JobWithSplitTesting = {
   location: string
   title: string
   startDate: string
-  id: number
+  id: string
   industry: string
   techStackTools: string[]
   themeColor: {
@@ -40,6 +40,7 @@ export type JobWithSplitTesting = {
 
 export type SplitTestingOnJob = {
   weight: number
+  variantName: string
   variantResource: {
     description: {
       markdown: string
@@ -51,7 +52,7 @@ export type SplitTestingOnJob = {
     location: string
     title: string
     startDate: string
-    id: number
+    id: string
     industry: string
     techStackTools: string[]
     themeColor: {
@@ -69,7 +70,7 @@ export type JobsData = {
 }
 
 export type SplitTesting = {
-  id: number
+  id: string
   name: string
   enableSplitTesting: boolean
   splittingTestingResource: Job
