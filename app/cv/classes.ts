@@ -60,7 +60,9 @@ export class SplitTestData {
   }
 
   get splitTestContent() {
+    // Returns original variant if test is not run
     if (this.hasSplitTestRunning) {
+      // Returns random variant if cookie is not set
       if (this.getCookieVariant()) {
         const cookieVariant = this.getCookieVariant()?.value;
         const foundVariant = this.getVariants().find(
