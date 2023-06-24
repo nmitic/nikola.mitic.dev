@@ -1,22 +1,39 @@
+import { GraphQLClient, gql } from "graphql-request";
 import Markdown from "markdown-to-jsx";
 import fs from "fs";
 import matter from "gray-matter";
 import { getPostMetaData } from "../../../utils/getPostMetaData";
 
-const getPost = (slug: string) => {
-  const folder = "posts/";
-  const file = `${folder}/${slug}.md`;
-
-  return matter(fs.readFileSync(file, "utf8"));
+type PostData = {
+  post: {
+    id: number;
+    content: {
+      markdown: string;
+    };
+  };
 };
 
-const PostPage = (props: any) => {
-  const slug = props.params.slug;
-  const post = getPost(slug);
+const client = new GraphQLClient(
+  process.env.NEXT_PUBLIC_HYGRAPH_READ_ONLY as string
+);
+
+const PostPage = async ({ params }: { params: { slug: string } }) => {
+  const slug = params.slug;
+  const query = gql`
+    query GetJobBySlug($slug: String) {
+      post(where: { slug: $slug }) {
+        id
+        content {
+          markdown
+        }
+      }
+    }
+  `;
+  const data: PostData = await client.request(query, { slug });
 
   return (
     <article className="prose prose-invert mx-auto">
-      <Markdown>{post.content}</Markdown>
+      <Markdown>{data.post.content.markdown}</Markdown>
     </article>
   );
 };
