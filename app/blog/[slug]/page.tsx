@@ -1,8 +1,5 @@
 import { GraphQLClient, gql } from "graphql-request";
 import Markdown from "markdown-to-jsx";
-import fs from "fs";
-import matter from "gray-matter";
-import { getPostMetaData } from "../../../utils/getPostMetaData";
 
 type PostData = {
   post: {
@@ -36,12 +33,6 @@ const PostPage = async ({ params }: { params: { slug: string } }) => {
       <Markdown>{data.post.content.markdown}</Markdown>
     </article>
   );
-};
-
-export const generateStaticParams = async () => {
-  const posts = getPostMetaData();
-
-  return posts.map((post) => ({ slug: post.slug }));
 };
 
 export default PostPage;
