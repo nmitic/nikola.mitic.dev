@@ -22,6 +22,12 @@ body {
   .prose a {
     word-break: break-all;
   }
+  .prose pre {
+    margin-left: -1rem;
+    margin-right: -1rem;
+    padding-left: 0;
+    padding-right: 0;
+  }
   /* Fixing werid wrapping issues around floats */
   ul {
     clear: both;

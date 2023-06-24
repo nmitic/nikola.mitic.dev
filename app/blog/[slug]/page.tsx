@@ -1,11 +1,10 @@
 import { GraphQLClient, gql } from "graphql-request";
-import Markdown from "markdown-to-jsx";
 
 type PostData = {
   post: {
     id: number;
     content: {
-      markdown: string;
+      html: string;
     };
   };
 };
@@ -21,7 +20,7 @@ const PostPage = async ({ params }: { params: { slug: string } }) => {
       post(where: { slug: $slug }) {
         id
         content {
-          markdown
+          html
         }
       }
     }
@@ -29,9 +28,10 @@ const PostPage = async ({ params }: { params: { slug: string } }) => {
   const data: PostData = await client.request(query, { slug });
 
   return (
-    <article className="prose prose-invert mx-auto grid grid-cols-1">
-      <Markdown>{data.post.content.markdown}</Markdown>
-    </article>
+    <article
+      className="prose prose-invert mx-auto grid grid-cols-1"
+      dangerouslySetInnerHTML={{ __html: data.post.content.html }}
+    />
   );
 };
 
