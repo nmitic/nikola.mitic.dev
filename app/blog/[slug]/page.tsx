@@ -29,7 +29,7 @@ const PostPage = async ({ params }: { params: { slug: string } }) => {
   const data: PostData = await client.request(query, { slug });
 
   return (
-    <article className="prose prose-invert mx-auto">
+    <article className="prose prose-invert mx-auto grid grid-cols-1">
       <Markdown>{data.post.content.markdown}</Markdown>
     </article>
   );
