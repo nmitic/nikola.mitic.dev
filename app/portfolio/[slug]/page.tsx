@@ -51,20 +51,23 @@ const PortfolioPage = async ({ params }: { params: { slug: string } }) => {
           <div>
             <a href={data.portfolio.liveLink} className="text-black block mb-3">
               <LinkIcon className="inline-block align-middle fill-black w-6 h-6 mr-2 mb-2" />{" "}
-              {data.portfolio.liveLink}
+              Preview link
             </a>
-            <a href={data.portfolio.liveLink} className="text-black block mb-3">
+            <a
+              href={data.portfolio.sourceCodeLink}
+              className="text-black block mb-3"
+            >
               <CodeIcon className="inline-block align-middle w-6 h-6 mr-2 mb-2" />{" "}
-              {data.portfolio.sourceCodeLink}
+              Source code link
             </a>
-            <a href={data.portfolio.liveLink} className="text-black block mb-3">
+            <div>
               <ToolIcon className="inline-block align-middle w-6 h-6 mr-2 mb-2" />{" "}
               {data.portfolio.techStackTools.map((item) => (
                 <span className=" bg-gray-400 text-white inline-block mr-2 mb-2 p-1 rounded-md">
                   {item}
                 </span>
               ))}
-            </a>
+            </div>
           </div>
         </div>
         <div
