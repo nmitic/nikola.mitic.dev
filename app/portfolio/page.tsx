@@ -15,6 +15,8 @@ const Portfolio = async () => {
         }
         imagePreviewGif {
           url
+          width
+          height
         }
         title
         techStackTools

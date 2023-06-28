@@ -1,9 +1,13 @@
 export type Portfolio = {
   imagePreview: {
     url: string
+    width: number
+    height: number
   }
   imagePreviewGif: {
     url: string
+    width: number
+    height: number
   }
   title: string
   techStackTools: string[]

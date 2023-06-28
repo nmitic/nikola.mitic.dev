@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Portfolio } from "../types/portfolio";
 import Link from "next/link";
+import Image from "next/image";
 
 const PortfolioItem = ({ portfolio }: { portfolio: Portfolio }) => {
   const [renderGif, setRenderGif] = useState(portfolio.imagePreview.url);
@@ -18,7 +19,12 @@ const PortfolioItem = ({ portfolio }: { portfolio: Portfolio }) => {
       <div className="z-20 absolute top-0 left-0 right-0 bottom-0 p-3 flex justify-start items-end">
         <h1 className=" text-lg">{portfolio.title}</h1>
       </div>
-      <img src={renderGif} alt="" />
+      <Image
+        src={renderGif}
+        alt=""
+        width={portfolio.imagePreviewGif.width}
+        height={portfolio.imagePreviewGif.height}
+      />
     </Link>
   );
 };
