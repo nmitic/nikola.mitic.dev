@@ -18,11 +18,6 @@ const PortfolioPage = async ({ params }: { params: { slug: string } }) => {
           url
           width
         }
-        imagePreviewGif {
-          url
-          width
-          height
-        }
         title
         techStackTools
         sourceCodeLink
@@ -53,43 +48,23 @@ const PortfolioPage = async ({ params }: { params: { slug: string } }) => {
       <article className="prose prose-invert mx-auto grid grid-cols-1">
         <h1>{data.portfolio.title}</h1>
         <div className="bg-white p-4 rounded-xl float-left mr-4 mb-4 w-full md:w-auto relative z-0 break-inside-avoid">
-          <div className="grid sm:grid-cols-12 gap-3">
-            <div className=" sm:col-span-8">
-              <a
-                href={data.portfolio.liveLink}
-                className="text-black block mb-3"
-              >
-                <LinkIcon className="inline-block align-middle fill-black w-6 h-6 mr-2 mb-2" />{" "}
-                Preview link
-              </a>
-              <a
-                href={data.portfolio.liveLink}
-                className="text-black block mb-3"
-              >
-                <CodeIcon className="inline-block align-middle w-6 h-6 mr-2 mb-2" />{" "}
-                Source code link
-              </a>
-              <a
-                href={data.portfolio.liveLink}
-                className="text-black block mb-3"
-              >
-                <ToolIcon className="inline-block align-middle w-6 h-6 mr-2 mb-2" />{" "}
-                {data.portfolio.techStackTools.map((item) => (
-                  <span className=" bg-gray-400 text-white inline-block mr-2 mb-2 p-1 rounded-md">
-                    {item}
-                  </span>
-                ))}
-              </a>
-            </div>
-            <div className=" sm:col-span-4">
-              <Image
-                src={data.portfolio.imagePreviewGif.url}
-                alt=""
-                width={data.portfolio.imagePreviewGif.width}
-                height={data.portfolio.imagePreviewGif.height}
-                className=" rounded-xl border-2 border-black"
-              />
-            </div>
+          <div>
+            <a href={data.portfolio.liveLink} className="text-black block mb-3">
+              <LinkIcon className="inline-block align-middle fill-black w-6 h-6 mr-2 mb-2" />{" "}
+              {data.portfolio.liveLink}
+            </a>
+            <a href={data.portfolio.liveLink} className="text-black block mb-3">
+              <CodeIcon className="inline-block align-middle w-6 h-6 mr-2 mb-2" />{" "}
+              {data.portfolio.sourceCodeLink}
+            </a>
+            <a href={data.portfolio.liveLink} className="text-black block mb-3">
+              <ToolIcon className="inline-block align-middle w-6 h-6 mr-2 mb-2" />{" "}
+              {data.portfolio.techStackTools.map((item) => (
+                <span className=" bg-gray-400 text-white inline-block mr-2 mb-2 p-1 rounded-md">
+                  {item}
+                </span>
+              ))}
+            </a>
           </div>
         </div>
         <div
