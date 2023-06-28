@@ -10,6 +10,7 @@ const Portfolio = async () => {
   const query = gql`
     query PortfoliosQuery {
       portfolios {
+        id
         imagePreview {
           url
         }
@@ -34,7 +35,7 @@ const Portfolio = async () => {
   return (
     <div className="grid sm:grid-cols-3 gap-6 container max-w-5xl mx-auto">
       {portfolios.map((portfolio) => {
-        return <PortfolioItem portfolio={portfolio} />;
+        return <PortfolioItem portfolio={portfolio} key={portfolio.id} />;
       })}
     </div>
   );

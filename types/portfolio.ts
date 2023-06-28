@@ -1,4 +1,5 @@
 export type Portfolio = {
+  id: string
   imagePreview: {
     url: string
     width: number
