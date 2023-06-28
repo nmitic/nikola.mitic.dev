@@ -61,7 +61,7 @@ const PortfolioPage = async ({ params }: { params: { slug: string } }) => {
               Source code link
             </a>
             <div>
-              <ToolIcon className="inline-block align-middle w-6 h-6 mr-2 mb-2" />{" "}
+              <ToolIcon className="inline-block align-middle w-6 h-6 mr-2 mb-2 fill-black" />{" "}
               {data.portfolio.techStackTools.map((item) => (
                 <span className=" bg-gray-400 text-white inline-block mr-2 mb-2 p-1 rounded-md">
                   {item}
