@@ -1,8 +1,4 @@
 import { GraphQLClient, gql } from "graphql-request";
-import Image from "next/image";
-import LinkIcon from "../../../public/link-icon.svg";
-import CodeIcon from "../../../public/code.svg";
-import ToolIcon from "../../../public/tool.svg";
 import { PortfolioData } from "../../../types/portfolio";
 import PortfolioView from "../../../components/portfolioView";
 
@@ -13,7 +9,7 @@ const client = new GraphQLClient(
 const PortfolioPage = async ({ params }: { params: { slug: string } }) => {
   const slug = params.slug;
   const query = gql`
-    query GetJobBySlug($slug: String) {
+    query GetPortfolioBySlug($slug: String) {
       portfolio(where: { slug: $slug }) {
         imagePreview {
           url
@@ -32,6 +28,32 @@ const PortfolioPage = async ({ params }: { params: { slug: string } }) => {
   const data: PortfolioData = await client.request(query, { slug });
 
   return <PortfolioView data={data} />;
+};
+
+export const generateMetadata = async ({
+  params,
+}: {
+  params: { slug: string };
+}) => {
+  const slug = params.slug;
+  const query = gql`
+    query GetPortfolioBySlug($slug: String) {
+      portfolio(where: { slug: $slug }) {
+        title
+        techStackTools
+      }
+    }
+  `;
+  const {
+    portfolio: { title, techStackTools },
+  }: PortfolioData = await client.request(query, { slug });
+
+  return {
+    title: `${title} - Nikola Mitic - portfolio - projects`,
+    description: `${title} project build with ${techStackTools.map(
+      (item) => ` ${item}`
+    )}`,
+  };
 };
 
 export default PortfolioPage;
