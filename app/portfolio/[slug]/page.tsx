@@ -30,6 +30,20 @@ const PortfolioPage = async ({ params }: { params: { slug: string } }) => {
   return <PortfolioView data={data} />;
 };
 
+export const generateStaticParams = async () => {
+  const query = gql`
+    query Portfolios {
+      portfolios {
+        slug
+      }
+    }
+  `;
+
+  const data: { portfolios: { slug: string }[] } = await client.request(query);
+
+  return data.portfolios.map((portfolio) => ({ slug: portfolio.slug }));
+};
+
 export const generateMetadata = async ({
   params,
 }: {
