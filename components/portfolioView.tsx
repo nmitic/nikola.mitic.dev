@@ -6,12 +6,10 @@ import Image from "next/image";
 import LinkIcon from "../public/link-icon.svg";
 import CodeIcon from "../public/code.svg";
 import ToolIcon from "../public/tool.svg";
-import { ScrollToTop } from "./scrollToTop";
 
 const PortfolioView = ({ data }: { data: PortfolioData }) => {
   return (
     <>
-      <ScrollToTop />
       <div className="sticky top-3 -z-10 -mb-[20vh]">
         <div className="absolute top-0 bottom-0 left-0 right-0 bg-black bg-opacity-60"></div>
         <Image
