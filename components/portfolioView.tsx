@@ -10,6 +10,7 @@ import ToolIcon from "../public/tool.svg";
 const PortfolioView = ({ data }: { data: PortfolioData }) => {
   return (
     <>
+      <div></div>
       <div className="sticky top-3 -z-10 -mb-[20vh]">
         <div className="absolute top-0 bottom-0 left-0 right-0 bg-black bg-opacity-60"></div>
         <Image
@@ -46,7 +47,10 @@ const PortfolioView = ({ data }: { data: PortfolioData }) => {
             <div>
               <ToolIcon className="inline-block align-middle w-6 h-6 mr-2 mb-2 fill-black" />{" "}
               {data.portfolio.techStackTools.map((item) => (
-                <span className=" bg-gray-400 text-white inline-block mr-2 mb-2 p-1 rounded-md">
+                <span
+                  className=" bg-gray-400 text-white inline-block mr-2 mb-2 p-1 rounded-md"
+                  key={item}
+                >
                   {item}
                 </span>
               ))}
