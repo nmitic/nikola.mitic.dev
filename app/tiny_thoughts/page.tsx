@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import Image from "next/image";
-import { GraphQLClient, gql } from "graphql-request";
+import { gql } from "graphql-request";
 import Markdown from "markdown-to-jsx";
 
 import coverPhoto from "../../public/cover_photo.jpeg";
@@ -11,10 +11,6 @@ import locationIcon from "../../public/location-icon.svg?url";
 import linkIcon from "../../public/link-icon.svg?url";
 import { tinyThoughtsData } from "../../types/tt";
 import { ClientDate } from "../../components/ClientDate";
-
-const client = new GraphQLClient(
-  process.env.NEXT_PUBLIC_HYGRAPH_READ_ONLY as string
-);
 
 const TinyThoughts = async () => {
   const query = gql`
@@ -28,7 +24,24 @@ const TinyThoughts = async () => {
       }
     }
   `;
-  const { tinyThoughts }: tinyThoughtsData = await client.request(query);
+  const response = await fetch(
+    process.env.NEXT_PUBLIC_HYGRAPH_READ_ONLY as string,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query,
+      }),
+      next: {
+        revalidate: 0,
+      },
+    }
+  );
+  const {
+    data: { tinyThoughts },
+  }: { data: tinyThoughtsData } = await response.json();
 
   return (
     <div className="container max-w-3xl mx-auto">
