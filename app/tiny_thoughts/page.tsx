@@ -11,7 +11,6 @@ import locationIcon from "../../public/location-icon.svg?url";
 import linkIcon from "../../public/link-icon.svg?url";
 import { tinyThoughtsData } from "../../types/tt";
 import { ClientDate } from "../../components/ClientDate";
-import { TinyThoughtsList } from "../../components/TinyThoughtsList";
 
 const client = new GraphQLClient(
   process.env.NEXT_PUBLIC_HYGRAPH_READ_ONLY as string
@@ -103,7 +102,30 @@ const TinyThoughts = async () => {
           </span>
         </div>
       </div>
-      <TinyThoughtsList data={tinyThoughts} />
+      {tinyThoughts.map((tinyThought) => (
+        <article className="mx-auto max-w-xl border-[1px] p-4 flex">
+          <Image
+            className="rounded-full mr-3 self-start"
+            src={profilePhoto}
+            alt="Nikola Mitic profile photo"
+            width={40}
+          />
+          <div>
+            <section className="mb-4">
+              <span className="text-white text-xl">Nikola Mitic </span>
+              <span className="text-gray-500">@nmitic - </span>
+              <span className="text-gray-500">
+                <ClientDate date={tinyThought.createdAt} />
+              </span>
+            </section>
+            <section className="prose prose-invert max-w-none">
+              <Markdown className="text-white">
+                {tinyThought.content.markdown}
+              </Markdown>
+            </section>
+          </div>
+        </article>
+      ))}
     </div>
   );
 };
