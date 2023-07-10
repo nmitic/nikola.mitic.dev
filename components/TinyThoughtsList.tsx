@@ -43,7 +43,7 @@ const TinyThoughtsList = ({
   tinyThoughts: tinyThought[];
 }) => {
   const [data, setData] = useState(tinyThoughts);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const observerTarget = useRef<HTMLElement>(null);
   const { isOnScreen, stopObserving } = useOnScreen(observerTarget);
 
