@@ -5,8 +5,36 @@ import { ClientDate } from "./ClientDate";
 import Markdown from "markdown-to-jsx";
 import profilePhoto from "../public/profile_photo.jpeg";
 import { tinyThought } from "../types/tt";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getTinyThoughtsData } from "../app/tiny_thoughts/date_getters";
+
+const useIntersectionObserver = (
+  options: IntersectionObserverInit = { threshold: 1 }
+): [React.RefObject<HTMLElement>, boolean] => {
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const targetRef = useRef<HTMLElement>(null);
+  const [isIntersected, setIsIntersected] = useState<boolean>(false);
+
+  useEffect(() => {
+    observerRef.current = new IntersectionObserver((entries) => {
+      setIsIntersected(entries[0].isIntersecting);
+    }, options);
+
+    const currentObserver = observerRef.current;
+
+    if (targetRef.current) {
+      currentObserver.observe(targetRef.current);
+    }
+
+    return () => {
+      if (currentObserver && targetRef.current) {
+        currentObserver.unobserve(targetRef.current);
+      }
+    };
+  }, [options]);
+
+  return [targetRef, isIntersected];
+};
 
 const TinyThoughtsList = ({
   tinyThoughts,
@@ -15,6 +43,23 @@ const TinyThoughtsList = ({
 }) => {
   const [data, setData] = useState(tinyThoughts);
   const [page, setPage] = useState(0);
+  const [observerTarget, isIntersected] = useIntersectionObserver();
+
+  useEffect(() => {
+    if (isIntersected) {
+      setPage((prevPage) => prevPage + 1);
+    }
+  }, [isIntersected]);
+
+  useEffect(() => {
+    getTinyThoughtsData(page)
+      .then(({ data: { tinyThoughts: tinyThoughtsData } }) => {
+        setData((prevData) => [...prevData, ...tinyThoughtsData]);
+      })
+      .catch((e) => console.log(e));
+  }, [page]);
+
+  useEffect(() => {}, [page]);
 
   return (
     <>
@@ -42,17 +87,7 @@ const TinyThoughtsList = ({
           </div>
         </article>
       ))}
-      <button
-        onClick={async () => {
-          const {
-            data: { tinyThoughts },
-          } = await getTinyThoughtsData(page + 1);
-          setPage(page + 1);
-          setData([...data, ...tinyThoughts]);
-        }}
-      >
-        Load more
-      </button>
+      <div ref={observerTarget} />
     </>
   );
 };
