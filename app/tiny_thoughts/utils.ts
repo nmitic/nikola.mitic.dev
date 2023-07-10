@@ -1,6 +1,6 @@
 export const calcPagePagination = (
   page: number,
-  limit: number = 6
+  limit: number
 ): { first: number; skip: number } => {
   return {
     first: limit,

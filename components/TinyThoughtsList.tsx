@@ -8,33 +8,34 @@ import { tinyThought } from "../types/tt";
 import { useEffect, useRef, useState } from "react";
 import { getTinyThoughtsData } from "../app/tiny_thoughts/date_getters";
 
-const useIntersectionObserver = (
-  options: IntersectionObserverInit = { threshold: 1 }
-): [React.RefObject<HTMLElement>, boolean] => {
+const LIMIT = 6;
+
+function useOnScreen(ref: React.RefObject<HTMLElement>) {
+  const [isOnScreen, setIsOnScreen] = useState(false);
   const observerRef = useRef<IntersectionObserver | null>(null);
-  const targetRef = useRef<HTMLElement>(null);
-  const [isIntersected, setIsIntersected] = useState<boolean>(false);
+
+  const stopObserving = () => {
+    observerRef.current?.disconnect();
+  };
 
   useEffect(() => {
-    observerRef.current = new IntersectionObserver((entries) => {
-      setIsIntersected(entries[0].isIntersecting);
-    }, options);
+    observerRef.current = new IntersectionObserver(([entry]) =>
+      setIsOnScreen(entry.isIntersecting)
+    );
+  }, []);
 
-    const currentObserver = observerRef.current;
-
-    if (targetRef.current) {
-      currentObserver.observe(targetRef.current);
+  useEffect(() => {
+    if (ref.current) {
+      observerRef.current?.observe(ref.current);
     }
 
     return () => {
-      if (currentObserver && targetRef.current) {
-        currentObserver.unobserve(targetRef.current);
-      }
+      stopObserving();
     };
-  }, [options]);
+  }, [ref]);
 
-  return [targetRef, isIntersected];
-};
+  return { isOnScreen, stopObserving };
+}
 
 const TinyThoughtsList = ({
   tinyThoughts,
@@ -43,23 +44,34 @@ const TinyThoughtsList = ({
 }) => {
   const [data, setData] = useState(tinyThoughts);
   const [page, setPage] = useState(0);
-  const [observerTarget, isIntersected] = useIntersectionObserver();
+  const observerTarget = useRef<HTMLElement>(null);
+  const { isOnScreen, stopObserving } = useOnScreen(observerTarget);
 
   useEffect(() => {
-    if (isIntersected) {
+    if (isOnScreen) {
       setPage((prevPage) => prevPage + 1);
     }
-  }, [isIntersected]);
+  }, [isOnScreen]);
 
   useEffect(() => {
-    getTinyThoughtsData(page)
-      .then(({ data: { tinyThoughts: tinyThoughtsData } }) => {
-        setData((prevData) => [...prevData, ...tinyThoughtsData]);
-      })
+    getTinyThoughtsData(page, LIMIT)
+      .then(
+        ({
+          data: {
+            tinyThoughts: tinyThoughtsData,
+            tinyThoughtsConnection: {
+              aggregate: { count },
+            },
+          },
+        }) => {
+          setData((prevData) => [...prevData, ...tinyThoughtsData]);
+          if (page == Math.ceil(count / LIMIT)) {
+            stopObserving();
+          }
+        }
+      )
       .catch((e) => console.log(e));
   }, [page]);
-
-  useEffect(() => {}, [page]);
 
   return (
     <>
@@ -87,7 +99,7 @@ const TinyThoughtsList = ({
           </div>
         </article>
       ))}
-      <div ref={observerTarget} />
+      <div ref={observerTarget as React.RefObject<HTMLDivElement>} />
     </>
   );
 };
