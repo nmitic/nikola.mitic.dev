@@ -5,9 +5,9 @@ import emailIcon from "../../public/email-icon.svg?url";
 import workIcon from "../../public/work-icon.svg?url";
 import locationIcon from "../../public/location-icon.svg?url";
 import linkIcon from "../../public/link-icon.svg?url";
-import { singsType } from "../../app/tiny_thoughts/types";
+import { tinyThoughts } from "../app/tiny_thoughts/types";
 
-const Sings = ({ sings }: { sings: singsType }) => (
+const TinyThoughts = ({ sings }: { sings: tinyThoughts }) => (
   <div className="container max-w-3xl mx-auto">
     <div className="sticky top-0 z-10 bg-black/60 backdrop-blur-sm">
       <section className="px-4 py-2 flex flex-col">
@@ -100,4 +100,4 @@ const Sings = ({ sings }: { sings: singsType }) => (
   </div>
 );
 
-export default Sings;
+export default TinyThoughts;

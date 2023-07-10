@@ -11,19 +11,9 @@ import locationIcon from "../../public/location-icon.svg?url";
 import linkIcon from "../../public/link-icon.svg?url";
 import { tinyThoughtsData } from "../../types/tt";
 import { ClientDate } from "../../components/ClientDate";
+import { QUERY_ALL_TT } from "./queries";
 
 const TinyThoughts = async () => {
-  const query = gql`
-    query TinyThoughtsQuery {
-      tinyThoughts(orderBy: createdAt_DESC) {
-        id
-        createdAt
-        content {
-          markdown
-        }
-      }
-    }
-  `;
   const response = await fetch(
     process.env.NEXT_PUBLIC_HYGRAPH_READ_ONLY as string,
     {
@@ -32,7 +22,7 @@ const TinyThoughts = async () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        query,
+        query: QUERY_ALL_TT,
       }),
       next: {
         revalidate: 0,

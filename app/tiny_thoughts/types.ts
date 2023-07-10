@@ -1,7 +1,7 @@
 import { markdown } from "../../utils/getMarkdown";
 
-export type singType = {
+export type tinyThought = {
   date: string
 };
 
-export type singsType = markdown<singType>[];
+export type tinyThoughts = markdown<tinyThought>[];

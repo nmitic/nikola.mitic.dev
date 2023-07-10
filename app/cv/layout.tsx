@@ -2,7 +2,7 @@
 
 import { GraphQLClient, gql } from "graphql-request";
 import { AnimatePresence } from "framer-motion";
-import CvSwitch from "../../components/CvSwitch/CvSwitch";
+import CvSwitch from "../../components/CvSwitch";
 import TimeLine from "../../components/Timeline/Timeline";
 import { markdown } from "../../utils/getMarkdown";
 import { JobsData } from "../../types/cv";
