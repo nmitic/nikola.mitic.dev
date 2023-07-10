@@ -65,7 +65,9 @@ const TinyThoughtsList = ({
           },
         }) => {
           setData((prevData) => [...prevData, ...tinyThoughtsData]);
-          if (page == Math.ceil(count / LIMIT)) {
+          const endReached = page == Math.ceil(count / LIMIT);
+
+          if (endReached) {
             stopObserving();
           }
         }
