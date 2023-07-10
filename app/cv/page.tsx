@@ -4,8 +4,6 @@ import { JobsData } from "../../types/cv";
 import { JobView } from "../../components/JobView";
 import { CvInfo } from "../../components/CvInfo";
 
-const contactEmail = "nikola.mitic.dev@gmail.com";
-
 const client = new GraphQLClient(
   process.env.NEXT_PUBLIC_HYGRAPH_READ_ONLY as string
 );
