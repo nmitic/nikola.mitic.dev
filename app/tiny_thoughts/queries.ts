@@ -9,5 +9,10 @@ export const QUERY_ALL_TT = gql`
         markdown
       }
     }
+    tinyThoughtsConnection {
+      aggregate {
+        count
+      }
+    }
   }
 `;

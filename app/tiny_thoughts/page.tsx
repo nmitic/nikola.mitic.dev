@@ -30,7 +30,7 @@ const TinyThoughts = async () => {
     }
   );
   const {
-    data: { tinyThoughts },
+    data: { tinyThoughts, tinyThoughtsConnection },
   }: { data: tinyThoughtsData } = await response.json();
 
   return (
@@ -39,7 +39,7 @@ const TinyThoughts = async () => {
         <section className="px-4 py-2 flex flex-col">
           <span className="fullName text-2xl">Nikola Mitic</span>
           <span className="text-sm text-slate-500">
-            {tinyThoughts.length} thoughts
+            {tinyThoughtsConnection.aggregate.count} thoughts
           </span>
         </section>
       </div>
