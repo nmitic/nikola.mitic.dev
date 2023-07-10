@@ -4,6 +4,8 @@ import Image from "next/image";
 import cn from "classnames";
 import ActiveLink from "../../../ActiveLink";
 
+const COMPANY_LOGO_SIZE = 35;
+
 const JobLineItem = ({
   date,
   offset,
@@ -20,7 +22,10 @@ const JobLineItem = ({
   companyLogoSrc: string;
 }) => {
   return (
-    <div className="lg:absolute mb-3" style={{ left: `${offset}%` }}>
+    <div
+      className="lg:absolute mb-3"
+      style={{ left: `calc(${offset}% - ${COMPANY_LOGO_SIZE / 2}px)` }}
+    >
       <ActiveLink href={`/cv/${slug}`}>
         {(isActive: boolean) => {
           return (
@@ -59,8 +64,8 @@ const JobLineItem = ({
               <Image
                 src={companyLogoSrc}
                 alt={`logo of company for the job ${companyName}`}
-                width={35}
-                height={35}
+                width={COMPANY_LOGO_SIZE}
+                height={COMPANY_LOGO_SIZE}
                 className={cn(
                   "rounded-full transition-all lg:border-none lg:mt-0",
                   {

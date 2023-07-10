@@ -7,6 +7,7 @@ import { Job } from "../types/cv";
 import LocationIcon from "../public/location-icon.svg";
 import DateIcon from "../public/date-icon.svg";
 import LinkIcon from "../public/link-icon.svg";
+import { formatDate } from "../utils/formatDate";
 
 export const JobView = ({
   job: {
@@ -25,7 +26,7 @@ export const JobView = ({
   job: Job;
 }) => {
   const shouldMakeTextColorWhite = hex !== "#ffffff";
-
+  console.log(formatDate(endDate), endDate);
   return (
     <motion.article
       className="prose prose-invert mx-auto"
@@ -70,15 +71,7 @@ export const JobView = ({
           })}
         >
           <DateIcon className="inline-block align-middle w-6 h-6 mr-2 mb-2" />
-          {new Date(startDate).toLocaleDateString(undefined, {
-            year: "numeric",
-            month: "long",
-          })}
-          -
-          {new Date(endDate).toLocaleDateString(undefined, {
-            year: "numeric",
-            month: "long",
-          })}
+          {formatDate(startDate)} - {endDate ? formatDate(endDate) : "Current"}
         </div>
       </div>
       <h1 className="text-current">{title}</h1>

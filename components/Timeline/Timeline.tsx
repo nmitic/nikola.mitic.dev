@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 import JobLineItem from "./components/JobLineItem/JobLineItem";
+import { formatDate } from "../../utils/formatDate";
 
 const diffMonths = (date1: string, date2: string) => {
   return (
@@ -15,15 +16,18 @@ const diffMonths = (date1: string, date2: string) => {
 const getAmountSpentBetweenTwoDatesInPercentage = (
   startDate: string,
   endDate: string,
-  targetData: string
+  targetDate: string
 ) => {
   return Math.round(
-    (diffMonths(startDate, targetData) / diffMonths(startDate, endDate)) * 100
+    (diffMonths(startDate, targetDate) / diffMonths(startDate, endDate)) * 100
   );
 };
 
 const firstJobStartDate = "2013-03";
-const lastJobEndDate = "2023-03";
+const lastJobEndDate = new Date().toLocaleDateString(undefined, {
+  year: "numeric",
+  month: "long",
+});
 
 const TimeLine = ({ jobs }: any) => {
   const pathName = usePathname();
@@ -63,25 +67,24 @@ const TimeLine = ({ jobs }: any) => {
             themeColor,
             companyName,
             logo: { url: companyLogoSrc },
-          }: any) => (
-            <li className="mr-auto">
-              <JobLineItem
-                companyLogoSrc={companyLogoSrc}
-                slug={slug}
-                date={new Date(startDate).toLocaleDateString(undefined, {
-                  year: "numeric",
-                  month: "long",
-                })}
-                themeColor={themeColor.hex}
-                companyName={companyName}
-                offset={getAmountSpentBetweenTwoDatesInPercentage(
-                  firstJobStartDate,
-                  lastJobEndDate,
-                  startDate
-                )}
-              />
-            </li>
-          )
+          }: any) => {
+            return (
+              <li className="mr-auto">
+                <JobLineItem
+                  companyLogoSrc={companyLogoSrc}
+                  slug={slug}
+                  date={formatDate(startDate)}
+                  themeColor={themeColor.hex}
+                  companyName={companyName}
+                  offset={getAmountSpentBetweenTwoDatesInPercentage(
+                    firstJobStartDate,
+                    lastJobEndDate,
+                    startDate
+                  )}
+                />
+              </li>
+            );
+          }
         )}
       </ul>
     </motion.nav>
