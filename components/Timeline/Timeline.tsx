@@ -31,7 +31,6 @@ const lastJobEndDate = new Date().toLocaleDateString(undefined, {
 
 const TimeLine = ({ jobs }: any) => {
   const pathName = usePathname();
-  const shouldCollapse = pathName === "/cv";
   const listRef = useRef<null | HTMLUListElement>(null);
 
   useEffect(() => {
@@ -42,10 +41,6 @@ const TimeLine = ({ jobs }: any) => {
       }
     }
   }, []);
-
-  if (shouldCollapse) {
-    return null;
-  }
 
   return (
     <motion.nav

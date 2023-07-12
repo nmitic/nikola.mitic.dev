@@ -1,6 +1,8 @@
 import { GraphQLClient, gql } from "graphql-request";
 import { JobData } from "../../../types/cv";
 import { JobView } from "../../../components/JobView";
+import { Job } from "../../../types/cv";
+import { CvInfo } from "../../../components/CvInfo";
 
 const client = new GraphQLClient(
   process.env.NEXT_PUBLIC_HYGRAPH_READ_ONLY as string
@@ -9,8 +11,24 @@ const client = new GraphQLClient(
 const JobPage = async ({ params }: { params: { slug: string } }) => {
   const slug = params.slug;
   const query = gql`
-    query GetJobBySlug($slug: String) {
+    query GetJobBySlugAndHobs($slug: String) {
       job(where: { slug: $slug }) {
+        description {
+          markdown
+        }
+        location
+        companyName
+        companyWebsite
+        endDate
+        title
+        startDate
+        industry
+        techStackTools
+        themeColor {
+          hex
+        }
+      }
+      jobs(orderBy: startDate_DESC) {
         description {
           markdown
         }
@@ -28,12 +46,24 @@ const JobPage = async ({ params }: { params: { slug: string } }) => {
       }
     }
   `;
-  const data: JobData = await client.request(query, { slug });
+  const data: { job: Job; jobs: Job[] } = await client.request(query, { slug });
 
   return (
-    <section>
-      <JobView job={data.job} />
-    </section>
+    <>
+      <section className="print:hidden">
+        <JobView job={data.job} />
+      </section>
+      <section className="lg:grid-cols-6 gap-5 hidden print:lg:grid">
+        <CvInfo />
+        <div className="lg:col-span-4">
+          {data.jobs.map((job) => (
+            <div className="border-b-2 mb-10 pb-10 last:border-b-0">
+              <JobView job={job} />
+            </div>
+          ))}
+        </div>
+      </section>
+    </>
   );
 };
 
@@ -89,5 +119,3 @@ export const generateMetadata = async ({
     description: `See Nikola Mitic experiance at ${companyName}, ${location} for the job role ${title}, where he worked from ${startDate} until ${endDate}`,
   };
 };
-
-export const dynamicParams = false;

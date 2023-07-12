@@ -26,7 +26,7 @@ export const JobView = ({
   job: Job;
 }) => {
   const shouldMakeTextColorWhite = hex !== "#ffffff";
-  console.log(formatDate(endDate), endDate);
+
   return (
     <motion.article
       className="prose prose-invert mx-auto"
