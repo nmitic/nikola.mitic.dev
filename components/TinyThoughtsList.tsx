@@ -6,7 +6,7 @@ import Markdown from "markdown-to-jsx";
 import profilePhoto from "../public/profile_photo.jpeg";
 import { tinyThought } from "../types/tt";
 import { useEffect, useRef, useState } from "react";
-import { getTinyThoughtsData } from "../app/tiny_thoughts/date_getters";
+import { getTinyThoughtsData } from "../app/tiny_thoughts/data_getters";
 
 const LIMIT = 6;
 

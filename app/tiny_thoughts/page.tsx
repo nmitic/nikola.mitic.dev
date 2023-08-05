@@ -1,5 +1,8 @@
 import { Metadata } from "next";
 import Image from "next/image";
+import { options } from "../api/auth/[...nextauth]/options";
+import { getServerSession } from "next-auth";
+import type { Session } from "next-auth";
 
 import coverPhoto from "../../public/cover_photo.jpeg";
 import profilePhoto from "../../public/profile_photo.jpeg";
@@ -9,12 +12,16 @@ import locationIcon from "../../public/location-icon.svg?url";
 import linkIcon from "../../public/link-icon.svg?url";
 import { tinyThoughtsData } from "../../types/tt";
 import TinyThoughtsList from "../../components/TinyThoughtsList";
-import { getTinyThoughtsData } from "./date_getters";
+import { getTinyThoughtsData } from "./data_getters";
 
 const TinyThoughts = async () => {
   const {
     data: { tinyThoughts, tinyThoughtsConnection },
   }: { data: tinyThoughtsData } = await getTinyThoughtsData();
+
+  const { user } = (await getServerSession(options)) as Session;
+
+  console.log(JSON.stringify(user));
 
   return (
     <div className="container max-w-3xl mx-auto">
@@ -88,6 +95,9 @@ const TinyThoughts = async () => {
           </span>
         </div>
       </div>
+      {user ? (
+        <input type="text" name="email" className=" text-red-500" />
+      ) : null}
       <TinyThoughtsList tinyThoughts={tinyThoughts} />
     </div>
   );
