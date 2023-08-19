@@ -8,6 +8,7 @@ import { footerLinks } from "../static-data/footer-links";
 import "../styles/globals.css";
 import { ProfileImage } from "../components/ProfileImage";
 import { AuthProvider } from "../context/AuthProvider";
+import { Header } from "../components/Header";
 
 export default async function RootLayout({
   children,
@@ -27,17 +28,7 @@ export default async function RootLayout({
       <body>
         <AuthProvider>
           <div className="grid gap-4 md:gap-10 h-screen grid-rows-[auto,1fr] container mx-auto p-4">
-            <header className=" flex justify-between">
-              <Link href="/" className="inline-block">
-                <Image
-                  priority
-                  src={logoIcon}
-                  alt="nikola.mitic.dev logo"
-                  width={200}
-                />
-              </Link>
-              <ProfileImage />
-            </header>
+            <Header />
             <main>{children}</main>
             <Footer links={footerLinks} />
             <Analytics />
