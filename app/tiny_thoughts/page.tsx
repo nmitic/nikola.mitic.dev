@@ -19,9 +19,7 @@ const TinyThoughts = async () => {
     data: { tinyThoughts, tinyThoughtsConnection },
   }: { data: tinyThoughtsData } = await getTinyThoughtsData();
 
-  const { user } = (await getServerSession(options)) as Session;
-
-  console.log(JSON.stringify(user));
+  const session = (await getServerSession(options)) as Session;
 
   return (
     <div className="container max-w-3xl mx-auto">
@@ -95,7 +93,7 @@ const TinyThoughts = async () => {
           </span>
         </div>
       </div>
-      {user ? (
+      {session?.user ? (
         <input type="text" name="email" className=" text-red-500" />
       ) : null}
       <TinyThoughtsList tinyThoughts={tinyThoughts} />

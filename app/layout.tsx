@@ -15,7 +15,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { user } = (await getServerSession(options)) as Session;
+  const session = (await getServerSession(options)) as Session;
 
   return (
     <html lang="en">
@@ -38,10 +38,10 @@ export default async function RootLayout({
                 width={200}
               />
             </Link>
-            {user && user.image ? (
+            {session?.user && session?.user.image ? (
               <Image
                 priority
-                src={user.image}
+                src={session?.user.image}
                 alt="nikola mitic github profile picture"
                 width={40}
                 height={40}
