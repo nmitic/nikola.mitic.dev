@@ -1,13 +1,12 @@
-import Link from "next/link";
 import { Analytics } from "@vercel/analytics/react";
-import Image from "next/image";
-import logoIcon from "../public/logo-inverted.svg?url";
 import Footer from "../components/footer";
 import { footerLinks } from "../static-data/footer-links";
 
 import "../styles/globals.css";
+import { AuthProvider } from "../context/AuthProvider";
+import { Header } from "../components/Header";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -23,21 +22,14 @@ export default function RootLayout({
         <script>hljs.highlightAll();</script>
       </head>
       <body>
-        <div className="grid gap-4 md:gap-10 h-screen grid-rows-[auto,1fr] container mx-auto p-4">
-          <header>
-            <Link href="/" className="inline-block">
-              <Image
-                priority
-                src={logoIcon}
-                alt="nikola.mitic.dev logo"
-                width={200}
-              />
-            </Link>
-          </header>
-          <main>{children}</main>
-          <Footer links={footerLinks} />
-          <Analytics />
-        </div>
+        <AuthProvider>
+          <div className="grid gap-4 md:gap-10 h-screen grid-rows-[auto,1fr] container mx-auto p-4">
+            <Header />
+            <main>{children}</main>
+            <Footer links={footerLinks} />
+            <Analytics />
+          </div>
+        </AuthProvider>
       </body>
     </html>
   );
