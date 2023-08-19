@@ -1,22 +1,19 @@
 import Link from "next/link";
-import { getServerSession } from "next-auth";
-import type { Session } from "next-auth";
 import { Analytics } from "@vercel/analytics/react";
 import Image from "next/image";
 import logoIcon from "../public/logo-inverted.svg?url";
 import Footer from "../components/footer";
 import { footerLinks } from "../static-data/footer-links";
-import { options } from "./api/auth/[...nextauth]/options";
 
 import "../styles/globals.css";
+import { ProfileImage } from "../components/ProfileImage";
+import { AuthProvider } from "../context/AuthProvider";
 
 export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = (await getServerSession(options)) as Session;
-
   return (
     <html lang="en">
       <head>
@@ -28,31 +25,24 @@ export default async function RootLayout({
         <script>hljs.highlightAll();</script>
       </head>
       <body>
-        <div className="grid gap-4 md:gap-10 h-screen grid-rows-[auto,1fr] container mx-auto p-4">
-          <header className=" flex justify-between">
-            <Link href="/" className="inline-block">
-              <Image
-                priority
-                src={logoIcon}
-                alt="nikola.mitic.dev logo"
-                width={200}
-              />
-            </Link>
-            {session?.user && session?.user.image ? (
-              <Image
-                priority
-                src={session?.user.image}
-                alt="nikola mitic github profile picture"
-                width={40}
-                height={40}
-                className=" rounded-full"
-              />
-            ) : null}
-          </header>
-          <main>{children}</main>
-          <Footer links={footerLinks} />
-          <Analytics />
-        </div>
+        <AuthProvider>
+          <div className="grid gap-4 md:gap-10 h-screen grid-rows-[auto,1fr] container mx-auto p-4">
+            <header className=" flex justify-between">
+              <Link href="/" className="inline-block">
+                <Image
+                  priority
+                  src={logoIcon}
+                  alt="nikola.mitic.dev logo"
+                  width={200}
+                />
+              </Link>
+              <ProfileImage />
+            </header>
+            <main>{children}</main>
+            <Footer links={footerLinks} />
+            <Analytics />
+          </div>
+        </AuthProvider>
       </body>
     </html>
   );
