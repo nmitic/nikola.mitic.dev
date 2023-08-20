@@ -1,21 +1,24 @@
 export type tinyThought = {
   content: {
-    markdown: string
-  },
-  createdAt: string
-}
+    markdown: string;
+    raw: {
+      children: [];
+    };
+  };
+  createdAt: string;
+};
 
 export type tinyThoughtData = {
-  tinyThought: tinyThought
-}
+  tinyThought: tinyThought;
+};
 
 export type tinyThoughtsConnection = {
   aggregate: {
-    count: number
-  }
+    count: number;
+  };
 };
 
 export type tinyThoughtsData = {
-  tinyThoughts: tinyThought[]
-  tinyThoughtsConnection: tinyThoughtsConnection
-}
+  tinyThoughts: tinyThought[];
+  tinyThoughtsConnection: tinyThoughtsConnection;
+};
