@@ -28,7 +28,6 @@ const ParagraphElement = (props: any) => {
   return <p {...props.attributes}>{props.children}</p>;
 };
 
-// Define a React component renderer for our code blocks.
 const NumberedList = (props: any) => {
   return (
     <ol {...props.attributes}>
@@ -37,6 +36,52 @@ const NumberedList = (props: any) => {
       ))}
     </ol>
   );
+};
+
+const BulletList = (props: any) => {
+  return (
+    <ul {...props.attributes}>
+      {props.children.map((item: any) => (
+        <li>{item}</li>
+      ))}
+    </ul>
+  );
+};
+
+const Blockquote = (props: any) => {
+  return <blockquote>{props.children}</blockquote>;
+};
+
+const CodeBlock = (props: any) => {
+  return (
+    <pre>
+      <code>{props.children}</code>
+    </pre>
+  );
+};
+
+const HeadingOne = (props: any) => {
+  return <h1>{props.children}</h1>;
+};
+
+const HeadingTwo = (props: any) => {
+  return <h2>{props.children}</h2>;
+};
+
+const HeadingThree = (props: any) => {
+  return <h3>{props.children}</h3>;
+};
+
+const HeadingFour = (props: any) => {
+  return <h4>{props.children}</h4>;
+};
+
+const HeadingFive = (props: any) => {
+  return <h5>{props.children}</h5>;
+};
+
+const HeadingSix = (props: any) => {
+  return <h6>{props.children}</h6>;
 };
 
 export const TinyThoughtsListItem = ({
@@ -55,8 +100,26 @@ export const TinyThoughtsListItem = ({
     switch (props.element.type) {
       case "paragraph":
         return <ParagraphElement {...props} />;
+      case "bulleted-list":
+        return <BulletList {...props} />;
       case "numbered-list":
-        return <NumberedList>{props.children}</NumberedList>;
+        return <NumberedList {...props} />;
+      case "block-quote":
+        return <Blockquote {...props} />;
+      case "code-block":
+        return <CodeBlock {...props} />;
+      case "heading-one":
+        return <HeadingOne {...props} />;
+      case "heading-two":
+        return <HeadingTwo {...props} />;
+      case "heading-three":
+        return <HeadingThree {...props} />;
+      case "heading-four":
+        return <HeadingFour {...props} />;
+      case "heading-five":
+        return <HeadingFive {...props} />;
+      case "heading-six":
+        return <HeadingSix {...props} />;
       default:
         return <ParagraphElement {...props} />;
     }
