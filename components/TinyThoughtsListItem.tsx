@@ -1,6 +1,5 @@
 "use client";
 
-import Markdown from "markdown-to-jsx";
 import { ClientDate } from "./ClientDate";
 import Image from "next/image";
 import profilePhoto from "../public/profile_photo.jpeg";
@@ -234,23 +233,16 @@ export const TinyThoughtsListItem = ({
           </span>
         </section>
         <section className="prose prose-invert max-w-none mb-4">
-          {editMode ? (
-            <div className="text-white">
-              <Slate
-                editor={editor}
-                initialValue={tinyThought.content.raw.children}
-              >
-                <Editable
-                  renderElement={renderElement}
-                  renderLeaf={renderLeaf}
-                />
-              </Slate>
-            </div>
-          ) : (
-            <Markdown className="text-white">
-              {tinyThought.content.markdown}
-            </Markdown>
-          )}
+          <Slate
+            editor={editor}
+            initialValue={tinyThought.content.raw.children}
+          >
+            <Editable
+              renderElement={renderElement}
+              renderLeaf={renderLeaf}
+              readOnly={!editMode}
+            />
+          </Slate>
         </section>
         {editMode ? (
           <button
