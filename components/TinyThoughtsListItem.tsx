@@ -4,11 +4,11 @@ import Markdown from "markdown-to-jsx";
 import { ClientDate } from "./ClientDate";
 import Image from "next/image";
 import profilePhoto from "../public/profile_photo.jpeg";
-import { useCallback, useState } from "react";
+import { ReactElement, useCallback, useState } from "react";
 import { tinyThought } from "../types/tt";
 import { useSession } from "next-auth/react";
 
-import { createEditor } from "slate";
+import { createEditor, leaf } from "slate";
 import { Slate, Editable, withReact } from "slate-react";
 import { BaseEditor, Descendant } from "slate";
 import { ReactEditor } from "slate-react";
@@ -125,6 +125,96 @@ export const TinyThoughtsListItem = ({
     }
   }, []);
 
+  const BoldLeaf = ({ attributes, children, leaf }: any) => {
+    return (
+      <strong>
+        <span>{children}</span>
+      </strong>
+    );
+  };
+
+  const ItalicsLeaf = ({ attributes, children, leaf }: any) => {
+    return (
+      <em>
+        <span>{children}</span>
+      </em>
+    );
+  };
+
+  const UnderlineLeaf = ({ attributes, children, leaf }: any) => {
+    return (
+      <u>
+        <span>{children}</span>
+      </u>
+    );
+  };
+
+  const CodeLeaf = ({ attributes, children, leaf }: any) => {
+    return (
+      <code>
+        <span>{children}</span>
+      </code>
+    );
+  };
+
+  // const AnchorLeaf = ({ attributes, children, leaf }: any) => { //should be element!!!
+  //   return (
+  //     <a href="">
+  //       <span>{children}</span>
+  //     </code>
+  //   );
+  // };
+
+  const SpanLeaf = ({ attributes, children, leaf }: any) => {
+    return <span>{children}</span>;
+  };
+
+  const possibleLeafs = ["italic", "bold", "code", "underline"];
+
+  interface LeafToComponentMap {
+    [leaf: string]: any;
+  }
+
+  const leafToComponentMap: LeafToComponentMap = {
+    italic: ItalicsLeaf,
+    code: CodeLeaf,
+    bold: BoldLeaf,
+    underline: UnderlineLeaf,
+    span: SpanLeaf,
+  };
+
+  const getTrueKeys = (styles: {
+    bold: boolean;
+    underline: boolean;
+    code: boolean;
+    italic: boolean;
+  }): string[] =>
+    Object.entries(styles)
+      .filter(([key, value]) => value === true)
+      .map(([key]) => key);
+
+  const LeafRenderer = (props: any) => {
+    const { possibleLeafs, ...otherProps } = props;
+
+    if (possibleLeafs.length === 0) {
+      return otherProps.children; // Base case to stop recursion
+    }
+
+    const [currentLeaf, ...remainingLeafs] = possibleLeafs;
+    const CurrentLeaf = leafToComponentMap[currentLeaf];
+
+    return (
+      <CurrentLeaf {...otherProps}>
+        {/* Recursive call with the correct props */}
+        <LeafRenderer possibleLeafs={remainingLeafs} {...otherProps} />
+      </CurrentLeaf>
+    );
+  };
+
+  const renderLeaf = useCallback((props: any) => {
+    return <LeafRenderer possibleLeafs={getTrueKeys(props.leaf)} {...props} />;
+  }, []);
+
   const isLoggedIn = !!session;
 
   return (
@@ -150,7 +240,10 @@ export const TinyThoughtsListItem = ({
                 editor={editor}
                 initialValue={tinyThought.content.raw.children}
               >
-                <Editable renderElement={renderElement} />
+                <Editable
+                  renderElement={renderElement}
+                  renderLeaf={renderLeaf}
+                />
               </Slate>
             </div>
           ) : (
