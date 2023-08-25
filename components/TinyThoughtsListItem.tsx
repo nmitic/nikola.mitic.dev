@@ -3,7 +3,7 @@
 import { ClientDate } from "./ClientDate";
 import Image from "next/image";
 import profilePhoto from "../public/profile_photo.jpeg";
-import { ReactElement, useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { tinyThought } from "../types/tt";
 import { useSession } from "next-auth/react";
 
@@ -83,6 +83,65 @@ const HeadingSix = (props: any) => {
   return <h6>{props.children}</h6>;
 };
 
+const Anchor = (props: any) => {
+  console.log(props);
+  const {
+    element: { href, rel, openInNewTab, id, className, title },
+    children,
+  } = props;
+  //should be element!!!
+  return (
+    <a
+      href={href}
+      id={id}
+      className={className}
+      title={title}
+      rel={rel}
+      {...{
+        ...(openInNewTab && { target: "_blank" }),
+      }}
+    >
+      <span>{children}</span>
+    </a>
+  );
+};
+
+const BoldLeaf = ({ attributes, children, leaf }: any) => {
+  return (
+    <strong>
+      <span>{children}</span>
+    </strong>
+  );
+};
+
+const ItalicsLeaf = ({ attributes, children, leaf }: any) => {
+  return (
+    <em>
+      <span>{children}</span>
+    </em>
+  );
+};
+
+const UnderlineLeaf = ({ attributes, children, leaf }: any) => {
+  return (
+    <u>
+      <span>{children}</span>
+    </u>
+  );
+};
+
+const CodeLeaf = ({ attributes, children, leaf }: any) => {
+  return (
+    <code>
+      <span>{children}</span>
+    </code>
+  );
+};
+
+const SpanLeaf = ({ attributes, children, leaf }: any) => {
+  return <span>{children}</span>;
+};
+
 export const TinyThoughtsListItem = ({
   tinyThought,
 }: {
@@ -119,56 +178,12 @@ export const TinyThoughtsListItem = ({
         return <HeadingFive {...props} />;
       case "heading-six":
         return <HeadingSix {...props} />;
+      case "link":
+        return <Anchor {...props} />;
       default:
         return <ParagraphElement {...props} />;
     }
   }, []);
-
-  const BoldLeaf = ({ attributes, children, leaf }: any) => {
-    return (
-      <strong>
-        <span>{children}</span>
-      </strong>
-    );
-  };
-
-  const ItalicsLeaf = ({ attributes, children, leaf }: any) => {
-    return (
-      <em>
-        <span>{children}</span>
-      </em>
-    );
-  };
-
-  const UnderlineLeaf = ({ attributes, children, leaf }: any) => {
-    return (
-      <u>
-        <span>{children}</span>
-      </u>
-    );
-  };
-
-  const CodeLeaf = ({ attributes, children, leaf }: any) => {
-    return (
-      <code>
-        <span>{children}</span>
-      </code>
-    );
-  };
-
-  // const AnchorLeaf = ({ attributes, children, leaf }: any) => { //should be element!!!
-  //   return (
-  //     <a href="">
-  //       <span>{children}</span>
-  //     </code>
-  //   );
-  // };
-
-  const SpanLeaf = ({ attributes, children, leaf }: any) => {
-    return <span>{children}</span>;
-  };
-
-  const possibleLeafs = ["italic", "bold", "code", "underline"];
 
   interface LeafToComponentMap {
     [leaf: string]: any;
