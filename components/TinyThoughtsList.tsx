@@ -4,6 +4,7 @@ import { tinyThought } from "../types/tt";
 import { useEffect, useRef, useState } from "react";
 import { getTinyThoughtsData } from "../app/tiny_thoughts/data_getters";
 import { TinyThoughtsListItem } from "./TinyThoughtsListItem";
+import RichTextEditor from "./RichTextEditor";
 
 const LIMIT = 6;
 
@@ -74,8 +75,11 @@ const TinyThoughtsList = ({
 
   return (
     <>
-      {data.map((tinyThought) => (
-        <TinyThoughtsListItem tinyThought={tinyThought} />
+      <RichTextEditor
+        initialValue={[{ children: [{ text: "" }], type: "paragraph" }]}
+      />
+      {data.map((tinyThought, index) => (
+        <TinyThoughtsListItem tinyThought={tinyThought} key={index} />
       ))}
       <div ref={observerTarget as React.RefObject<HTMLDivElement>} />
     </>
