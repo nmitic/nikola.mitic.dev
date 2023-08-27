@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { BaseEditor, createEditor } from "slate";
+import { BaseEditor, Editor, createEditor } from "slate";
 import { Editable, ReactEditor, Slate, withReact } from "slate-react";
 
 type CustomElement = { type: "paragraph"; children: CustomText[] };
@@ -180,6 +180,53 @@ type RichTextEditorProps = {
   readOnly?: boolean;
 };
 
+interface Marks {
+  bold?: boolean;
+  italic?: boolean;
+  underline?: boolean;
+}
+
+enum MarksEnum {
+  bold = "bold",
+  italic = "italic",
+  underline = "underline",
+}
+
+// Define our own custom set of helpers.
+const CustomEditor = {
+  isMarkActive(editor: any, markName: MarksEnum): boolean {
+    const marks: Marks | null = Editor.marks(editor);
+
+    return !!marks?.[markName];
+  },
+
+  toggleMark(editor: any, markName: MarksEnum) {
+    const isActive = CustomEditor.isMarkActive(editor, markName);
+    if (isActive) {
+      Editor.removeMark(editor, markName);
+    } else {
+      Editor.addMark(editor, markName, true);
+    }
+  },
+
+  // isCodeBlockActive(editor) {
+  //   const [match] = Editor.nodes(editor, {
+  //     match: (n) => n.type === "code",
+  //   });
+
+  //   return !!match;
+  // },
+
+  // toggleCodeBlock(editor) {
+  //   const isActive = CustomEditor.isCodeBlockActive(editor);
+  //   Transforms.setNodes(
+  //     editor,
+  //     { type: isActive ? null : "code" },
+  //     { match: (n) => Editor.isBlock(editor, n) }
+  //   );
+  // },
+};
+
 const RichTextEditor = ({
   initialValue,
   readOnly = false,
@@ -228,9 +275,32 @@ const RichTextEditor = ({
       editor={editor}
       initialValue={initialValue}
       onChange={(value) => {
-        console.log(value);
+        // console.log(value);
       }}
     >
+      <section className=" flex justify-around">
+        <button
+          onClick={() => {
+            CustomEditor.toggleMark(editor, MarksEnum.bold);
+          }}
+        >
+          Bold
+        </button>
+        <button
+          onClick={() => {
+            CustomEditor.toggleMark(editor, MarksEnum.italic);
+          }}
+        >
+          Italic
+        </button>
+        <button
+          onClick={() => {
+            CustomEditor.toggleMark(editor, MarksEnum.underline);
+          }}
+        >
+          Underline
+        </button>
+      </section>
       <Editable
         renderElement={renderElement}
         renderLeaf={renderLeaf}
