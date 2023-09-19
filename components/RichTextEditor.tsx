@@ -3,7 +3,7 @@ import { BaseEditor, Editor, Transforms, createEditor } from "slate";
 import { Editable, ReactEditor, Slate, withReact } from "slate-react";
 
 type CustomElement = {
-  type: "paragraph" | "code-block";
+  type: TypesEnum;
   children: CustomText[];
 };
 type CustomText = { text: string };
@@ -197,6 +197,21 @@ enum MarksEnum {
   code = "code",
 }
 
+enum TypesEnum {
+  codeBlock = "code-block",
+  paragraph = "paragraph",
+  bulletedList = "bulleted-list",
+  numberedList = "numbered-list",
+  blockQuote = "block-quote",
+  headingOne = "heading-one",
+  headingTwo = "heading-two",
+  headingThree = "heading-three",
+  headingFour = "heading-four",
+  headingFive = "heading-five",
+  headingSix = "heading-six",
+  link = "link",
+}
+
 // Define our own custom set of helpers.
 const CustomEditor = {
   isMarkActive(editor: any, markName: MarksEnum): boolean {
@@ -213,20 +228,18 @@ const CustomEditor = {
       Editor.addMark(editor, markName, true);
     }
   },
-
-  isCodeBlockActive(editor: any) {
+  isTypeActive(editor: any, typeName: string) {
     const [match] = Editor.nodes(editor, {
-      match: (n: any) => n.type === "code-block",
+      match: (n: any) => n.type === typeName,
     });
-    console.log(match, "match");
     return !!match;
   },
 
-  toggleCodeBlock(editor: any) {
-    const isActive = this.isCodeBlockActive(editor);
+  toggleType(editor: any, typeName: TypesEnum) {
+    const isActive = this.isTypeActive(editor, typeName);
     Transforms.setNodes(
       editor,
-      { type: isActive ? undefined : "code-block" }
+      { type: isActive ? undefined : typeName }
       // { match: (n: any) => Editor.isBlock(editor, n) }
     );
   },
@@ -242,29 +255,29 @@ const RichTextEditor = ({
   // `useCallback` here to memoize the function for subsequent renders.
   const renderElement = useCallback((props: any) => {
     switch (props.element.type) {
-      case "paragraph":
+      case TypesEnum.paragraph:
         return <ParagraphElement {...props} />;
-      case "bulleted-list":
+      case TypesEnum.bulletedList:
         return <BulletList {...props} />;
-      case "numbered-list":
+      case TypesEnum.numberedList:
         return <NumberedList {...props} />;
-      case "block-quote":
+      case TypesEnum.blockQuote:
         return <Blockquote {...props} />;
-      case "code-block":
+      case TypesEnum.codeBlock:
         return <CodeBlock {...props} />;
-      case "heading-one":
+      case TypesEnum.headingOne:
         return <HeadingOne {...props} />;
-      case "heading-two":
+      case TypesEnum.headingTwo:
         return <HeadingTwo {...props} />;
-      case "heading-three":
+      case TypesEnum.headingThree:
         return <HeadingThree {...props} />;
-      case "heading-four":
+      case TypesEnum.headingFour:
         return <HeadingFour {...props} />;
-      case "heading-five":
+      case TypesEnum.headingFive:
         return <HeadingFive {...props} />;
-      case "heading-six":
+      case TypesEnum.headingSix:
         return <HeadingSix {...props} />;
-      case "link":
+      case TypesEnum.link:
         return <Anchor {...props} />;
       default:
         return <ParagraphElement {...props} />;
@@ -283,7 +296,7 @@ const RichTextEditor = ({
         console.log(value);
       }}
     >
-      <section className=" flex justify-around">
+      <section className=" flex gap-2 flex-wrap">
         <button
           onClick={() => {
             CustomEditor.toggleMark(editor, MarksEnum.bold);
@@ -314,10 +327,73 @@ const RichTextEditor = ({
         </button>
         <button
           onClick={() => {
-            CustomEditor.toggleCodeBlock(editor);
+            CustomEditor.toggleType(editor, TypesEnum.codeBlock);
           }}
         >
           Code block
+        </button>
+        <button
+          onClick={() => {
+            CustomEditor.toggleType(editor, TypesEnum.paragraph);
+          }}
+        >
+          Paragraph
+        </button>
+        <button
+          onClick={() => {
+            CustomEditor.toggleType(editor, TypesEnum.bulletedList);
+          }}
+        >
+          bulletedList
+        </button>
+        <button
+          onClick={() => {
+            CustomEditor.toggleType(editor, TypesEnum.numberedList);
+          }}
+        >
+          numberedList
+        </button>
+        <button
+          onClick={() => {
+            CustomEditor.toggleType(editor, TypesEnum.headingOne);
+          }}
+        >
+          headingOne
+        </button>
+        <button
+          onClick={() => {
+            CustomEditor.toggleType(editor, TypesEnum.headingTwo);
+          }}
+        >
+          headingTwo
+        </button>
+        <button
+          onClick={() => {
+            CustomEditor.toggleType(editor, TypesEnum.headingThree);
+          }}
+        >
+          headingThree
+        </button>
+        <button
+          onClick={() => {
+            CustomEditor.toggleType(editor, TypesEnum.headingFour);
+          }}
+        >
+          headingFour
+        </button>
+        <button
+          onClick={() => {
+            CustomEditor.toggleType(editor, TypesEnum.headingFive);
+          }}
+        >
+          headingFive
+        </button>
+        <button
+          onClick={() => {
+            CustomEditor.toggleType(editor, TypesEnum.headingSix);
+          }}
+        >
+          headingSix
         </button>
       </section>
       <Editable
