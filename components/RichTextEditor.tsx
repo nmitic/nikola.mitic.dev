@@ -1,8 +1,11 @@
 import { useCallback, useState } from "react";
-import { BaseEditor, Editor, createEditor } from "slate";
+import { BaseEditor, Editor, Transforms, createEditor } from "slate";
 import { Editable, ReactEditor, Slate, withReact } from "slate-react";
 
-type CustomElement = { type: "paragraph"; children: CustomText[] };
+type CustomElement = {
+  type: "paragraph" | "code-block";
+  children: CustomText[];
+};
 type CustomText = { text: string };
 
 declare module "slate" {
@@ -184,12 +187,14 @@ interface Marks {
   bold?: boolean;
   italic?: boolean;
   underline?: boolean;
+  code?: boolean;
 }
 
 enum MarksEnum {
   bold = "bold",
   italic = "italic",
   underline = "underline",
+  code = "code",
 }
 
 // Define our own custom set of helpers.
@@ -209,22 +214,22 @@ const CustomEditor = {
     }
   },
 
-  // isCodeBlockActive(editor) {
-  //   const [match] = Editor.nodes(editor, {
-  //     match: (n) => n.type === "code",
-  //   });
+  isCodeBlockActive(editor: any) {
+    const [match] = Editor.nodes(editor, {
+      match: (n: any) => n.type === "code-block",
+    });
+    console.log(match, "match");
+    return !!match;
+  },
 
-  //   return !!match;
-  // },
-
-  // toggleCodeBlock(editor) {
-  //   const isActive = CustomEditor.isCodeBlockActive(editor);
-  //   Transforms.setNodes(
-  //     editor,
-  //     { type: isActive ? null : "code" },
-  //     { match: (n) => Editor.isBlock(editor, n) }
-  //   );
-  // },
+  toggleCodeBlock(editor: any) {
+    const isActive = this.isCodeBlockActive(editor);
+    Transforms.setNodes(
+      editor,
+      { type: isActive ? undefined : "code-block" }
+      // { match: (n: any) => Editor.isBlock(editor, n) }
+    );
+  },
 };
 
 const RichTextEditor = ({
@@ -275,7 +280,7 @@ const RichTextEditor = ({
       editor={editor}
       initialValue={initialValue}
       onChange={(value) => {
-        // console.log(value);
+        console.log(value);
       }}
     >
       <section className=" flex justify-around">
@@ -299,6 +304,20 @@ const RichTextEditor = ({
           }}
         >
           Underline
+        </button>
+        <button
+          onClick={() => {
+            CustomEditor.toggleMark(editor, MarksEnum.code);
+          }}
+        >
+          Code
+        </button>
+        <button
+          onClick={() => {
+            CustomEditor.toggleCodeBlock(editor);
+          }}
+        >
+          Code block
         </button>
       </section>
       <Editable
