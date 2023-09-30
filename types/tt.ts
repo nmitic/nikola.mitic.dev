@@ -1,6 +1,7 @@
 export type tinyThought = {
   content: {
     markdown: string
+    html: string
   },
   createdAt: string
 }

@@ -13,6 +13,7 @@ import linkIcon from "../../public/link-icon.svg?url";
 import { tinyThoughtsData } from "../../types/tt";
 import TinyThoughtsList from "../../components/TinyThoughtsList";
 import { getTinyThoughtsData } from "./data_getters";
+import Tiptap from "../../components/Tiptap";
 
 const TinyThoughts = async () => {
   const {
@@ -93,9 +94,7 @@ const TinyThoughts = async () => {
           </span>
         </div>
       </div>
-      {session?.user ? (
-        <input type="text" name="email" className=" text-red-500" />
-      ) : null}
+      {session?.user ? <Tiptap /> : null}
       <TinyThoughtsList tinyThoughts={tinyThoughts} />
     </div>
   );

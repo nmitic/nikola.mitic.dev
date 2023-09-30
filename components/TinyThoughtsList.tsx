@@ -7,6 +7,7 @@ import profilePhoto from "../public/profile_photo.jpeg";
 import { tinyThought } from "../types/tt";
 import { useEffect, useRef, useState } from "react";
 import { getTinyThoughtsData } from "../app/tiny_thoughts/data_getters";
+import Tiptap from "./Tiptap";
 
 const LIMIT = 6;
 
@@ -93,11 +94,7 @@ const TinyThoughtsList = ({
                 <ClientDate date={tinyThought.createdAt} />
               </span>
             </section>
-            <section className="prose prose-invert max-w-none">
-              <Markdown className="text-white">
-                {tinyThought.content.markdown}
-              </Markdown>
-            </section>
+            <Tiptap content={tinyThought.content.html} />
           </div>
         </article>
       ))}
