@@ -94,7 +94,6 @@ const TinyThoughts = async () => {
           </span>
         </div>
       </div>
-      {session?.user ? <Tiptap /> : null}
       <TinyThoughtsList tinyThoughts={tinyThoughts} />
     </div>
   );

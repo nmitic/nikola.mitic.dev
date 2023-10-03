@@ -2,12 +2,11 @@
 
 import Image from "next/image";
 import { ClientDate } from "./ClientDate";
-import Markdown from "markdown-to-jsx";
 import profilePhoto from "../public/profile_photo.jpeg";
 import { tinyThought } from "../types/tt";
 import { useEffect, useRef, useState } from "react";
 import { getTinyThoughtsData } from "../app/tiny_thoughts/data_getters";
-import Tiptap from "./Tiptap";
+import Tiptap, { AddTipTap } from "./Tiptap";
 
 const LIMIT = 6;
 
@@ -43,7 +42,7 @@ const TinyThoughtsList = ({
 }: {
   tinyThoughts: tinyThought[];
 }) => {
-  const [data, setData] = useState(tinyThoughts);
+  const [data, setData] = useState<tinyThought[]>(tinyThoughts);
   const [page, setPage] = useState(1);
   const observerTarget = useRef<HTMLElement>(null);
   const { isOnScreen, stopObserving } = useOnScreen(observerTarget);
@@ -66,6 +65,7 @@ const TinyThoughtsList = ({
           },
         }) => {
           setData((prevData) => [...prevData, ...tinyThoughtsData]);
+
           const endReached = page == Math.ceil(count / LIMIT);
 
           if (endReached) {
@@ -77,7 +77,9 @@ const TinyThoughtsList = ({
   }, [page]);
 
   return (
-    <>
+    <div>
+      <AddTipTap updateTT={setData} />
+
       {data.map((tinyThought) => (
         <article className="mx-auto max-w-xl border-[1px] p-4 flex">
           <Image
@@ -94,12 +96,16 @@ const TinyThoughtsList = ({
                 <ClientDate date={tinyThought.createdAt} />
               </span>
             </section>
-            <Tiptap content={tinyThought.content.html} />
+            <Tiptap
+              initialContent={tinyThought.content}
+              id={tinyThought.id}
+              updateTT={setData}
+            />
           </div>
         </article>
       ))}
       <div ref={observerTarget as React.RefObject<HTMLDivElement>} />
-    </>
+    </div>
   );
 };
 

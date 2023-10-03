@@ -1,17 +1,31 @@
-"use client";
-
-import { Color } from "@tiptap/extension-color";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import ListItem from "@tiptap/extension-list-item";
 import TextStyle from "@tiptap/extension-text-style";
 import { EditorProvider, useCurrentEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { htmlToSlate, slateDemoHtmlToSlateConfig } from "slate-serializers";
-import React from "react";
+import EditIcon from "../public/edit-icon.svg";
+import { GraphQLClient } from "graphql-request";
+import {
+  CREATE_NEW_TT,
+  DELETE_TT,
+  PUBLISH_TT,
+  UPDATE_TT,
+} from "../app/tiny_thoughts/queries";
+import {
+  CreateResponseType,
+  UpdateResponseType,
+  tinyThought,
+} from "../types/tt";
+import Markdown from "markdown-to-jsx";
+
+const client = new GraphQLClient(process.env.NEXT_PUBLIC_HYGRAPH as string);
 
 const MenuBar = () => {
   const { editor } = useCurrentEditor();
 
-  if (!editor || !editor.isFocused) {
+  if (!editor) {
     return null;
   }
 
@@ -44,12 +58,6 @@ const MenuBar = () => {
         className={editor.isActive("code") ? "bg-white text-black" : ""}
       >
         code
-      </button>
-      <button onClick={() => editor.chain().focus().unsetAllMarks().run()}>
-        clear marks
-      </button>
-      <button onClick={() => editor.chain().focus().clearNodes().run()}>
-        clear nodes
       </button>
       <button
         onClick={() => editor.chain().focus().setParagraph().run()}
@@ -129,39 +137,12 @@ const MenuBar = () => {
       >
         blockquote
       </button>
-      <button onClick={() => editor.chain().focus().setHorizontalRule().run()}>
-        horizontal rule
-      </button>
-      <button onClick={() => editor.chain().focus().setHardBreak().run()}>
-        hard break
-      </button>
-      <button
-        onClick={() => editor.chain().focus().undo().run()}
-        disabled={!editor.can().chain().focus().undo().run()}
-      >
-        undo
-      </button>
-      <button
-        onClick={() => editor.chain().focus().redo().run()}
-        disabled={!editor.can().chain().focus().redo().run()}
-      >
-        redo
-      </button>
-      <button
-        onClick={() => editor.chain().focus().setColor("#958DF1").run()}
-        className={
-          editor.isActive("textStyle", { color: "#958DF1" }) ? "is-active" : ""
-        }
-      >
-        purple
-      </button>
     </div>
   );
 };
 
 const extensions = [
-  Color.configure({ types: [TextStyle.name, ListItem.name] }),
-  TextStyle.configure({ types: [ListItem.name] }),
+  // TextStyle.configure({ types: [ListItem.name] }),
   StarterKit.configure({
     bulletList: {
       keepMarks: true,
@@ -174,7 +155,13 @@ const extensions = [
   }),
 ];
 
-const Actions = () => {
+const Actions = ({
+  onSave,
+  onDelete,
+}: {
+  onSave: (content: string) => void;
+  onDelete: () => void;
+}) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -182,31 +169,151 @@ const Actions = () => {
   }
 
   return (
-    <div>
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          console.log(
-            htmlToSlate(editor.getHTML(), slateDemoHtmlToSlateConfig)
-          );
-        }}
-      >
-        SAVE
-      </button>
+    <div className=" flex gap-2 [&>*]:p-2 [&>*]:border [&>*]:border-white">
+      <button onClick={() => onSave(editor.getHTML())}>Save</button>
+      <button onClick={() => onDelete()}>Delete</button>
     </div>
   );
 };
 
-export default ({ content = "Add new tiny thought" }: { content?: string }) => {
+const AddAction = ({ onAdd }: { onAdd: (content: string) => void }) => {
+  const { editor } = useCurrentEditor();
+
+  if (!editor) {
+    return null;
+  }
+
+  return (
+    <div className=" flex gap-2 [&>*]:p-2 [&>*]:border [&>*]:border-white">
+      <button onClick={() => onAdd(editor.getHTML())}>Add</button>
+    </div>
+  );
+};
+
+export const AddTipTap = ({
+  updateTT,
+}: {
+  updateTT: React.Dispatch<React.SetStateAction<tinyThought[]>>;
+}) => {
+  const router = useRouter();
+
+  const handleAdd = async (content: string) => {
+    try {
+      const responseCreate: CreateResponseType = await client.request(
+        CREATE_NEW_TT,
+        {
+          content: {
+            children: htmlToSlate(content, slateDemoHtmlToSlateConfig),
+          },
+        }
+      );
+      await client.request(PUBLISH_TT, {
+        id: responseCreate.createTinyThought.id,
+      });
+      updateTT((data) => [responseCreate.createTinyThought, ...data]);
+      router.refresh();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <section className="prose prose-invert max-w-none">
       <EditorProvider
         slotBefore={<MenuBar />}
         extensions={extensions}
-        content={content}
-        slotAfter={<Actions />}
+        slotAfter={<AddAction onAdd={handleAdd} />}
         children={undefined}
       ></EditorProvider>
+    </section>
+  );
+};
+
+export default ({
+  initialContent,
+  id,
+  updateTT,
+}: {
+  initialContent: {
+    html: string;
+    markdown: string;
+  };
+  id: string;
+  updateTT: React.Dispatch<React.SetStateAction<tinyThought[]>>;
+}) => {
+  const [editMode, setEditMode] = useState<boolean>(false);
+
+  const router = useRouter();
+
+  const handleSave = async (content: string) => {
+    try {
+      const responseUpdate: UpdateResponseType = await client.request(
+        UPDATE_TT,
+        {
+          content: {
+            children: htmlToSlate(content, slateDemoHtmlToSlateConfig),
+          },
+          id,
+        }
+      );
+      await client.request(PUBLISH_TT, {
+        id: responseUpdate.updateTinyThought.id,
+      });
+      setEditMode(false);
+
+      updateTT((data) =>
+        data.map((data) => {
+          if (data.id === id) {
+            return responseUpdate.updateTinyThought;
+          }
+
+          return data;
+        })
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await client.request(DELETE_TT, {
+        id,
+      });
+
+      setEditMode(false);
+      updateTT((data) => data.filter((data) => data.id !== id));
+
+      router.refresh();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return (
+    <section className="prose prose-invert max-w-none">
+      <button
+        onClick={() => {
+          setEditMode(!editMode);
+        }}
+      >
+        <EditIcon className=" w-4 h-4" />
+      </button>
+      {editMode ? (
+        <EditorProvider
+          slotBefore={editMode ? <MenuBar /> : null}
+          extensions={extensions}
+          content={initialContent.html}
+          slotAfter={
+            editMode ? (
+              <Actions onSave={handleSave} onDelete={handleDelete} />
+            ) : null
+          }
+          children={undefined}
+        ></EditorProvider>
+      ) : (
+        <Markdown className="text-white">{initialContent.markdown}</Markdown>
+      )}
     </section>
   );
 };

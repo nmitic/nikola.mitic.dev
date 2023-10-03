@@ -6,8 +6,8 @@ export const QUERY_ALL_TT = gql`
       id
       createdAt
       content {
-        markdown
         html
+        markdown
       }
     }
     tinyThoughtsConnection {
@@ -22,8 +22,10 @@ export const UPDATE_TT = gql`
   mutation updateTinyThought($content: RichTextAST, $id: ID) {
     updateTinyThought(data: { content: $content }, where: { id: $id }) {
       id
+      createdAt
       content {
-        html
+        html,
+        markdown
       }
     }
   }
@@ -33,8 +35,10 @@ export const DELETE_TT = gql`
   mutation deleteTinyThought($id: ID) {
     deleteTinyThought(where: { id: $id }) {
       id
+      createdAt
       content {
-        html
+        html,
+        markdown
       }
     }
   }
@@ -44,8 +48,10 @@ export const CREATE_NEW_TT = gql`
   mutation createTinyThought($content: RichTextAST) {
     createTinyThought(data: { content: $content }) {
       id
+      createdAt
       content {
-        html
+        html,
+        markdown
       }
     }
   }
@@ -57,7 +63,8 @@ export const PUBLISH_TT = gql`
       id
       createdAt
       content {
-        html
+        html,
+        markdown
       }
     }
   }
