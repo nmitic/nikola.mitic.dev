@@ -13,6 +13,7 @@ import linkIcon from "../../public/link-icon.svg?url";
 import { tinyThoughtsData } from "../../types/tt";
 import TinyThoughtsList from "../../components/TinyThoughtsList";
 import { getTinyThoughtsData } from "./data_getters";
+import Tiptap from "../../components/Tiptap";
 
 const TinyThoughts = async () => {
   const {
@@ -20,6 +21,8 @@ const TinyThoughts = async () => {
   }: { data: tinyThoughtsData } = await getTinyThoughtsData();
 
   const session = (await getServerSession(options)) as Session;
+
+  const isLoggedIn = !!session;
 
   return (
     <div className="container max-w-3xl mx-auto">
@@ -93,10 +96,7 @@ const TinyThoughts = async () => {
           </span>
         </div>
       </div>
-      {session?.user ? (
-        <input type="text" name="email" className=" text-red-500" />
-      ) : null}
-      <TinyThoughtsList tinyThoughts={tinyThoughts} />
+      <TinyThoughtsList tinyThoughts={tinyThoughts} isLoggedIn={isLoggedIn} />
     </div>
   );
 };

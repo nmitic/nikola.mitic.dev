@@ -2,11 +2,12 @@
 
 import Image from "next/image";
 import { ClientDate } from "./ClientDate";
-import Markdown from "markdown-to-jsx";
 import profilePhoto from "../public/profile_photo.jpeg";
 import { tinyThought } from "../types/tt";
 import { useEffect, useRef, useState } from "react";
 import { getTinyThoughtsData } from "../app/tiny_thoughts/data_getters";
+import Tiptap, { AddTipTap } from "./Tiptap";
+import Markdown from "markdown-to-jsx";
 
 const LIMIT = 6;
 
@@ -39,10 +40,12 @@ function useOnScreen(ref: React.RefObject<HTMLElement>) {
 
 const TinyThoughtsList = ({
   tinyThoughts,
+  isLoggedIn,
 }: {
   tinyThoughts: tinyThought[];
+  isLoggedIn: boolean;
 }) => {
-  const [data, setData] = useState(tinyThoughts);
+  const [data, setData] = useState<tinyThought[]>(tinyThoughts);
   const [page, setPage] = useState(1);
   const observerTarget = useRef<HTMLElement>(null);
   const { isOnScreen, stopObserving } = useOnScreen(observerTarget);
@@ -65,6 +68,7 @@ const TinyThoughtsList = ({
           },
         }) => {
           setData((prevData) => [...prevData, ...tinyThoughtsData]);
+
           const endReached = page == Math.ceil(count / LIMIT);
 
           if (endReached) {
@@ -76,7 +80,9 @@ const TinyThoughtsList = ({
   }, [page]);
 
   return (
-    <>
+    <div>
+      {isLoggedIn ? <AddTipTap updateTT={setData} /> : null}
+
       {data.map((tinyThought) => (
         <article className="mx-auto max-w-xl border-[1px] p-4 flex">
           <Image
@@ -93,16 +99,24 @@ const TinyThoughtsList = ({
                 <ClientDate date={tinyThought.createdAt} />
               </span>
             </section>
-            <section className="prose prose-invert max-w-none">
-              <Markdown className="text-white">
-                {tinyThought.content.markdown}
-              </Markdown>
-            </section>
+            {isLoggedIn ? (
+              <Tiptap
+                initialContent={tinyThought.content}
+                id={tinyThought.id}
+                updateTT={setData}
+              />
+            ) : (
+              <section className="prose prose-invert max-w-none">
+                <Markdown className="text-white">
+                  {tinyThought.content.markdown}
+                </Markdown>
+              </section>
+            )}
           </div>
         </article>
       ))}
       <div ref={observerTarget as React.RefObject<HTMLDivElement>} />
-    </>
+    </div>
   );
 };
 
