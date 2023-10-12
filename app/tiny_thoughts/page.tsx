@@ -22,6 +22,8 @@ const TinyThoughts = async () => {
 
   const session = (await getServerSession(options)) as Session;
 
+  const isLoggedIn = !!session;
+
   return (
     <div className="container max-w-3xl mx-auto">
       <div className="sticky top-0 z-10 bg-black/60 backdrop-blur-sm">
@@ -94,7 +96,7 @@ const TinyThoughts = async () => {
           </span>
         </div>
       </div>
-      <TinyThoughtsList tinyThoughts={tinyThoughts} />
+      <TinyThoughtsList tinyThoughts={tinyThoughts} isLoggedIn={isLoggedIn} />
     </div>
   );
 };
