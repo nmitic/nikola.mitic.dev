@@ -70,7 +70,7 @@ const TinyThoughtsListItem = ({
               setEditMode(!editMode);
             }}
           >
-            <EditIcon className=" w-4 h-4" />
+            <EditIcon className=" w-6 h-6" />
           </button>
         </section>
         {isLoggedIn ? (
