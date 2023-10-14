@@ -65,13 +65,15 @@ const TinyThoughtsListItem = ({
               <ClientDate date={tinyThought.createdAt} />
             </span>
           </div>
-          <button
-            onClick={() => {
-              setEditMode(!editMode);
-            }}
-          >
-            <EditIcon className=" w-6 h-6" />
-          </button>
+          {isLoggedIn ? (
+            <button
+              onClick={() => {
+                setEditMode(!editMode);
+              }}
+            >
+              <EditIcon className=" w-6 h-6" />
+            </button>
+          ) : null}
         </section>
         {isLoggedIn ? (
           <Tiptap
