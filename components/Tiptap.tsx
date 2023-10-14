@@ -218,14 +218,18 @@ export const AddTipTap = ({
   };
 
   return (
-    <section className="prose prose-invert max-w-none">
-      <EditorProvider
-        slotBefore={<MenuBar />}
-        extensions={extensions}
-        slotAfter={<AddAction onAdd={handleAdd} />}
-        children={undefined}
-      ></EditorProvider>
-    </section>
+    <EditorProvider
+      slotBefore={<MenuBar />}
+      extensions={extensions}
+      slotAfter={<AddAction onAdd={handleAdd} />}
+      children={undefined}
+      editorProps={{
+        attributes: {
+          class:
+            "prose prose-invert max-w-none min-h-[200px] border border-white p-4 mb-4 mt-4 focus:outline-none",
+        },
+      }}
+    ></EditorProvider>
   );
 };
 

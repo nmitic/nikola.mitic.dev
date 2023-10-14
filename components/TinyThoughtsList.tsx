@@ -81,7 +81,11 @@ const TinyThoughtsList = ({
 
   return (
     <div>
-      {isLoggedIn ? <AddTipTap updateTT={setData} /> : null}
+      {isLoggedIn ? (
+        <div className=" mb-6">
+          <AddTipTap updateTT={setData} />
+        </div>
+      ) : null}
 
       {data.map((tinyThought) => (
         <article className="mx-auto max-w-xl border-[1px] p-4 flex">
