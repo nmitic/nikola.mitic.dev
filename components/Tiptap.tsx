@@ -176,7 +176,11 @@ const Actions = ({
   );
 };
 
-const AddAction = ({ onAdd }: { onAdd: (content: string) => void }) => {
+const AddAction = ({
+  onAdd,
+}: {
+  onAdd: (content: string, clearContent: () => void) => void;
+}) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -185,7 +189,11 @@ const AddAction = ({ onAdd }: { onAdd: (content: string) => void }) => {
 
   return (
     <div className=" flex gap-2 [&>*]:p-2 [&>*]:border [&>*]:border-white">
-      <button onClick={() => onAdd(editor.getHTML())}>Add</button>
+      <button
+        onClick={() => onAdd(editor.getHTML(), editor.commands.clearContent)}
+      >
+        Add
+      </button>
     </div>
   );
 };
@@ -197,7 +205,7 @@ export const AddTipTap = ({
 }) => {
   const router = useRouter();
 
-  const handleAdd = async (content: string) => {
+  const handleAdd = async (content: string, clearContent: () => void) => {
     try {
       const responseCreate: CreateResponseType = await client.request(
         CREATE_NEW_TT,
@@ -211,6 +219,7 @@ export const AddTipTap = ({
         id: responseCreate.createTinyThought.id,
       });
       updateTT((data) => [responseCreate.createTinyThought, ...data]);
+      clearContent();
       router.refresh();
     } catch (error) {
       console.error(error);
