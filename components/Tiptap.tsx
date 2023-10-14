@@ -1,11 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
-import ListItem from "@tiptap/extension-list-item";
-import TextStyle from "@tiptap/extension-text-style";
 import { EditorProvider, useCurrentEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { htmlToSlate, slateDemoHtmlToSlateConfig } from "slate-serializers";
-import EditIcon from "../public/edit-icon.svg";
 import { GraphQLClient } from "graphql-request";
 import {
   CREATE_NEW_TT,
@@ -246,6 +243,7 @@ export default ({
   initialContent,
   id,
   updateTT,
+  editMode,
 }: {
   initialContent: {
     html: string;
@@ -253,9 +251,8 @@ export default ({
   };
   id: string;
   updateTT: React.Dispatch<React.SetStateAction<tinyThought[]>>;
+  editMode: boolean;
 }) => {
-  const [editMode, setEditMode] = useState<boolean>(false);
-
   const router = useRouter();
 
   const handleSave = async (content: string) => {
@@ -305,13 +302,6 @@ export default ({
 
   return (
     <section className="prose prose-invert max-w-none">
-      <button
-        onClick={() => {
-          setEditMode(!editMode);
-        }}
-      >
-        <EditIcon className=" w-4 h-4" />
-      </button>
       {editMode ? (
         <EditorProvider
           slotBefore={editMode ? <MenuBar /> : null}

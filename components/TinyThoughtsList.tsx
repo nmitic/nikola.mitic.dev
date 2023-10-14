@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { getTinyThoughtsData } from "../app/tiny_thoughts/data_getters";
 import Tiptap, { AddTipTap } from "./Tiptap";
 import Markdown from "markdown-to-jsx";
+import EditIcon from "../public/edit-icon.svg";
 
 const LIMIT = 6;
 
@@ -37,6 +38,59 @@ function useOnScreen(ref: React.RefObject<HTMLElement>) {
 
   return { isOnScreen, stopObserving };
 }
+
+const TinyThoughtsListItem = ({
+  tinyThought,
+  isLoggedIn,
+  setData,
+}: {
+  tinyThought: tinyThought;
+  isLoggedIn: boolean;
+  setData: React.Dispatch<React.SetStateAction<tinyThought[]>>;
+}) => {
+  const [editMode, setEditMode] = useState<boolean>(false);
+
+  return (
+    <article className="mx-auto max-w-xl border-[1px] p-4 flex">
+      <div>
+        <section className="mb-4 flex items-center justify-between">
+          <div>
+            <Image
+              className="rounded-full mr-3 self-start inline-block"
+              src={profilePhoto}
+              alt="Nikola Mitic profile photo"
+              width={40}
+            />
+            <span className="text-gray-500">
+              <ClientDate date={tinyThought.createdAt} />
+            </span>
+          </div>
+          <button
+            onClick={() => {
+              setEditMode(!editMode);
+            }}
+          >
+            <EditIcon className=" w-4 h-4" />
+          </button>
+        </section>
+        {isLoggedIn ? (
+          <Tiptap
+            initialContent={tinyThought.content}
+            id={tinyThought.id}
+            updateTT={setData}
+            editMode={editMode}
+          />
+        ) : (
+          <section className="prose prose-invert max-w-none">
+            <Markdown className="text-white">
+              {tinyThought.content.markdown}
+            </Markdown>
+          </section>
+        )}
+      </div>
+    </article>
+  );
+};
 
 const TinyThoughtsList = ({
   tinyThoughts,
@@ -87,38 +141,15 @@ const TinyThoughtsList = ({
         </div>
       ) : null}
 
-      {data.map((tinyThought) => (
-        <article className="mx-auto max-w-xl border-[1px] p-4 flex">
-          <Image
-            className="rounded-full mr-3 self-start"
-            src={profilePhoto}
-            alt="Nikola Mitic profile photo"
-            width={40}
+      {data.map((tinyThought) => {
+        return (
+          <TinyThoughtsListItem
+            tinyThought={tinyThought}
+            isLoggedIn={isLoggedIn}
+            setData={setData}
           />
-          <div>
-            <section className="mb-4">
-              <span className="text-white text-xl">Nikola Mitic </span>
-              <span className="text-gray-500">@nmitic - </span>
-              <span className="text-gray-500">
-                <ClientDate date={tinyThought.createdAt} />
-              </span>
-            </section>
-            {isLoggedIn ? (
-              <Tiptap
-                initialContent={tinyThought.content}
-                id={tinyThought.id}
-                updateTT={setData}
-              />
-            ) : (
-              <section className="prose prose-invert max-w-none">
-                <Markdown className="text-white">
-                  {tinyThought.content.markdown}
-                </Markdown>
-              </section>
-            )}
-          </div>
-        </article>
-      ))}
+        );
+      })}
       <div ref={observerTarget as React.RefObject<HTMLDivElement>} />
     </div>
   );
