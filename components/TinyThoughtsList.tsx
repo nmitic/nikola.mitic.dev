@@ -79,6 +79,7 @@ const TinyThoughtsListItem = ({
             id={tinyThought.id}
             updateTT={setData}
             editMode={editMode}
+            setEditMode={setEditMode}
           />
         ) : (
           <section className="prose prose-invert max-w-none">

@@ -244,6 +244,7 @@ export default ({
   id,
   updateTT,
   editMode,
+  setEditMode,
 }: {
   initialContent: {
     html: string;
@@ -251,6 +252,7 @@ export default ({
   };
   id: string;
   updateTT: React.Dispatch<React.SetStateAction<tinyThought[]>>;
+  setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
   editMode: boolean;
 }) => {
   const router = useRouter();
