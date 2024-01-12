@@ -7,7 +7,6 @@ const nextConfig = {
     // with nextjs automatic static generation
     workerThreads: false,
     cpus: 1,
-    appDir: true,
   },
   images: {
     remotePatterns: [
