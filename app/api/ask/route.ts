@@ -2,7 +2,7 @@
 import fs from "fs/promises";
 import { GraphQLClient, gql } from "graphql-request";
 import { Document, VectorStoreIndex, jsonToNode, ObjectType } from "llamaindex";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 const client = new GraphQLClient(
   process.env.NEXT_PUBLIC_HYGRAPH_READ_ONLY as string
@@ -34,7 +34,15 @@ const jobsQuery = gql`
 `
 
 // To handle a GET request to /api
-export async function POST(request: Request) {
+export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  // get user query
+  const query = searchParams.get("query")
+
+  if (query === null || query === undefined) {
+    return NextResponse.json({ error: "Query parameter is missing" }, { status: 400 });
+  }
+
   // load jobs data
   const data = await client.request(jobsQuery)
 
@@ -47,7 +55,7 @@ export async function POST(request: Request) {
   // Query the index
   const queryEngine = index.asQueryEngine();
   const response = await queryEngine.query(
-    "What are Nikola's biggest frustration and how is he solving them?",
+    query
   );
 
 
