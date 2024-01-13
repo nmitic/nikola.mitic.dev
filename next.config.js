@@ -45,6 +45,14 @@ const nextConfig = {
       }
     );
 
+    // llama index: https://github.com/run-llama/LlamaIndexTS?tab=readme-ov-file
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      sharp$: false,
+      "onnxruntime-node$": false,
+      mongodb$: false,
+    };
+
     // Modify the file loader rule to ignore *.svg, since we have it handled now.
     fileLoaderRule.exclude = /\.svg$/i;
 
