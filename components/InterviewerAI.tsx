@@ -99,7 +99,7 @@ export const InterviewerAI = () => {
           initial={{ opacity: 0, scale: 1.3 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 1.1 }}
-          className="fixed overflow-y-scroll max-h-[50vh] bottom-8 right-8 left-8 md:left-auto md:w-[350px] font-mono z-50 bg-black rounded-lg border-2"
+          className="fixed overflow-y-scroll max-h-[50vh] bottom-8 right-8 left-8 md:left-auto md:w-[350px] font-mono z-[100] bg-black rounded-lg border-2"
         >
           <div className="relative pl-4 pr-4 pb-4 pt-10">
             <div
