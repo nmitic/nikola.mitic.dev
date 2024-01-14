@@ -8,13 +8,13 @@ const client = new GraphQLClient(
 );
 
 const jobsQuery = gql`
-  query Jobs {
+  query Jobs{
     page(where: {slug: "tiny-thoughts"}) {
       description {
         text
       }
     }
-    jobs {
+    jobs(orderBy: startDate_DESC)  {
       description {
         text
       }
