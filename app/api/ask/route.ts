@@ -1,6 +1,6 @@
 // example.ts
 import { GraphQLClient, gql } from "graphql-request";
-import { Document, VectorStoreIndex, jsonToNode, ObjectType } from "llamaindex";
+import { Document, VectorStoreIndex } from "llamaindex";
 import { NextRequest, NextResponse } from "next/server";
 
 const client = new GraphQLClient(
@@ -67,7 +67,7 @@ export async function GET(request: NextRequest) {
 
     const answer = await getAnswerFromQuestion(data, query)
 
-    return NextResponse.json({ response: answer }, { status: 200 });
+    return NextResponse.json({ answer: answer }, { status: 200 });
   } catch (error) {
     console.error("An unexpected error occurred:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
