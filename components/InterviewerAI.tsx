@@ -91,7 +91,7 @@ export const InterviewerAI = () => {
     setLoading(true);
     const formData = new FormData(event.currentTarget);
     try {
-      const answer = await fetchAnswer(formData.get("query"), true);
+      const answer = await fetchAnswer(formData.get("query"));
 
       setAnswer(answer);
       setQuestion("");
