@@ -149,7 +149,7 @@ export const InterviewerAI = () => {
                     </span>
                   ) : (
                     <>
-                      {!!answer.length ? (
+                      {!!answer?.length ? (
                         <span>{answer}</span>
                       ) : (
                         <span>
