@@ -65,7 +65,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Error in fetching jobs data" }, { status: 500 });
     }
 
-    const answer = await getAnswerFromQuestion(data, query)
+    const answer = await getAnswerFromQuestion(data, `When answering the following question pretend as if you are answering in the name of Nikola Mitic, he is the person which CV jobs and thoughts you have. If you do not have the answer simply respond with saying that you do not have the answer, do not mention context. Question is: ${query}`)
 
     return NextResponse.json({ answer: answer }, { status: 200 });
   } catch (error) {

@@ -70,7 +70,6 @@ export const InterviewerAI = () => {
       );
 
       setAnswer(answer);
-      setQuestion("");
       setLoading(false);
     } catch (error) {
       console.error(error);
