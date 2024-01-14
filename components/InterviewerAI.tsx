@@ -124,7 +124,7 @@ export const InterviewerAI = () => {
           initial={{ opacity: 0, scale: 1.3 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 1.1 }}
-          className="fixed bottom-8 right-8 w-[400px] font-mono z-50 bg-black rounded-lg border-2"
+          className="fixed bottom-8 right-8 left-8 md:left-auto md:w-[400px] font-mono z-50 bg-black rounded-lg border-2"
         >
           <div className="relative p-4">
             <div
