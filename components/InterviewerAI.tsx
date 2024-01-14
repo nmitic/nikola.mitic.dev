@@ -167,7 +167,7 @@ export const InterviewerAI = () => {
         <div className="fixed bottom-8 right-8">
           <div
             tabIndex={0}
-            className="absolute top-[-1rem] left-[-1rem] w-8 bg-black cursor-pointer"
+            className="absolute top-[-1rem] left-[-1rem] w-8 cursor-pointer"
             onClick={handleToggleVisibility}
           >
             <QuestionIcon />
