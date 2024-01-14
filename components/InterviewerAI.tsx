@@ -61,15 +61,18 @@ const AnswerView = ({ answer }: { answer: string }) => {
   }
   return (
     <p>
-      <Image
-        className="border-solid border-4 border-black rounded-full w-[30px] inline-block mr-2"
-        src={profilePhoto}
-        alt="Nikola Mitic profile photo"
-        placeholder="blur"
-        priority
-        width={30}
-      />
-      <span>{answer}</span>
+      <div>
+        <Image
+          className="border-solid border-4 border-black rounded-full w-[30px] inline-block mr-2"
+          src={profilePhoto}
+          alt="Nikola Mitic profile photo"
+          placeholder="blur"
+          priority
+          width={30}
+        />
+        <span className="align-middle">Nikola Mitic</span>
+      </div>
+      <div className="text-sm mt-3 ml-[38px]">{answer}</div>
     </p>
   );
 };
@@ -124,7 +127,7 @@ export const InterviewerAI = () => {
           initial={{ opacity: 0, scale: 1.3 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 1.1 }}
-          className="fixed bottom-8 right-8 left-8 md:left-auto md:w-[400px] font-mono z-50 bg-black rounded-lg border-2"
+          className="fixed bottom-8 right-8 left-8 md:left-auto md:w-[350px] font-mono z-50 bg-black rounded-lg border-2"
         >
           <div className="relative p-4">
             <div
@@ -134,12 +137,12 @@ export const InterviewerAI = () => {
             >
               <CloseIcon />
             </div>
-            <h1 className="mb-2">
+            <h1 className="mb-8">
               Have an AI answer question based on my CV, blog and portfolio! Ask
               anything.
             </h1>
             <form onSubmit={handleSubmit} ref={formRef}>
-              <div className="relative flex mb-4">
+              <div className="relative flex mb-8">
                 <textarea
                   rows={1}
                   className="w-full resize-none text-white bg-black border-2 pt-2 pb-2 pl-2 pr-8"
