@@ -9,7 +9,7 @@ import profilePhoto from "../public/profile_photo.jpeg";
 import { AnimatePresence, motion } from "framer-motion";
 
 // this will fake openai response so that while testing locally there is no request to payed service
-const TESTING_LOGIC_OUTSIDE_OF_OPEN_AI = true;
+const TESTING_LOGIC_OUTSIDE_OF_OPEN_AI = false;
 
 const fakeAnswer = (delay: number): Promise<string> => {
   return new Promise((resolve) => {
