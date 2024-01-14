@@ -45,23 +45,17 @@ const LoadingDots = () => {
 };
 
 const LoadingView = ({ loading }: { loading: boolean }) => {
-  if (!loading) {
-    return null;
-  }
   return (
-    <div>
+    <div className="mt-8">
       Give me some time, I am thinking <LoadingDots />
     </div>
   );
 };
 
 const AnswerView = ({ answer }: { answer: string }) => {
-  if (!answer.length) {
-    return null;
-  }
   return (
-    <p>
-      <div>
+    <p className="mt-8">
+      <>
         <Image
           className="border-solid border-4 border-black rounded-full w-[30px] inline-block mr-2"
           src={profilePhoto}
@@ -71,8 +65,8 @@ const AnswerView = ({ answer }: { answer: string }) => {
           width={30}
         />
         <span className="align-middle">Nikola Mitic</span>
-      </div>
-      <div className="text-sm mt-3 ml-[38px]">{answer}</div>
+      </>
+      <p className="text-sm mt-3 ml-[38px]">{answer}</p>
     </p>
   );
 };
@@ -142,7 +136,7 @@ export const InterviewerAI = () => {
               anything.
             </h1>
             <form onSubmit={handleSubmit} ref={formRef}>
-              <div className="relative flex mb-8">
+              <div className="relative flex">
                 <textarea
                   rows={1}
                   className="w-full resize-none text-white bg-black border-2 pt-2 pb-2 pl-2 pr-8"
@@ -160,8 +154,11 @@ export const InterviewerAI = () => {
                   <SendIcon className="w-6 h-6 text-white" />
                 </button>
               </div>
-              <LoadingView loading={loading} />
-              <AnswerView answer={answer} />
+              {loading ? (
+                <LoadingView loading={loading} />
+              ) : (
+                <>{!!answer.length && <AnswerView answer={answer} />}</>
+              )}
             </form>
           </div>
         </motion.div>
