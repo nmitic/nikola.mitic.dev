@@ -100,12 +100,12 @@ export const InterviewerAI = () => {
           initial={{ opacity: 0, scale: 1.3 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 1.1 }}
-          className="fixed bottom-8 right-8 left-8 md:left-auto md:w-[350px] font-mono z-50 bg-black rounded-lg border-2"
+          className="fixed overflow-y-scroll max-h-[50vh] bottom-8 right-8 left-8 md:left-auto md:w-[350px] font-mono z-50 bg-black rounded-lg border-2"
         >
-          <div className="relative p-4">
+          <div className="relative pl-4 pr-4 pb-4 pt-10">
             <div
               tabIndex={0}
-              className=" absolute top-[-1rem] left-[-1rem] w-8 bg-black cursor-pointer"
+              className="  absolute top-1 left-1 w-8 bg-black cursor-pointer"
               onClick={handleToggleVisibility}
             >
               <CloseIcon />
