@@ -8,6 +8,9 @@ import QuestionIcon from "../public/question.svg";
 import profilePhoto from "../public/profile_photo.jpeg";
 import { AnimatePresence, motion } from "framer-motion";
 
+// this will fake openai response so that while testing locally there is no request to payed service
+const TESTING_LOGIC_OUTSIDE_OF_OPEN_AI = true;
+
 const fakeAnswer = (delay: number): Promise<string> => {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -37,37 +40,10 @@ const fetchAnswer = async (
 const LoadingDots = () => {
   return (
     <div className=" inline-flex space-x-2 justify-center items-center">
-      <div className=" h-2 w-2 bg-white rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-      <div className="h-2 w-2 bg-white rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-      <div className="h-2 w-2 bg-white rounded-full animate-bounce"></div>
+      <div className=" h-1 w-1 bg-white rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+      <div className="h-1 w-1 bg-white rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+      <div className="h-1 w-1 bg-white rounded-full animate-bounce"></div>
     </div>
-  );
-};
-
-const LoadingView = ({ loading }: { loading: boolean }) => {
-  return (
-    <div className="mt-8">
-      Give me some time, I am thinking <LoadingDots />
-    </div>
-  );
-};
-
-const AnswerView = ({ answer }: { answer: string }) => {
-  return (
-    <p className="mt-8">
-      <>
-        <Image
-          className="border-solid border-4 border-black rounded-full w-[30px] inline-block mr-2"
-          src={profilePhoto}
-          alt="Nikola Mitic profile photo"
-          placeholder="blur"
-          priority
-          width={30}
-        />
-        <span className="align-middle">Nikola Mitic</span>
-      </>
-      <p className="text-sm mt-3 ml-[38px]">{answer}</p>
-    </p>
   );
 };
 
@@ -88,7 +64,10 @@ export const InterviewerAI = () => {
     setLoading(true);
     const formData = new FormData(event.currentTarget);
     try {
-      const answer = await fetchAnswer(formData.get("query"));
+      const answer = await fetchAnswer(
+        formData.get("query"),
+        TESTING_LOGIC_OUTSIDE_OF_OPEN_AI
+      );
 
       setAnswer(answer);
       setQuestion("");
@@ -131,10 +110,7 @@ export const InterviewerAI = () => {
             >
               <CloseIcon />
             </div>
-            <h1 className="mb-8">
-              Have an AI answer question based on my CV, blog and portfolio! Ask
-              anything.
-            </h1>
+            <h1 className="mb-8">Interview me now!</h1>
             <form onSubmit={handleSubmit} ref={formRef}>
               <div className="relative flex">
                 <textarea
@@ -154,11 +130,37 @@ export const InterviewerAI = () => {
                   <SendIcon className="w-6 h-6 text-white" />
                 </button>
               </div>
-              {loading ? (
-                <LoadingView loading={loading} />
-              ) : (
-                <>{answer?.length ? <AnswerView answer={answer} /> : null}</>
-              )}
+              <p className="mt-8">
+                <>
+                  <Image
+                    className="border-solid border-4 border-black rounded-full w-[30px] inline-block mr-2"
+                    src={profilePhoto}
+                    alt="Nikola Mitic profile photo"
+                    placeholder="blur"
+                    priority
+                    width={30}
+                  />
+                  <span className="align-middle">Nikola Mitic</span>
+                </>
+                <p className="text-sm mt-3 ml-[38px]">
+                  {loading ? (
+                    <span>
+                      I am thinking, give me some time <LoadingDots />
+                    </span>
+                  ) : (
+                    <>
+                      {!!answer.length ? (
+                        <span>{answer}</span>
+                      ) : (
+                        <span>
+                          Have an AI answer question based on my CV, blog and
+                          portfolio! Ask anything!
+                        </span>
+                      )}
+                    </>
+                  )}
+                </p>
+              </p>
             </form>
           </div>
         </motion.div>
