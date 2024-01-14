@@ -77,7 +77,7 @@ export const InterviewerAI = () => {
   const [question, setQuestion] = useState("");
   const [visible, setVisible] = useState(true);
   const formRef = useRef<HTMLFormElement | null>(null);
-  const submitButtonDisabled = loading || !question.length;
+  const submitButtonDisabled = loading || !question?.length;
 
   const handleToggleVisibility = () => {
     setVisible((prevVisible) => !prevVisible);
@@ -157,7 +157,7 @@ export const InterviewerAI = () => {
               {loading ? (
                 <LoadingView loading={loading} />
               ) : (
-                <>{!!answer.length && <AnswerView answer={answer} />}</>
+                <>{answer?.length && <AnswerView answer={answer} />}</>
               )}
             </form>
           </div>
