@@ -31,6 +31,20 @@ const jobsQuery = gql`
   }
   }
 `
+//llama index
+async function getAnswerFromQuestion(data: unknown, query: string) {
+  // Create Document object with essay
+  const document = new Document({ text: JSON.stringify(data) });
+
+  // Split text and create embeddings. Store them in a VectorStoreIndex
+  const index = await VectorStoreIndex.fromDocuments([document]);
+
+  // Query the index
+  const queryEngine = index.asQueryEngine();
+  const response = await queryEngine.query(query);
+
+  return response.response
+}
 
 // To handle a GET request to /api
 export async function GET(request: NextRequest) {
@@ -51,17 +65,9 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Error in fetching jobs data" }, { status: 500 });
     }
 
-    // Create Document object with essay
-    const document = new Document({ text: JSON.stringify(data) });
+    const answer = await getAnswerFromQuestion(data, query)
 
-    // Split text and create embeddings. Store them in a VectorStoreIndex
-    const index = await VectorStoreIndex.fromDocuments([document]);
-
-    // Query the index
-    const queryEngine = index.asQueryEngine();
-    const response = await queryEngine.query(query);
-
-    return NextResponse.json({ response: response.response }, { status: 200 });
+    return NextResponse.json({ response: answer }, { status: 200 });
   } catch (error) {
     console.error("An unexpected error occurred:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
