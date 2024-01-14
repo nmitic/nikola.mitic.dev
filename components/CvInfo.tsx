@@ -10,6 +10,7 @@ export const CvInfo = () => {
   return (
     <aside className="text-center mb-10  lg:col-span-2">
       <motion.div
+        key="cv-info"
         initial={{ opacity: 0, scale: 1.3 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.6 }}

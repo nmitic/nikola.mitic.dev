@@ -36,6 +36,7 @@ export const JobView = ({
       initial={{ opacity: 0, scale: 1.4 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.6 }}
+      key="job-article"
     >
       <div className="bg-current inline-block p-4 rounded-xl float-left mr-4 mb-4 w-full md:w-auto relative z-0 break-inside-avoid">
         <div
