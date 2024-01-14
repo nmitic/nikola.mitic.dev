@@ -157,7 +157,7 @@ export const InterviewerAI = () => {
               {loading ? (
                 <LoadingView loading={loading} />
               ) : (
-                <>{answer?.length && <AnswerView answer={answer} />}</>
+                <>{answer?.length ? <AnswerView answer={answer} /> : null}</>
               )}
             </form>
           </div>
