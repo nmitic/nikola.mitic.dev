@@ -15,16 +15,19 @@ const jobsQuery = gql`
       }
     }
     jobs(orderBy: startDate_DESC)  {
-      description {
+      job_description_and_responsibilities: description {
         text
       }
       companyName
-      endDate
-      startDate
-      techStackTools
-      title
+      companyWebsite
+      industry
+      location
+      date_when_you_started_working_here:startDate
+      date_when_you_ended_working_here:endDate
+      tools_programming_languages_frameworks_you_used_in_this_job:techStackTools
+      job_position_title: title
     }
-    tinyThoughts(first: 100) {
+    nikola_mitic_thoughts_on_various_subjects:tinyThoughts(first: 100) {
     content {
       text
     }
