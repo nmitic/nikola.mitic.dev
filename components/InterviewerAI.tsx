@@ -53,6 +53,7 @@ export const InterviewerAI = () => {
   const [answer, setAnswer] = useState("");
   const [question, setQuestion] = useState("");
   const [visible, setVisible] = useState(true);
+  const [error, setError] = useState(false);
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
   const submitButtonDisabled = loading || !question?.length;
@@ -76,6 +77,7 @@ export const InterviewerAI = () => {
       setAnswer(answer);
       setLoading(false);
     } catch (error) {
+      setError(true);
       console.error(error);
     }
   };
@@ -156,10 +158,25 @@ export const InterviewerAI = () => {
                       {!!answer?.length ? (
                         <span>{answer}</span>
                       ) : (
-                        <span>
-                          Have an AI answer question based on my CV, blog and
-                          portfolio! Ask anything!
-                        </span>
+                        <>
+                          {error ? (
+                            <span>
+                              Oppps, something went wrong with my AI clone, feel
+                              free to contact Niko directly{" "}
+                              <a
+                                href="mailto:nikola.mitic.dev@gmail.com"
+                                className="mr-2 hover:opacity-70 underline transition-opacity"
+                              >
+                                nikola.mitic.dev@gmail.com
+                              </a>
+                            </span>
+                          ) : (
+                            <span>
+                              Have an AI answer question based on my CV, blog
+                              and portfolio! Ask anything!
+                            </span>
+                          )}
+                        </>
                       )}
                     </>
                   )}
