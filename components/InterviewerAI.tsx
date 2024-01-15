@@ -103,15 +103,15 @@ export const InterviewerAI = () => {
           initial={{ opacity: 0, scale: 1.3 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 1.1 }}
-          className="fixed overflow-y-scroll max-h-[50vh] bottom-8 right-8 left-8 md:left-auto md:w-[350px] font-mono z-[100] bg-black rounded-lg border-2"
+          className="fixed bottom-8 right-8 left-8 md:left-auto md:w-[350px] font-mono z-[100] bg-black rounded-lg border-2"
         >
           <div className="relative pl-4 pr-4 pb-4 pt-10">
             <div
               tabIndex={0}
-              className="  absolute top-1 left-1 w-8 bg-black cursor-pointer"
+              className="  absolute top-[-1rem] left-[-1rem] w-8 cursor-pointer"
               onClick={handleToggleVisibility}
             >
-              <CloseIcon />
+              <CloseIcon className=" fill-black" />
             </div>
             <h1 className="mb-8">Interview me now!</h1>
             <form onSubmit={handleSubmit} ref={formRef}>
@@ -134,7 +134,7 @@ export const InterviewerAI = () => {
                   <SendIcon className="w-6 h-6 text-white" />
                 </button>
               </div>
-              <p className="mt-8">
+              <p className="mt-8 overflow-y-scroll max-h-[40vh]">
                 <>
                   <Image
                     className="border-solid border-4 border-black rounded-full w-[30px] inline-block mr-2"
