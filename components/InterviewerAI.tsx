@@ -7,6 +7,7 @@ import CloseIcon from "../public/close.svg";
 import QuestionIcon from "../public/question.svg";
 import profilePhoto from "../public/profile_photo.jpeg";
 import { AnimatePresence, motion } from "framer-motion";
+import useAutoSizeTextArea from "../hooks/useAutoResizeTextArea";
 
 // this will fake openai response so that while testing locally there is no request to payed service
 const TESTING_LOGIC_OUTSIDE_OF_OPEN_AI = false;
@@ -52,8 +53,11 @@ export const InterviewerAI = () => {
   const [answer, setAnswer] = useState("");
   const [question, setQuestion] = useState("");
   const [visible, setVisible] = useState(true);
+  const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
   const submitButtonDisabled = loading || !question?.length;
+
+  useAutoSizeTextArea(textAreaRef.current, question);
 
   const handleToggleVisibility = () => {
     setVisible((prevVisible) => !prevVisible);
@@ -114,6 +118,7 @@ export const InterviewerAI = () => {
               <div className="relative flex">
                 <textarea
                   rows={1}
+                  ref={textAreaRef}
                   className="w-full resize-none text-white bg-black border-2 pt-2 pb-2 pl-2 pr-8"
                   name="query"
                   value={question}
@@ -124,7 +129,7 @@ export const InterviewerAI = () => {
                 <button
                   type="submit"
                   disabled={submitButtonDisabled}
-                  className="absolute top-[50%] right-2 translate-y-[-50%] disabled:opacity-40"
+                  className="absolute bottom-2 right-2 disabled:opacity-40"
                 >
                   <SendIcon className="w-6 h-6 text-white" />
                 </button>
