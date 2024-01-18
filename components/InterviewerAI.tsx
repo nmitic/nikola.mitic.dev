@@ -9,9 +9,6 @@ import profilePhoto from "../public/profile_photo.jpeg";
 import { AnimatePresence, motion } from "framer-motion";
 import useAutoSizeTextArea from "../hooks/useAutoResizeTextArea";
 
-// this will fake openai response so that while testing locally there is no request to payed service
-const TESTING_LOGIC_OUTSIDE_OF_OPEN_AI = false;
-
 const fakeAnswer = (delay: number): Promise<string> => {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -20,22 +17,6 @@ const fakeAnswer = (delay: number): Promise<string> => {
       resolve(fakeData);
     }, delay);
   });
-};
-
-const fetchAnswer = async (
-  question: FormDataEntryValue | null,
-  fake = false
-) => {
-  if (fake) {
-    const answer = await fakeAnswer(2000);
-    return answer;
-  }
-
-  const response = await fetch(`/api/ask?query=${question}`);
-
-  const { answer } = await response.json();
-
-  return answer;
 };
 
 const LoadingDots = () => {
@@ -69,14 +50,18 @@ export const InterviewerAI = () => {
     setLoading(true);
     const formData = new FormData(event.currentTarget);
     try {
-      const answer = await fetchAnswer(
-        formData.get("query"),
-        TESTING_LOGIC_OUTSIDE_OF_OPEN_AI
-      );
+      const response = await fetch(`/api/ask?query=${formData.get("query")}`);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const { answer } = await response.json();
 
       setAnswer(answer);
       setLoading(false);
     } catch (error) {
+      setLoading(false);
       setError(true);
       console.error(error);
     }
