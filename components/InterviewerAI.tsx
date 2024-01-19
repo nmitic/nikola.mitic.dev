@@ -65,6 +65,7 @@ export const InterviewerAI = () => {
       const reader = response.body.getReader();
       const textDecoder = new TextDecoder();
       setLoading(false);
+      setAnswer("");
 
       while (true) {
         const { done, value } = await reader.read();
