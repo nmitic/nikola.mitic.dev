@@ -3,8 +3,6 @@ import { GraphQLClient, gql } from "graphql-request";
 import { Document, VectorStoreIndex } from "llamaindex";
 import { NextRequest, NextResponse } from "next/server";
 
-export const runtime = "edge";
-
 const client = new GraphQLClient(
   process.env.NEXT_PUBLIC_HYGRAPH_READ_ONLY as string
 );
