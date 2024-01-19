@@ -56,10 +56,27 @@ export const InterviewerAI = () => {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      const { answer } = await response.json();
+      // Check if the Response object has a ReadableStream as its body
+      if (!response.body || !response.body.getReader) {
+        console.error("Streaming not supported in this environment.");
+        return;
+      }
 
-      setAnswer(answer);
+      const reader = response.body.getReader();
+      const textDecoder = new TextDecoder();
       setLoading(false);
+
+      while (true) {
+        const { done, value } = await reader.read();
+
+        if (done) {
+          console.log("End of stream");
+          break;
+        }
+        const decodedText = textDecoder.decode(value);
+        console.log("Received chunk:", decodedText);
+        setAnswer((prevAnswer) => prevAnswer + decodedText);
+      }
     } catch (error) {
       setLoading(false);
       setError(true);

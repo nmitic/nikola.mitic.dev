@@ -34,26 +34,12 @@ const jobsQuery = gql`
     }
   }
 `;
-//llama index
-async function getAnswerFromQuestion(data: unknown, query: string) {
-  // Create Document object with essay
-  const document = new Document({ text: JSON.stringify(data) });
-
-  // Split text and create embeddings. Store them in a VectorStoreIndex
-  const index = await VectorStoreIndex.fromDocuments([document]);
-
-  // Query the index
-  const queryEngine = index.asQueryEngine();
-  const response = await queryEngine.query({ query });
-
-  return response.response;
-}
 
 // To handle a GET request to /api
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    // get user query
+    // // get user query
     const query = searchParams.get("query");
 
     if (query === null || query === undefined) {
@@ -73,13 +59,35 @@ export async function GET(request: NextRequest) {
         { status: 500 }
       );
     }
+    // Create Document object with essay
+    const document = new Document({ text: JSON.stringify(data) });
 
-    const answer = await getAnswerFromQuestion(
-      JSON.stringify(data),
-      `Answer the following question: ${query}. Rules: You are Nikola Mitic, answers related to work experience is to be found under jobs data, be very straight forward of your answers, question will be asked to Nikola Mitic.`
-    );
+    // Split text and create embeddings. Store them in a VectorStoreIndex
+    const index = await VectorStoreIndex.fromDocuments([document]);
 
-    return NextResponse.json({ answer: answer }, { status: 200 });
+    // Query the index
+    const queryEngine = index.asQueryEngine();
+
+    const chunks = await queryEngine.query({ query, stream: true });
+
+    const stream = new ReadableStream({
+      async start(controller) {
+        const encoder = new TextEncoder();
+
+        for await (const chunk of chunks) {
+          controller.enqueue(encoder.encode(chunk.response));
+        }
+
+        controller.close();
+      },
+    });
+
+    return new Response(stream, {
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+      },
+    });
   } catch (error) {
     console.error("An unexpected error occurred:", error);
     return NextResponse.json(
