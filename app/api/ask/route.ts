@@ -8,13 +8,13 @@ const client = new GraphQLClient(
 );
 
 const jobsQuery = gql`
-  query Jobs{
-    page(where: {slug: "tiny-thoughts"}) {
+  query Jobs {
+    page(where: { slug: "tiny-thoughts" }) {
       description {
         text
       }
     }
-    jobs(orderBy: startDate_DESC)  {
+    jobs(orderBy: startDate_DESC) {
       job_description_and_responsibilities: description {
         text
       }
@@ -22,18 +22,18 @@ const jobsQuery = gql`
       companyWebsite
       industry
       location
-      date_when_you_started_working_here:startDate
-      date_when_you_ended_working_here:endDate
-      tools_programming_languages_frameworks_you_used_in_this_job:techStackTools
+      date_when_you_started_working_here: startDate
+      date_when_you_ended_working_here: endDate
+      tools_programming_languages_frameworks_you_used_in_this_job: techStackTools
       job_position_title: title
     }
-    nikola_mitic_thoughts_on_various_subjects:tinyThoughts(first: 100) {
-    content {
-      text
+    nikola_mitic_thoughts_on_various_subjects: tinyThoughts(first: 100) {
+      content {
+        text
+      }
     }
   }
-  }
-`
+`;
 //llama index
 async function getAnswerFromQuestion(data: unknown, query: string) {
   // Create Document object with essay
@@ -44,9 +44,9 @@ async function getAnswerFromQuestion(data: unknown, query: string) {
 
   // Query the index
   const queryEngine = index.asQueryEngine();
-  const response = await queryEngine.query(query);
+  const response = await queryEngine.query({ query });
 
-  return response.response
+  return response.response;
 }
 
 // To handle a GET request to /api
@@ -57,7 +57,10 @@ export async function GET(request: NextRequest) {
     const query = searchParams.get("query");
 
     if (query === null || query === undefined) {
-      return NextResponse.json({ error: "Query parameter is missing" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Query parameter is missing" },
+        { status: 400 }
+      );
     }
 
     // load jobs data
@@ -65,14 +68,23 @@ export async function GET(request: NextRequest) {
 
     // Check if the data is empty or not in the expected format
     if (!data) {
-      return NextResponse.json({ error: "Error in fetching jobs data" }, { status: 500 });
+      return NextResponse.json(
+        { error: "Error in fetching jobs data" },
+        { status: 500 }
+      );
     }
 
-    const answer = await getAnswerFromQuestion(JSON.stringify(data), `Answer the following question: ${query}. Rules: You are Nikola Mitic, answers related to work experience is to be found under jobs data, be very straight forward of your answers, question will be asked to Nikola Mitic.`)
+    const answer = await getAnswerFromQuestion(
+      JSON.stringify(data),
+      `Answer the following question: ${query}. Rules: You are Nikola Mitic, answers related to work experience is to be found under jobs data, be very straight forward of your answers, question will be asked to Nikola Mitic.`
+    );
 
     return NextResponse.json({ answer: answer }, { status: 200 });
   } catch (error) {
     console.error("An unexpected error occurred:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }
