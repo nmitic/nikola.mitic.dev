@@ -68,7 +68,10 @@ export async function GET(request: NextRequest) {
     // Query the index
     const queryEngine = index.asQueryEngine();
 
-    const chunks = await queryEngine.query({ query, stream: true });
+    const chunks = await queryEngine.query({
+      query: `Answer the following question: ${query}. Rules: You are Nikola Mitic, answers related to work experience is to be found under jobs data, be very straight forward of your answers, question will be asked to Nikola Mitic.`,
+      stream: true,
+    });
 
     const stream = new ReadableStream({
       async start(controller) {
