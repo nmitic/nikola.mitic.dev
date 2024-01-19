@@ -121,7 +121,7 @@ export const InterviewerAI = () => {
                   <SendIcon className="w-6 h-6 text-white" />
                 </button>
               </div>
-              <p className="mt-8 overflow-y-scroll max-h-[40vh]">
+              <div className="mt-8 overflow-y-scroll max-h-[40vh]">
                 <>
                   <Image
                     className="border-solid border-4 border-black rounded-full w-[30px] inline-block mr-2"
@@ -133,7 +133,7 @@ export const InterviewerAI = () => {
                   />
                   <span className="align-middle">Nikola Mitic</span>
                 </>
-                <p className="text-sm mt-3 ml-[38px]">
+                <div className="text-sm mt-3 ml-[38px]">
                   {loading ? (
                     <span>
                       I am thinking, give me some time <LoadingDots />
@@ -165,8 +165,8 @@ export const InterviewerAI = () => {
                       )}
                     </>
                   )}
-                </p>
-              </p>
+                </div>
+              </div>
             </form>
           </div>
         </motion.div>
