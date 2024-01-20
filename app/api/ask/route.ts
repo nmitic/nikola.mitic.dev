@@ -1,6 +1,10 @@
 // example.ts
 import { GraphQLClient, gql } from "graphql-request";
-import { Document, VectorStoreIndex } from "llamaindex";
+import {
+  Document,
+  VectorStoreIndex,
+  storageContextFromDefaults,
+} from "llamaindex";
 import { NextRequest, NextResponse } from "next/server";
 
 const client = new GraphQLClient(
@@ -61,9 +65,13 @@ export async function GET(request: NextRequest) {
     }
     // Create Document object with essay
     const document = new Document({ text: JSON.stringify(data) });
-
+    const storageContext = await storageContextFromDefaults({
+      persistDir: "./app/api/ask/storage",
+    });
     // Split text and create embeddings. Store them in a VectorStoreIndex
-    const index = await VectorStoreIndex.fromDocuments([document]);
+    const index = await VectorStoreIndex.fromDocuments([document], {
+      storageContext,
+    });
 
     // Query the index
     const queryEngine = index.asQueryEngine();
