@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+const CopyPlugin = require('copy-webpack-plugin')
+
 const nextConfig = {
   reactStrictMode: true,
   experimental: {
@@ -52,6 +54,17 @@ const nextConfig = {
       "onnxruntime-node$": false,
       mongodb$: false,
     };
+
+       config.plugins.push(
+            new CopyPlugin({
+                patterns: [
+                    {
+                        from: './app/storage',
+                        to: './server/app/storage',
+                    },
+                ],
+            })
+        )
 
     // Modify the file loader rule to ignore *.svg, since we have it handled now.
     fileLoaderRule.exclude = /\.svg$/i;
