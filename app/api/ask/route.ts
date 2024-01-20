@@ -66,7 +66,7 @@ export async function GET(request: NextRequest) {
     // Create Document object with essay
     const document = new Document({ text: JSON.stringify(data) });
     const storageContext = await storageContextFromDefaults({
-      persistDir: "./app/api/ask/storage",
+      persistDir: "./public/storage",
     });
     // Split text and create embeddings. Store them in a VectorStoreIndex
     const index = await VectorStoreIndex.fromDocuments([document], {
