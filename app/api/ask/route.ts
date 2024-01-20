@@ -6,12 +6,12 @@ import {
   storageContextFromDefaults,
 } from "llamaindex";
 import { NextRequest, NextResponse } from "next/server";
-import doc_store from "./storage/doc_store.json";
+import path from "path";
 
 // Force files to be bundled
-import index_store from "./storage/index_store.json";
-import vector_store from "./storage/vector_store.json";
-console.log(doc_store, index_store, vector_store);
+const doc_store = path.resolve("./storage/doc_store.json");
+const index_store = path.resolve("./storage/index_store.json");
+const vector_store = path.resolve("./storage/vector_store.json");
 
 const client = new GraphQLClient(
   process.env.NEXT_PUBLIC_HYGRAPH_READ_ONLY as string
@@ -72,7 +72,7 @@ export async function GET(request: NextRequest) {
     // Create Document object with essay
     const document = new Document({ text: JSON.stringify(data) });
     const storageContext = await storageContextFromDefaults({
-      persistDir: "./app/api/ask/storage",
+      persistDir: "./storage",
     });
     // Split text and create embeddings. Store them in a VectorStoreIndex
     const index = await VectorStoreIndex.fromDocuments([document], {
