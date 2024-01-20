@@ -6,7 +6,6 @@ import {
   storageContextFromDefaults,
 } from "llamaindex";
 import { NextRequest, NextResponse } from "next/server";
-import { promises as fs } from "fs";
 
 const client = new GraphQLClient(
   process.env.NEXT_PUBLIC_HYGRAPH_READ_ONLY as string
@@ -42,9 +41,6 @@ const jobsQuery = gql`
 
 // To handle a GET request to /api
 export async function GET(request: NextRequest) {
-  await fs.readFile(process.cwd() + "/app/storage/doc_store.json", "utf8");
-  await fs.readFile(process.cwd() + "/app/storage/index_store.json", "utf8");
-  await fs.readFile(process.cwd() + "/app/storage/vector_store.json", "utf8");
   try {
     const { searchParams } = new URL(request.url);
     // // get user query
