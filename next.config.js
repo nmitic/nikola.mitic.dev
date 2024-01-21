@@ -60,8 +60,8 @@ const nextConfig = {
           new CopyPlugin({
               patterns: [
                   {
-                    from: path.join(__dirname, '/app/storage'),
-                    to: 'server/storage'
+                    from: path.join(__dirname, 'public/llama-index-storage'),
+                    to: 'public/llama-index-storage'
                   },
               ],
           })
