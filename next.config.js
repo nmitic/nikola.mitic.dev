@@ -60,7 +60,7 @@ const nextConfig = {
                 patterns: [
                     {
                         from: './app/storage',
-                        to: './server/app/storage',
+                        to: './app/storage',
                     },
                 ],
             })
