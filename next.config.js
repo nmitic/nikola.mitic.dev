@@ -56,17 +56,6 @@ const nextConfig = {
       mongodb$: false,
     };
 
-      config.plugins.push(
-          new CopyPlugin({
-              patterns: [
-                  {
-                    from: path.join(__dirname, 'public/llama-index-storage'),
-                    to: 'public/llama-index-storage'
-                  },
-              ],
-          })
-      )
-
     // Modify the file loader rule to ignore *.svg, since we have it handled now.
     fileLoaderRule.exclude = /\.svg$/i;
 
