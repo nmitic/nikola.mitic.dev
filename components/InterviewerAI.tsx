@@ -21,10 +21,10 @@ const fakeAnswer = (delay: number): Promise<string> => {
 
 const LoadingDots = () => {
   return (
-    <div className=" inline-flex space-x-2 justify-center items-center">
-      <div className=" h-1 w-1 bg-white rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-      <div className="h-1 w-1 bg-white rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-      <div className="h-1 w-1 bg-white rounded-full animate-bounce"></div>
+    <div className=" inline-flex items-center justify-center space-x-2">
+      <div className=" h-1 w-1 animate-bounce rounded-full bg-white [animation-delay:-0.3s]"></div>
+      <div className="h-1 w-1 animate-bounce rounded-full bg-white [animation-delay:-0.15s]"></div>
+      <div className="h-1 w-1 animate-bounce rounded-full bg-white"></div>
     </div>
   );
 };
@@ -50,7 +50,9 @@ export const InterviewerAI = () => {
     setLoading(true);
     const formData = new FormData(event.currentTarget);
     try {
-      const response = await fetch(`/api/ask?query=${formData.get("query")}`);
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_AI_INTERVIEWER_SERVICE}?question=${formData.get("query")}`,
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -108,12 +110,12 @@ export const InterviewerAI = () => {
           initial={{ opacity: 0, scale: 1.3 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 1.1 }}
-          className="fixed bottom-8 right-8 left-8 md:left-auto md:w-[350px] font-mono z-[100] bg-black rounded-lg border-2"
+          className="fixed bottom-8 left-8 right-8 z-[100] rounded-lg border-2 bg-black font-mono md:left-auto md:w-[350px]"
         >
-          <div className="relative pl-4 pr-4 pb-4 pt-10">
+          <div className="relative pb-4 pl-4 pr-4 pt-10">
             <div
               tabIndex={0}
-              className="  absolute top-[-1rem] left-[-1rem] w-8 cursor-pointer"
+              className="  absolute left-[-1rem] top-[-1rem] w-8 cursor-pointer"
               onClick={handleToggleVisibility}
             >
               <CloseIcon className=" fill-black" />
@@ -124,7 +126,7 @@ export const InterviewerAI = () => {
                 <textarea
                   rows={1}
                   ref={textAreaRef}
-                  className="w-full resize-none text-white bg-black border-2 pt-2 pb-2 pl-2 pr-8"
+                  className="w-full resize-none border-2 bg-black pb-2 pl-2 pr-8 pt-2 text-white"
                   name="query"
                   value={question}
                   onChange={handleQuestionChange}
@@ -136,13 +138,13 @@ export const InterviewerAI = () => {
                   disabled={submitButtonDisabled}
                   className="absolute bottom-2 right-2 disabled:opacity-40"
                 >
-                  <SendIcon className="w-6 h-6 text-white" />
+                  <SendIcon className="h-6 w-6 text-white" />
                 </button>
               </div>
-              <div className="mt-8 overflow-y-scroll max-h-[40vh]">
+              <div className="mt-8 max-h-[40vh] overflow-y-scroll">
                 <>
                   <Image
-                    className="border-solid border-4 border-black rounded-full w-[30px] inline-block mr-2"
+                    className="mr-2 inline-block w-[30px] rounded-full border-4 border-solid border-black"
                     src={profilePhoto}
                     alt="Nikola Mitic profile photo"
                     placeholder="blur"
@@ -151,7 +153,7 @@ export const InterviewerAI = () => {
                   />
                   <span className="align-middle">Nikola Mitic</span>
                 </>
-                <div className="text-sm mt-3 ml-[38px]">
+                <div className="ml-[38px] mt-3 text-sm">
                   {loading ? (
                     <span>
                       I am thinking, give me some time <LoadingDots />
@@ -168,7 +170,7 @@ export const InterviewerAI = () => {
                               free to contact Niko directly{" "}
                               <a
                                 href="mailto:nikola.mitic.dev@gmail.com"
-                                className="mr-2 hover:opacity-70 underline transition-opacity"
+                                className="mr-2 underline transition-opacity hover:opacity-70"
                               >
                                 nikola.mitic.dev@gmail.com
                               </a>
@@ -192,7 +194,7 @@ export const InterviewerAI = () => {
         <div className="fixed bottom-8 right-8">
           <div
             tabIndex={0}
-            className="absolute top-[-1rem] left-[-1rem] w-8 cursor-pointer"
+            className="absolute left-[-1rem] top-[-1rem] w-8 cursor-pointer"
             onClick={handleToggleVisibility}
           >
             <QuestionIcon />
