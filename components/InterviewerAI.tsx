@@ -90,7 +90,11 @@ export const InterviewerAI = () => {
     let progressMsgsIndex = 1;
     const loadingMsgIntervalIdReference = window.setInterval(() => {
       setLoadingMsg(progressMsgs[progressMsgsIndex]);
-      progressMsgsIndex++;
+      if (progressMsgsIndex >= progressMsgs.length) {
+        progressMsgsIndex = 0;
+      } else {
+        progressMsgsIndex++;
+      }
     }, 3200);
     setLoadingMsgInterval(loadingMsgIntervalIdReference);
 
