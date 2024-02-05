@@ -8,7 +8,7 @@ import QuestionIcon from "../public/question.svg";
 import profilePhoto from "../public/profile_photo.jpeg";
 import { AnimatePresence, motion } from "framer-motion";
 import useAutoSizeTextArea from "../hooks/useAutoResizeTextArea";
-
+import { v4 as uuidv4 } from "uuid";
 const fakeAnswer = (delay: number): Promise<string> => {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -63,15 +63,49 @@ const LoadingDots = () => {
   );
 };
 
+type ChatHistory = {
+  question: string;
+  answer: string;
+  id: string;
+}[];
+
+type ChatItem = {
+  loading: boolean;
+  answer: string;
+  question: string;
+};
+
+const ChatItem = ({ answer, question }: ChatItem) => {
+  return (
+    <>
+      <div>{question}</div>
+      {!!answer ? (
+        <>
+          <Image
+            className="mr-2 inline-block w-[30px] rounded-full border-4 border-solid border-black"
+            src={profilePhoto}
+            alt="Nikola Mitic profile photo"
+            placeholder="blur"
+            priority
+            width={30}
+          />
+          <span className="align-middle">Nikola Mitic</span>
+          <div className="ml-[38px] mt-3 text-sm">
+            <span>{answer}</span>
+          </div>
+        </>
+      ) : null}
+    </>
+  );
+};
+
 export const InterviewerAI = () => {
   const [loading, setLoading] = useState(false);
-  const [answer, setAnswer] = useState("");
+  const [streamedAnswer, setStreamedAnswer] = useState("");
   const [question, setQuestion] = useState("");
   const [visible, setVisible] = useState(true);
+  const [chatHistory, setChatHistory] = useState<ChatHistory>([]);
   const [error, setError] = useState(false);
-  const [loadingMsgIntervalId, setLoadingMsgInterval] = useState<
-    number | undefined
-  >(undefined);
   const [loadingMsg, setLoadingMsg] = useState(progressMsgs[0]);
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
@@ -86,6 +120,13 @@ export const InterviewerAI = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
+    setQuestion("");
+
+    const chatItemId = uuidv4();
+    setChatHistory((prev) => [
+      ...prev,
+      { question: question, answer: "", id: chatItemId },
+    ]);
 
     let progressMsgsIndex = 1;
     const loadingMsgIntervalIdReference = window.setInterval(() => {
@@ -96,12 +137,10 @@ export const InterviewerAI = () => {
         progressMsgsIndex++;
       }
     }, 3200);
-    setLoadingMsgInterval(loadingMsgIntervalIdReference);
 
-    const formData = new FormData(event.currentTarget);
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_AI_INTERVIEWER_SERVICE}?question=${formData.get("query")}`,
+        `${process.env.NEXT_PUBLIC_AI_INTERVIEWER_SERVICE}?question=${question}`,
       );
 
       if (!response.ok) {
@@ -117,20 +156,34 @@ export const InterviewerAI = () => {
       const reader = response.body.getReader();
       const textDecoder = new TextDecoder();
       setLoading(false);
-      window.clearInterval(loadingMsgIntervalId);
-      setAnswer("");
+      window.clearInterval(loadingMsgIntervalIdReference);
+      setStreamedAnswer("");
+
+      let fullDecodedAnswer = "";
 
       while (true) {
         const { done, value } = await reader.read();
-
         if (done) {
           console.log("End of stream");
+          // setStreamedAnswer("");
+
           break;
         }
         const decodedText = textDecoder.decode(value);
+
         console.log("Received chunk:", decodedText);
-        setAnswer((prevAnswer) => prevAnswer + decodedText);
+        fullDecodedAnswer = fullDecodedAnswer + decodedText;
+
+        setStreamedAnswer((prevAnswer) => prevAnswer + decodedText);
       }
+      setChatHistory((prev) =>
+        prev.map((item) => {
+          if (item.id === chatItemId) {
+            return { ...item, answer: fullDecodedAnswer };
+          }
+          return item;
+        }),
+      );
     } catch (error) {
       setLoading(false);
       setError(true);
@@ -173,6 +226,17 @@ export const InterviewerAI = () => {
             </div>
             <h1 className="mb-8">Interview my AI clone!</h1>
             <form onSubmit={handleSubmit} ref={formRef}>
+              <div className="mt-8 max-h-[40vh] overflow-y-scroll">
+                {chatHistory.map(({ answer, question, id }) => {
+                  return (
+                    <ChatItem
+                      key={id}
+                      answer={answer.length > 0 ? answer : streamedAnswer}
+                      question={question}
+                    />
+                  );
+                })}
+              </div>
               <div className="relative flex">
                 <textarea
                   rows={1}
@@ -191,52 +255,6 @@ export const InterviewerAI = () => {
                 >
                   <SendIcon className="h-6 w-6 text-white" />
                 </button>
-              </div>
-              <div className="mt-8 max-h-[40vh] overflow-y-scroll">
-                <>
-                  <Image
-                    className="mr-2 inline-block w-[30px] rounded-full border-4 border-solid border-black"
-                    src={profilePhoto}
-                    alt="Nikola Mitic profile photo"
-                    placeholder="blur"
-                    priority
-                    width={30}
-                  />
-                  <span className="align-middle">Nikola Mitic</span>
-                </>
-                <div className="ml-[38px] mt-3 text-sm">
-                  {loading ? (
-                    <span>
-                      {loadingMsg} <LoadingDots />
-                    </span>
-                  ) : (
-                    <>
-                      {!!answer?.length ? (
-                        <span>{answer}</span>
-                      ) : (
-                        <>
-                          {error ? (
-                            <span>
-                              Oppps, something went wrong with my AI clone, feel
-                              free to contact Niko directly{" "}
-                              <a
-                                href="mailto:nikola.mitic.dev@gmail.com"
-                                className="mr-2 underline transition-opacity hover:opacity-70"
-                              >
-                                nikola.mitic.dev@gmail.com
-                              </a>
-                            </span>
-                          ) : (
-                            <span>
-                              Have an AI answer question based on my CV, blog
-                              and portfolio! Ask anything!
-                            </span>
-                          )}
-                        </>
-                      )}
-                    </>
-                  )}
-                </div>
               </div>
             </form>
           </div>
