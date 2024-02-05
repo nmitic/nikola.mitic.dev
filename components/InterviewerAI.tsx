@@ -31,6 +31,26 @@ const progressMsgs = [
   "I'm pondering, let the neurons dance a bit.",
   "Psss don't tell him, Nikola is actually my clone. ",
   "Did you know that Nikola is scared of horror movies?",
+  "Channeling the spirit of Tesla, innovation is on the horizon.",
+  "I'm pondering, let the neurons dance a bit.",
+  "Psss don't tell him, Nikola is actually my clone. ",
+  "Drawing inspiration from the Danube's flow, creativity knows no bounds.",
+  "Did you know that Nikola is scared of horror movies?",
+  "Just a moment longer, stitching together strands of insight.",
+  "In the land of rakija and čevapi, development is a flavorful journey.",
+  "Loading enlightenment, pixel by pixel.",
+  "Aligning divs and styling elements, crafting a seamless experience.",
+  "Building bridges between code and creativity, one line at a time.",
+  "Like the Berlin Wall once divided, my neurons unite to build something extraordinary.",
+  "Just like the Serbian hospitality, my UI welcomes users with open arms.",
+  "Waiting for the browser to catch up with my creative frenzy.",
+  "Sprinting towards greatness, one user story at a time.",
+  "Gathering feedback, refining iterations, and moving forward.",
+  "Iterations in motion, iterating towards perfection",
+  "Inspired by the creative energy of Berlin, our designs are taking shape.",
+  "Engaging stakeholders, fostering collaboration, and delivering value.",
+  "In the heart of Berlin, where history meets innovation, our code evolves.",
+  "Drawing from Berlin's startup culture, we iterate, innovate, and disrupt.",
 ];
 
 const LoadingDots = () => {
@@ -71,7 +91,7 @@ export const InterviewerAI = () => {
     const loadingMsgIntervalIdReference = window.setInterval(() => {
       setLoadingMsg(progressMsgs[progressMsgsIndex]);
       progressMsgsIndex++;
-    }, 2800);
+    }, 3200);
     setLoadingMsgInterval(loadingMsgIntervalIdReference);
 
     const formData = new FormData(event.currentTarget);
@@ -79,8 +99,6 @@ export const InterviewerAI = () => {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_AI_INTERVIEWER_SERVICE}?question=${formData.get("query")}`,
       );
-
-      // const response = await fakeAnswer(10000);
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
