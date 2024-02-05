@@ -70,15 +70,14 @@ type ChatHistory = {
 }[];
 
 type ChatItem = {
-  loading: boolean;
   answer: string;
   question: string;
 };
 
 const ChatItem = ({ answer, question }: ChatItem) => {
   return (
-    <>
-      <div>{question}</div>
+    <div className="mb-8">
+      <p className="mb-4 text-right">{question}</p>
       {!!answer ? (
         <>
           <Image
@@ -90,12 +89,12 @@ const ChatItem = ({ answer, question }: ChatItem) => {
             width={30}
           />
           <span className="align-middle">Nikola Mitic</span>
-          <div className="ml-[38px] mt-3 text-sm">
-            <span>{answer}</span>
-          </div>
+          <p className="ml-[38px] mt-3">{answer}</p>
         </>
-      ) : null}
-    </>
+      ) : (
+        <LoadingDots />
+      )}
+    </div>
   );
 };
 
@@ -226,7 +225,7 @@ export const InterviewerAI = () => {
             </div>
             <h1 className="mb-8">Interview my AI clone!</h1>
             <form onSubmit={handleSubmit} ref={formRef}>
-              <div className="mt-8 max-h-[40vh] overflow-y-scroll">
+              <div className="mt-8 flex max-h-[40vh] flex-col-reverse overflow-y-scroll">
                 {chatHistory.map(({ answer, question, id }) => {
                   return (
                     <ChatItem
