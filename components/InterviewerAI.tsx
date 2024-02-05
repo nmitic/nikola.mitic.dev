@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import SendIcon from "../public/send.svg";
 import CloseIcon from "../public/close.svg";
@@ -19,6 +19,20 @@ const fakeAnswer = (delay: number): Promise<string> => {
   });
 };
 
+const progressMsgs = [
+  "I am thinking, give me some time",
+  "AI Clone needs a warm-up! Be patient, its gears are stretching.",
+  "In all honesty, Nikola is just being cheap and it takes time to spin up the server he is hosting me on! What guy!",
+  "I'm brewing some genius here. Processing ",
+  "Please wait a tick. Loading brilliance ",
+  "Did you know that Nikola played Rugby in his high school, and know all about the scrum and its origin?",
+  "Brain cells are on the move! Wait for the magic.",
+  "Almost there, I promise it will be worth the wait",
+  "I'm pondering, let the neurons dance a bit.",
+  "Psss don't tell him, Nikola is actually my clone. ",
+  "Did you know that Nikola is scared of horror movies?",
+];
+
 const LoadingDots = () => {
   return (
     <div className=" inline-flex items-center justify-center space-x-2">
@@ -35,6 +49,10 @@ export const InterviewerAI = () => {
   const [question, setQuestion] = useState("");
   const [visible, setVisible] = useState(true);
   const [error, setError] = useState(false);
+  const [loadingMsgIntervalId, setLoadingMsgInterval] = useState<
+    number | undefined
+  >(undefined);
+  const [loadingMsg, setLoadingMsg] = useState(progressMsgs[0]);
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
   const submitButtonDisabled = loading || !question?.length;
@@ -48,11 +66,21 @@ export const InterviewerAI = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
+
+    let progressMsgsIndex = 1;
+    const loadingMsgIntervalIdReference = window.setInterval(() => {
+      setLoadingMsg(progressMsgs[progressMsgsIndex]);
+      progressMsgsIndex++;
+    }, 2800);
+    setLoadingMsgInterval(loadingMsgIntervalIdReference);
+
     const formData = new FormData(event.currentTarget);
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_AI_INTERVIEWER_SERVICE}?question=${formData.get("query")}`,
       );
+
+      // const response = await fakeAnswer(10000);
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -67,6 +95,7 @@ export const InterviewerAI = () => {
       const reader = response.body.getReader();
       const textDecoder = new TextDecoder();
       setLoading(false);
+      window.clearInterval(loadingMsgIntervalId);
       setAnswer("");
 
       while (true) {
@@ -110,7 +139,7 @@ export const InterviewerAI = () => {
           initial={{ opacity: 0, scale: 1.3 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 1.1 }}
-          className="fixed bottom-8 left-8 right-8 z-[100] rounded-lg border-2 bg-black font-mono md:left-auto md:w-[350px]"
+          className="fixed left-8 right-8 top-20 z-[100] rounded-lg border-2 bg-black font-mono md:left-auto md:w-[450px]"
         >
           <div className="relative pb-4 pl-4 pr-4 pt-10">
             <div
@@ -120,7 +149,7 @@ export const InterviewerAI = () => {
             >
               <CloseIcon className=" fill-black" />
             </div>
-            <h1 className="mb-8">Interview me now!</h1>
+            <h1 className="mb-8">Interview my AI clone!</h1>
             <form onSubmit={handleSubmit} ref={formRef}>
               <div className="relative flex">
                 <textarea
@@ -156,7 +185,7 @@ export const InterviewerAI = () => {
                 <div className="ml-[38px] mt-3 text-sm">
                   {loading ? (
                     <span>
-                      I am thinking, give me some time <LoadingDots />
+                      {loadingMsg} <LoadingDots />
                     </span>
                   ) : (
                     <>
