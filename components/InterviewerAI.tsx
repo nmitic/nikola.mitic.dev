@@ -109,9 +109,13 @@ export const InterviewerAI = () => {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    // Clear form input value for question
     setQuestion("");
-
+    // Resets streamed answer as its value will only show to the user once stream flag is set to true
+    setStreamedAnswer("");
+    // Generate unique ID
     const chatItemId = uuidv4();
+    // Indicates the user that request to fetch the answer is made
     setChatHistory((prev) => [
       ...prev,
       {
@@ -123,6 +127,7 @@ export const InterviewerAI = () => {
       },
     ]);
 
+    // Sets interval that will update progress message to show the user in case initial request takes more time
     let progressMsgsIndex = 1;
     const loadingMsgIntervalIdReference = window.setInterval(() => {
       setLoadingMsg(progressMsgs[progressMsgsIndex]);
@@ -135,7 +140,7 @@ export const InterviewerAI = () => {
 
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_AI_INTERVIEWER_SERVICE}?question=${question}`,
+        `${process.env.NEXT_PUBLIC_AI_INTERVIEWER_SERVICE}?question=${question}`
       );
 
       if (!response.ok) {
@@ -150,19 +155,19 @@ export const InterviewerAI = () => {
 
       const reader = response.body.getReader();
       const textDecoder = new TextDecoder();
-
+      // Clear interval as at this point data is received
+      window.clearInterval(loadingMsgIntervalIdReference);
+      // Indicates the user that loading is done and streaming of the answer is in progress
       setChatHistory((prev) =>
         prev.map((item) => {
           if (item.id === chatItemId) {
             return { ...item, loading: false, streaming: true };
           }
           return item;
-        }),
+        })
       );
 
-      window.clearInterval(loadingMsgIntervalIdReference);
-      setStreamedAnswer("");
-
+      // Keeps track of streamed answer and will evaluate to full once streaming is done
       let fullDecodedAnswer = "";
 
       while (true) {
@@ -179,22 +184,24 @@ export const InterviewerAI = () => {
 
         setStreamedAnswer((prevAnswer) => prevAnswer + decodedText);
       }
+      // Indicates the user that streaming is done and shows full answer to the user
       setChatHistory((prev) =>
         prev.map((item) => {
           if (item.id === chatItemId) {
             return { ...item, answer: fullDecodedAnswer, streaming: false };
           }
           return item;
-        }),
+        })
       );
     } catch (error) {
+      // indicated to the user the error has happen
       setChatHistory((prev) =>
         prev.map((item) => {
           if (item.id === chatItemId) {
             return { ...item, loading: false, streaming: false, error: true };
           }
           return item;
-        }),
+        })
       );
       console.error(error);
     }
@@ -219,42 +226,33 @@ export const InterviewerAI = () => {
     <AnimatePresence>
       <motion.div
         key="visible-ai"
-        initial={{ opacity: 0, scale: 1.3 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 1.1 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         className="mx-auto h-[80vh] w-full max-w-3xl rounded-lg border-2 bg-black font-mono md:left-auto"
       >
         <div className="relative flex h-full flex-col pb-4 pl-4 pr-4 pt-10">
-          <h1 className="mb-8 text-lg">Hi I am Niko's AI clone!</h1>
-          <p>
-            You can ask me question about my work experience as well any work
-            related topic. Please be aware that I sometimes tend to hallucinate
-            as I am trained on more then just Niko's files.
-          </p>
-          <p>
-            If my answers spark interested in real Niko,{" "}
-            <a
-              href="mailto:nikola.mitic.dev@gmail.com"
-              className="mr-2 underline transition-opacity hover:opacity-70"
-            >
-              feel free to contact him.
-            </a>
-          </p>
           <div className="mt-8 flex max-h-[calc(100vh-20rem)] flex-col-reverse overflow-y-scroll">
             <div>
               {chatHistory.map(
                 ({ answer, question, id, loading, streaming, error }) => {
                   if (loading) {
                     return (
-                      <ChatItem
-                        key={id}
-                        answer={
-                          <>
-                            {loadingMsg} <LoadingDots />
-                          </>
-                        }
-                        question={question}
-                      />
+                      <motion.div
+                        key="ChatItem-ai"
+                        initial={{ opacity: 0, scale: 1.3 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 1.1 }}
+                      >
+                        <ChatItem
+                          key={id}
+                          answer={
+                            <>
+                              {loadingMsg} <LoadingDots />
+                            </>
+                          }
+                          question={question}
+                        />
+                      </motion.div>
                     );
                   }
                   if (streaming) {
@@ -290,7 +288,7 @@ export const InterviewerAI = () => {
                   return (
                     <ChatItem key={id} answer={answer} question={question} />
                   );
-                },
+                }
               )}
             </div>
           </div>
