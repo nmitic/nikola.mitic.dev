@@ -9,6 +9,7 @@ import profilePhoto from "../public/profile_photo.jpeg";
 import { AnimatePresence, motion } from "framer-motion";
 import useAutoSizeTextArea from "../hooks/useAutoResizeTextArea";
 import { v4 as uuidv4 } from "uuid";
+
 const fakeAnswer = (delay: number): Promise<string> => {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -66,11 +67,14 @@ const LoadingDots = () => {
 type ChatHistory = {
   question: string;
   answer: string;
+  loading: boolean;
+  streaming: boolean;
   id: string;
+  error?: boolean;
 }[];
 
 type ChatItem = {
-  answer: string;
+  answer: React.ReactNode | string;
   question: string;
 };
 
@@ -78,53 +82,45 @@ const ChatItem = ({ answer, question }: ChatItem) => {
   return (
     <div className="mb-8">
       <p className="mb-4 text-right">{question}</p>
-      {!!answer ? (
-        <>
-          <Image
-            className="mr-2 inline-block w-[30px] rounded-full border-4 border-solid border-black"
-            src={profilePhoto}
-            alt="Nikola Mitic profile photo"
-            placeholder="blur"
-            priority
-            width={30}
-          />
-          <span className="align-middle">Nikola Mitic</span>
-          <p className="ml-[38px] mt-3">{answer}</p>
-        </>
-      ) : (
-        <LoadingDots />
-      )}
+      <Image
+        className="mr-2 inline-block w-[30px] rounded-full border-4 border-solid border-black"
+        src={profilePhoto}
+        alt="Nikola Mitic profile photo"
+        placeholder="blur"
+        priority
+        width={30}
+      />
+      <span className="align-middle">Nikola Mitic</span>
+      <p className="ml-[38px] mt-3">{answer}</p>
     </div>
   );
 };
 
 export const InterviewerAI = () => {
-  const [loading, setLoading] = useState(false);
   const [streamedAnswer, setStreamedAnswer] = useState("");
   const [question, setQuestion] = useState("");
-  const [visible, setVisible] = useState(true);
   const [chatHistory, setChatHistory] = useState<ChatHistory>([]);
-  const [error, setError] = useState(false);
   const [loadingMsg, setLoadingMsg] = useState(progressMsgs[0]);
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
-  const submitButtonDisabled = loading || !question?.length;
+  const submitButtonDisabled = !!streamedAnswer;
 
   useAutoSizeTextArea(textAreaRef.current, question);
 
-  const handleToggleVisibility = () => {
-    setVisible((prevVisible) => !prevVisible);
-  };
-
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setLoading(true);
     setQuestion("");
 
     const chatItemId = uuidv4();
     setChatHistory((prev) => [
       ...prev,
-      { question: question, answer: "", id: chatItemId },
+      {
+        question: question,
+        answer: "",
+        id: chatItemId,
+        loading: true,
+        streaming: false,
+      },
     ]);
 
     let progressMsgsIndex = 1;
@@ -154,7 +150,16 @@ export const InterviewerAI = () => {
 
       const reader = response.body.getReader();
       const textDecoder = new TextDecoder();
-      setLoading(false);
+
+      setChatHistory((prev) =>
+        prev.map((item) => {
+          if (item.id === chatItemId) {
+            return { ...item, loading: false, streaming: true };
+          }
+          return item;
+        }),
+      );
+
       window.clearInterval(loadingMsgIntervalIdReference);
       setStreamedAnswer("");
 
@@ -164,7 +169,6 @@ export const InterviewerAI = () => {
         const { done, value } = await reader.read();
         if (done) {
           console.log("End of stream");
-          // setStreamedAnswer("");
 
           break;
         }
@@ -178,14 +182,20 @@ export const InterviewerAI = () => {
       setChatHistory((prev) =>
         prev.map((item) => {
           if (item.id === chatItemId) {
-            return { ...item, answer: fullDecodedAnswer };
+            return { ...item, answer: fullDecodedAnswer, streaming: false };
           }
           return item;
         }),
       );
     } catch (error) {
-      setLoading(false);
-      setError(true);
+      setChatHistory((prev) =>
+        prev.map((item) => {
+          if (item.id === chatItemId) {
+            return { ...item, loading: false, streaming: false, error: true };
+          }
+          return item;
+        }),
+      );
       console.error(error);
     }
   };
@@ -207,68 +217,106 @@ export const InterviewerAI = () => {
 
   return (
     <AnimatePresence>
-      {visible ? (
-        <motion.div
-          key="visible-ai"
-          initial={{ opacity: 0, scale: 1.3 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 1.1 }}
-          className="fixed left-8 right-8 top-20 z-[100] rounded-lg border-2 bg-black font-mono md:left-auto md:w-[450px]"
-        >
-          <div className="relative pb-4 pl-4 pr-4 pt-10">
-            <div
-              tabIndex={0}
-              className="  absolute left-[-1rem] top-[-1rem] w-8 cursor-pointer"
-              onClick={handleToggleVisibility}
+      <motion.div
+        key="visible-ai"
+        initial={{ opacity: 0, scale: 1.3 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 1.1 }}
+        className="mx-auto h-[80vh] w-full max-w-3xl rounded-lg border-2 bg-black font-mono md:left-auto"
+      >
+        <div className="relative flex h-full flex-col pb-4 pl-4 pr-4 pt-10">
+          <h1 className="mb-8 text-lg">Hi I am Niko's AI clone!</h1>
+          <p>
+            Yu can ask me question about my work experience as well any work
+            related topic. Please be aware that I sometimes tend to hallucinate
+            as I am trained on more then just Niko's files.
+          </p>
+          <p>
+            If my answers spark interested in real Niko,{" "}
+            <a
+              href="mailto:nikola.mitic.dev@gmail.com"
+              className="mr-2 underline transition-opacity hover:opacity-70"
             >
-              <CloseIcon className=" fill-black" />
-            </div>
-            <h1 className="mb-8">Interview my AI clone!</h1>
-            <form onSubmit={handleSubmit} ref={formRef}>
-              <div className="mt-8 flex max-h-[calc(100vh-20rem)] flex-col-reverse overflow-y-scroll">
-                {chatHistory.map(({ answer, question, id }) => {
+              feel free to contact him.
+            </a>
+          </p>
+          <div className="mt-8 flex max-h-[calc(100vh-20rem)] flex-col-reverse overflow-y-scroll">
+            <div>
+              {chatHistory.map(
+                ({ answer, question, id, loading, streaming, error }) => {
+                  if (loading) {
+                    return (
+                      <ChatItem
+                        key={id}
+                        answer={
+                          <>
+                            {loadingMsg} <LoadingDots />
+                          </>
+                        }
+                        question={question}
+                      />
+                    );
+                  }
+                  if (streaming) {
+                    return (
+                      <ChatItem
+                        key={id}
+                        answer={streamedAnswer}
+                        question={question}
+                      />
+                    );
+                  }
+
+                  if (error) {
+                    return (
+                      <ChatItem
+                        key={id}
+                        answer={
+                          <span>
+                            Oppps, something went wrong with my AI clone, feel
+                            free to contact Niko directly{" "}
+                            <a
+                              href="mailto:nikola.mitic.dev@gmail.com"
+                              className="mr-2 underline transition-opacity hover:opacity-70"
+                            >
+                              nikola.mitic.dev@gmail.com
+                            </a>
+                          </span>
+                        }
+                        question={question}
+                      />
+                    );
+                  }
                   return (
-                    <ChatItem
-                      key={id}
-                      answer={answer.length > 0 ? answer : streamedAnswer}
-                      question={question}
-                    />
+                    <ChatItem key={id} answer={answer} question={question} />
                   );
-                })}
-              </div>
-              <div className="relative flex">
-                <textarea
-                  rows={1}
-                  ref={textAreaRef}
-                  className="w-full resize-none border-2 bg-black pb-2 pl-2 pr-8 pt-2 text-white"
-                  name="query"
-                  value={question}
-                  onChange={handleQuestionChange}
-                  required
-                  onKeyDown={handleKeyDown}
-                />
-                <button
-                  type="submit"
-                  disabled={submitButtonDisabled}
-                  className="absolute bottom-2 right-2 disabled:opacity-40"
-                >
-                  <SendIcon className="h-6 w-6 text-white" />
-                </button>
-              </div>
-            </form>
+                },
+              )}
+            </div>
           </div>
-        </motion.div>
-      ) : (
-        <div className="fixed bottom-8 right-8">
-          <div
-            tabIndex={0}
-            className="absolute left-[-1rem] top-[-1rem] w-8 cursor-pointer"
-            onClick={handleToggleVisibility}
-          >
-            <QuestionIcon />
-          </div>
+          <form onSubmit={handleSubmit} ref={formRef} className="mt-auto">
+            <div className="relative flex">
+              <textarea
+                rows={1}
+                ref={textAreaRef}
+                className="w-full resize-none border-2 bg-black pb-2 pl-2 pr-8 pt-2 text-white"
+                name="query"
+                value={question}
+                onChange={handleQuestionChange}
+                required
+                onKeyDown={handleKeyDown}
+              />
+              <button
+                type="submit"
+                disabled={submitButtonDisabled}
+                className="absolute bottom-2 right-2 disabled:opacity-40"
+              >
+                <SendIcon className="h-6 w-6 text-white" />
+              </button>
+            </div>
+          </form>
         </div>
-      )}
+      </motion.div>
     </AnimatePresence>
   );
 };

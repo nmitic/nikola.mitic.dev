@@ -5,7 +5,6 @@ import { footerLinks } from "../static-data/footer-links";
 import "../styles/globals.css";
 import { AuthProvider } from "../context/AuthProvider";
 import { Header } from "../components/Header";
-import { InterviewerAI } from "../components/InterviewerAI";
 
 export default async function RootLayout({
   children,
@@ -24,8 +23,7 @@ export default async function RootLayout({
       </head>
       <body>
         <AuthProvider>
-          <div className="grid gap-4 md:gap-10 h-screen grid-rows-[auto,1fr] container mx-auto p-4">
-            <InterviewerAI />
+          <div className="container mx-auto grid h-screen grid-rows-[auto,1fr] gap-4 p-4 md:gap-10">
             <Header />
             <main>{children}</main>
             <Footer links={footerLinks} />
