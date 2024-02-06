@@ -227,7 +227,7 @@ export const InterviewerAI = () => {
         <div className="relative flex h-full flex-col pb-4 pl-4 pr-4 pt-10">
           <h1 className="mb-8 text-lg">Hi I am Niko's AI clone!</h1>
           <p>
-            Yu can ask me question about my work experience as well any work
+            You can ask me question about my work experience as well any work
             related topic. Please be aware that I sometimes tend to hallucinate
             as I am trained on more then just Niko's files.
           </p>
