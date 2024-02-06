@@ -233,6 +233,12 @@ export const InterviewerAI = () => {
         <div className="relative flex h-full flex-col pb-4 pl-4 pr-4 pt-10">
           <div className="mt-8 flex max-h-[calc(100vh-20rem)] flex-col-reverse overflow-y-scroll">
             <div>
+              {chatHistory.length ? null : (
+                <h1 className="text-center">
+                  Hi there 👋. I am Nikola AI clone. Ask anything!
+                </h1>
+              )}
+
               {chatHistory.map(
                 ({ answer, question, id, loading, streaming, error }) => {
                   if (loading) {
