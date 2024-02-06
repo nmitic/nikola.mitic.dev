@@ -235,7 +235,7 @@ export const InterviewerAI = () => {
             <div>
               {chatHistory.length ? null : (
                 <h1 className="text-center">
-                  Hi there 👋. I am Nikola AI clone. Ask anything!
+                  Hi there 👋. I am Niko's AI clone. Ask anything!
                 </h1>
               )}
 
