@@ -228,7 +228,7 @@ export const InterviewerAI = () => {
         key="visible-ai"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="mx-auto h-[80vh] w-full max-w-3xl rounded-lg border-2 bg-black font-mono md:left-auto"
+        className="mx-auto h-[calc(100vh-14rem)] w-full max-w-3xl rounded-lg border-2 bg-black font-mono md:left-auto"
       >
         <div className="relative flex h-full flex-col pb-4 pl-4 pr-4 pt-10">
           <div className="mt-8 flex max-h-[calc(100vh-20rem)] flex-col-reverse overflow-y-scroll">
