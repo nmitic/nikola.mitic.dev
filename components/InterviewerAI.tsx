@@ -1,10 +1,8 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import Image from "next/image";
 import SendIcon from "../public/send.svg";
-import CloseIcon from "../public/close.svg";
-import QuestionIcon from "../public/question.svg";
 import profilePhoto from "../public/profile_photo.jpeg";
 import { AnimatePresence, motion } from "framer-motion";
 import useAutoSizeTextArea from "../hooks/useAutoResizeTextArea";
