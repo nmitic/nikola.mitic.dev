@@ -43,7 +43,7 @@ const CvLayout = async (param: { children: React.ReactNode }) => {
 
   return (
     <AnimatePresence>
-      <section className="h-full">
+      <section className=" mb-auto">
         <div className=" mb-5 sm:mb-10">
           <CvSwitch />
         </div>

@@ -13,7 +13,6 @@ import linkIcon from "../../public/link-icon.svg?url";
 import { tinyThoughtsData } from "../../types/tt";
 import TinyThoughtsList from "../../components/TinyThoughtsList";
 import { getTinyThoughtsData } from "./data_getters";
-import Tiptap from "../../components/Tiptap";
 
 const TinyThoughts = async () => {
   const {
