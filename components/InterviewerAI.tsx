@@ -264,7 +264,7 @@ export const InterviewerAI = () => {
   return (
     <AnimatePresence>
       <>
-        <div className="order-2 mb-0">
+        <div className="">
           <Switch
             onSwitch={handleSwitch}
             switched={autoInterviewOn}
@@ -272,7 +272,7 @@ export const InterviewerAI = () => {
           />
         </div>
         {!autoInterviewOn && !chatHistory.length && (
-          <div className="w-full lg:w-[45%] mx-auto mt-4 mb-auto text-center order-1">
+          <div className="lg:w-[60%] mx-auto">
             <h1 className="text-center mb-2 text-xl">
               Hi there 👋. I am Niko's AI clone. Ask anything!
             </h1>
@@ -286,86 +286,88 @@ export const InterviewerAI = () => {
             </p>
           </div>
         )}
-        <div className="relative w-full lg:w-[45%] mx-auto mt-6 xl:mt-0 mb-auto">
+        <div className="h-[70vh] overflow-y-scroll flex flex-col-reverse lg:w-[60%] mx-auto">
           <div>
-            <div>
-              {chatHistory.map(
-                ({ answer, question, id, loading, streaming, error }) => {
-                  if (loading) {
-                    return (
-                      <motion.div
-                        key="ChatItem-ai"
-                        initial={{ opacity: 0, scale: 1.3 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 1.1 }}
-                      >
-                        <ChatItem
-                          key={id}
-                          answer={<LoadingDots />}
-                          question={question}
-                        />
-                      </motion.div>
-                    );
-                  }
-                  if (streaming) {
-                    return (
-                      <ChatItem
-                        key={id}
-                        answer={streamedAnswer}
-                        question={question}
-                      />
-                    );
-                  }
-
-                  if (error) {
-                    return (
-                      <ChatItem
-                        key={id}
-                        answer={
-                          <span>
-                            Oppps, something went wrong with my AI clone, feel
-                            free to contact Niko directly{" "}
-                            <a
-                              href="mailto:nikola.mitic.dev@gmail.com"
-                              className="mr-2 underline transition-opacity hover:opacity-70"
-                            >
-                              nikola.mitic.dev@gmail.com
-                            </a>
-                          </span>
-                        }
-                        question={question}
-                      />
-                    );
-                  }
+            {chatHistory.map(
+              ({ answer, question, id, loading, streaming, error }) => {
+                if (loading) {
                   return (
-                    <ChatItem key={id} answer={answer} question={question} />
+                    <motion.div
+                      key="ChatItem-ai"
+                      initial={{ opacity: 0, scale: 1.3 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 1.1 }}
+                    >
+                      <ChatItem
+                        key={id}
+                        answer={<LoadingDots />}
+                        question={question}
+                      />
+                    </motion.div>
                   );
                 }
-              )}
-            </div>
+                if (streaming) {
+                  return (
+                    <ChatItem
+                      key={id}
+                      answer={streamedAnswer}
+                      question={question}
+                    />
+                  );
+                }
+
+                if (error) {
+                  return (
+                    <ChatItem
+                      key={id}
+                      answer={
+                        <span>
+                          Oppps, something went wrong with my AI clone, feel
+                          free to contact Niko directly{" "}
+                          <a
+                            href="mailto:nikola.mitic.dev@gmail.com"
+                            className="mr-2 underline transition-opacity hover:opacity-70"
+                          >
+                            nikola.mitic.dev@gmail.com
+                          </a>
+                        </span>
+                      }
+                      question={question}
+                    />
+                  );
+                }
+                return (
+                  <ChatItem key={id} answer={answer} question={question} />
+                );
+              }
+            )}
           </div>
-          <form onSubmit={handleSubmit} ref={formRef}>
-            <div className="flex fixed bottom-20 md:bottom-16 lg:bottom-20 left-0 right-0 px-4 lg:left-[25vw] lg:right-[25vw]">
-              <textarea
-                rows={1}
-                ref={textAreaRef}
-                className="resize-none border-2 bg-black pb-2 pl-2 pr-8 pt-2 text-white rounded-xl w-full"
-                name="query"
-                value={question}
-                onChange={handleQuestionChange}
-                required
-                onKeyDown={handleKeyDown}
-              />
-              <button
-                type="submit"
-                disabled={submitButtonDisabled}
-                className="absolute bottom-2 right-6 disabled:opacity-40"
-              >
-                <SendIcon className="h-6 w-6 text-white" />
-              </button>
-            </div>
-          </form>
         </div>
+        <form
+          onSubmit={handleSubmit}
+          ref={formRef}
+          className="mt-auto w-full lg:w-[60%] mx-auto"
+        >
+          <div className="flex px-4">
+            <textarea
+              rows={1}
+              ref={textAreaRef}
+              className="resize-none border-2 bg-black pb-2 pl-2 pr-8 pt-2 text-white rounded-xl w-full"
+              name="query"
+              value={question}
+              onChange={handleQuestionChange}
+              required
+              onKeyDown={handleKeyDown}
+            />
+            <button
+              type="submit"
+              disabled={submitButtonDisabled}
+              className="disabled:opacity-40 -ml-8"
+            >
+              <SendIcon className="h-6 w-6 text-white" />
+            </button>
+          </div>
+        </form>
       </>
     </AnimatePresence>
   );

@@ -12,7 +12,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="h-full">
       <head>
         <link
           rel="stylesheet"
@@ -21,11 +21,11 @@ export default async function RootLayout({
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
         <script>hljs.highlightAll();</script>
       </head>
-      <body>
+      <body className="h-full">
         <AuthProvider>
-          <div className="container mx-auto grid h-screen grid-rows-[auto,1fr] gap-4 p-4 md:gap-10">
+          <div className="container mx-auto flex flex-col h-full gap-4 p-4 md:gap-10">
             <Header />
-            <main>{children}</main>
+            {children}
             <Footer links={footerLinks} />
             <Analytics />
           </div>

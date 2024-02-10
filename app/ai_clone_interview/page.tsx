@@ -2,11 +2,7 @@ import { Metadata } from "next";
 import { InterviewerAI } from "../../components/InterviewerAI";
 
 const AICloneInterview = async () => {
-  return (
-    <section className="flex flex-col-reverse h-[calc(75vh)] overflow-x-scroll">
-      <InterviewerAI />
-    </section>
-  );
+  return <InterviewerAI />;
 };
 
 export const metadata: Metadata = {

@@ -40,7 +40,7 @@ const Home = async () => {
   ];
 
   return (
-    <section className="flex h-full items-center justify-center">
+    <section className="flex h-full items-center justify-center mb-auto mt-auto">
       <nav>
         <ul className="leading-10">
           {MENU_ITEMS.map((item) => {
