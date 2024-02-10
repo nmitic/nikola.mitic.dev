@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Portfolio } from "../types/portfolio";
-import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -11,11 +10,7 @@ const PortfolioItem = ({ portfolio }: { portfolio: Portfolio }) => {
 
   return (
     <div className="relative group transition-all rounded-2xl overflow-hidden border-transparent border-2 hover:scale-125 hover:z-30 hover:border-white">
-      <motion.div
-        initial={{ opacity: 0, scale: 1.4 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.6 }}
-      >
+      <div>
         <Link
           href={`portfolio/${portfolio.slug}`}
           onMouseEnter={() => setRenderGif(portfolio.imagePreviewGif.url)}
@@ -32,7 +27,7 @@ const PortfolioItem = ({ portfolio }: { portfolio: Portfolio }) => {
             height={portfolio.imagePreviewGif.height}
           />
         </Link>
-      </motion.div>
+      </div>
     </div>
   );
 };

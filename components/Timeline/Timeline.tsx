@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 import JobLineItem from "./components/JobLineItem/JobLineItem";
@@ -43,11 +42,8 @@ const TimeLine = ({ jobs }: any) => {
   }, []);
 
   return (
-    <motion.nav
+    <nav
       key="timeline"
-      initial={{ opacity: 0, scale: 1.3 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.6 }}
       className="top-0 overflow-scroll sm:overflow-visible sticky sm:static bg-black py-2 z-10 lg:relative"
     >
       <div className="w-full absolute hidden lg:bg-white lg:block lg:top-[125px] lg:h-[2px]"></div>
@@ -83,7 +79,7 @@ const TimeLine = ({ jobs }: any) => {
           }
         )}
       </ul>
-    </motion.nav>
+    </nav>
   );
 };
 

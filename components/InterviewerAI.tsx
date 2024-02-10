@@ -286,18 +286,13 @@ export const InterviewerAI = () => {
               ({ answer, question, id, loading, streaming, error }) => {
                 if (loading) {
                   return (
-                    <motion.div
-                      key="ChatItem-ai"
-                      initial={{ opacity: 0, scale: 1.3 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 1.1 }}
-                    >
+                    <div key="ChatItem-ai">
                       <ChatItem
                         key={id}
                         answer={<LoadingDots />}
                         question={question}
                       />
-                    </motion.div>
+                    </div>
                   );
                 }
                 if (streaming) {

@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { PortfolioData } from "../types/portfolio";
 import Image from "next/image";
 import LinkIcon from "../public/link-icon.svg";
@@ -24,12 +23,7 @@ const PortfolioView = ({ data }: { data: PortfolioData }) => {
           alt={`image preview of the project of named ${data.portfolio.title}`}
         />
       </div>
-      <motion.article
-        initial={{ opacity: 0, scale: 1.4 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.6 }}
-        className="prose prose-invert mx-auto grid grid-cols-1"
-      >
+      <article className="prose prose-invert mx-auto grid grid-cols-1">
         <h1>{data.portfolio.title}</h1>
         <div className="bg-white p-4 rounded-xl float-left mr-4 mb-4 w-full md:w-auto relative z-0 break-inside-avoid">
           <div>
@@ -60,7 +54,7 @@ const PortfolioView = ({ data }: { data: PortfolioData }) => {
         <div
           dangerouslySetInnerHTML={{ __html: data.portfolio.description.html }}
         ></div>
-      </motion.article>
+      </article>
     </>
   );
 };

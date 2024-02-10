@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Image from "next/image";
 import ProfilePicture from "../public/cv_photo_nikola_mitic.jpeg";
 
@@ -9,13 +8,7 @@ const contactEmail = "nikola.mitic.dev@gmail.com";
 export const CvInfo = () => {
   return (
     <aside className="text-center mb-10  lg:col-span-2">
-      <motion.div
-        key="cv-info"
-        initial={{ opacity: 0, scale: 1.3 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.6 }}
-        className="sticky top-5 text-center"
-      >
+      <div key="cv-info" className="sticky top-5 text-center">
         <Image
           src={ProfilePicture}
           alt="Nikola Mitic profile picture"
@@ -33,7 +26,7 @@ export const CvInfo = () => {
         >
           {contactEmail}
         </a>
-      </motion.div>
+      </div>
     </aside>
   );
 };
