@@ -280,7 +280,7 @@ export const InterviewerAI = () => {
             </p>
           </div>
         )}
-        <div className="h-[70vh] overflow-y-scroll flex flex-col-reverse lg:w-[60%] mx-auto">
+        <div className="h-[70vh] overflow-y-scroll flex flex-col-reverse w-full lg:w-[60%] mx-auto">
           <div>
             {chatHistory.map(
               ({ answer, question, id, loading, streaming, error }) => {
