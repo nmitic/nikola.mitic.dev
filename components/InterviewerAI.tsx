@@ -1,12 +1,14 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import SendIcon from "../public/send.svg";
 import profilePhoto from "../public/profile_photo.jpeg";
 import { AnimatePresence, motion } from "framer-motion";
 import useAutoSizeTextArea from "../hooks/useAutoResizeTextArea";
 import { v4 as uuidv4 } from "uuid";
+import Avatar from "boring-avatars";
+import { Switch } from "./CvSwitch";
 
 const fakeAnswer = (delay: number): Promise<string> => {
   return new Promise((resolve) => {
@@ -18,38 +20,21 @@ const fakeAnswer = (delay: number): Promise<string> => {
   });
 };
 
-const progressMsgs = [
-  "I am thinking, give me some time",
-  "AI Clone needs a warm-up! Be patient, its gears are stretching.",
-  "In all honesty, Nikola is just being cheap and it takes time to spin up the server he is hosting me on! What guy!",
-  "I'm brewing some genius here. Processing ",
-  "Please wait a tick. Loading brilliance ",
-  "Did you know that Nikola played Rugby in his high school, and know all about the scrum and its origin?",
-  "Brain cells are on the move! Wait for the magic.",
-  "Almost there, I promise it will be worth the wait",
-  "I'm pondering, let the neurons dance a bit.",
-  "Psss don't tell him, Nikola is actually my clone. ",
-  "Did you know that Nikola is scared of horror movies?",
-  "Channeling the spirit of Tesla, innovation is on the horizon.",
-  "I'm pondering, let the neurons dance a bit.",
-  "Psss don't tell him, Nikola is actually my clone. ",
-  "Drawing inspiration from the Danube's flow, creativity knows no bounds.",
-  "Did you know that Nikola is scared of horror movies?",
-  "Just a moment longer, stitching together strands of insight.",
-  "In the land of rakija and čevapi, development is a flavorful journey.",
-  "Loading enlightenment, pixel by pixel.",
-  "Aligning divs and styling elements, crafting a seamless experience.",
-  "Building bridges between code and creativity, one line at a time.",
-  "Like the Berlin Wall once divided, my neurons unite to build something extraordinary.",
-  "Just like the Serbian hospitality, my UI welcomes users with open arms.",
-  "Waiting for the browser to catch up with my creative frenzy.",
-  "Sprinting towards greatness, one user story at a time.",
-  "Gathering feedback, refining iterations, and moving forward.",
-  "Iterations in motion, iterating towards perfection",
-  "Inspired by the creative energy of Berlin, our designs are taking shape.",
-  "Engaging stakeholders, fostering collaboration, and delivering value.",
-  "In the heart of Berlin, where history meets innovation, our code evolves.",
-  "Drawing from Berlin's startup culture, we iterate, innovate, and disrupt.",
+async function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+const getRandomNumber = (max: number) => {
+  return Math.floor(Math.random() * (max + 1));
+};
+
+const autoInterviewQuestions = [
+  "What is your current job?",
+  "And what are your responsibilities in the current work?",
+  "What are the project you are working on currently?",
+  "What is the team size and roles in your current job?",
+  "What technologies are you using for the current role?",
+  "Are you using scrum or agile at the current company?",
 ];
 
 const LoadingDots = () => {
@@ -79,17 +64,31 @@ type ChatItem = {
 const ChatItem = ({ answer, question }: ChatItem) => {
   return (
     <div className="mb-8">
-      <p className="mb-4 text-right">{question}</p>
-      <Image
-        className="mr-2 inline-block w-[30px] rounded-full border-4 border-solid border-black"
-        src={profilePhoto}
-        alt="Nikola Mitic profile photo"
-        placeholder="blur"
-        priority
-        width={30}
-      />
-      <span className="align-middle">Nikola Mitic</span>
-      <p className="ml-[38px] mt-3">{answer}</p>
+      <div className="mb-6">
+        <div className="mr-4 inline-block w-[30px] align-middle">
+          <Avatar
+            size={35}
+            name="Maya Angelou"
+            variant="marble"
+            colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
+          />
+        </div>
+
+        <span className="font-bold">You</span>
+        <p className="ml-14 mt-6">{question}</p>
+      </div>
+      <div>
+        <Image
+          className="mr-4 inline-block w-[35px] rounded-full"
+          src={profilePhoto}
+          alt="Nikola Mitic profile photo"
+          placeholder="blur"
+          priority
+          width={35}
+        />
+        <span className="align-middle font-bold">Nikola Mitic</span>
+        <p className="ml-14 mt-6">{answer}</p>
+      </div>
     </div>
   );
 };
@@ -98,15 +97,43 @@ export const InterviewerAI = () => {
   const [streamedAnswer, setStreamedAnswer] = useState("");
   const [question, setQuestion] = useState("");
   const [chatHistory, setChatHistory] = useState<ChatHistory>([]);
-  const [loadingMsg, setLoadingMsg] = useState(progressMsgs[0]);
+  const [autoInterviewOn, setAutoInterviewOn] = useState(false);
+  const [autoInterviewQuestionIndex, setAutoInterviewQuestionIndex] =
+    useState(0);
+  const [answeringInProgress, setAnsweringInProgress] = useState(false);
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
   const submitButtonDisabled = !!streamedAnswer;
 
   useAutoSizeTextArea(textAreaRef.current, question);
 
+  const handleAutoQuestionSubmit = async () => {
+    await autoQuestionSubmit(
+      autoInterviewQuestions[autoInterviewQuestionIndex]
+    );
+    setAutoInterviewQuestionIndex((prev) => (prev += 1));
+  };
+
+  useEffect(() => {
+    const noMoreQuestions =
+      autoInterviewQuestionIndex >= autoInterviewQuestions.length - 1;
+    if (noMoreQuestions) {
+      setAutoInterviewOn(false);
+      setAutoInterviewQuestionIndex(0);
+      return;
+    }
+    const shouldAutoSubmit =
+      autoInterviewOn && !answeringInProgress && !noMoreQuestions;
+
+    if (shouldAutoSubmit) {
+      handleAutoQuestionSubmit();
+    }
+  }, [autoInterviewOn, answeringInProgress]);
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    // used as a global state to indicate that answering is being awaited and later being in progress
+    setAnsweringInProgress(true);
     // Clear form input value for question
     setQuestion("");
     // Resets streamed answer as its value will only show to the user once stream flag is set to true
@@ -125,17 +152,6 @@ export const InterviewerAI = () => {
       },
     ]);
 
-    // Sets interval that will update progress message to show the user in case initial request takes more time
-    let progressMsgsIndex = 1;
-    const loadingMsgIntervalIdReference = window.setInterval(() => {
-      setLoadingMsg(progressMsgs[progressMsgsIndex]);
-      if (progressMsgsIndex >= progressMsgs.length) {
-        progressMsgsIndex = 0;
-      } else {
-        progressMsgsIndex++;
-      }
-    }, 3200);
-
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_AI_INTERVIEWER_SERVICE}?question=${question}`
@@ -153,8 +169,7 @@ export const InterviewerAI = () => {
 
       const reader = response.body.getReader();
       const textDecoder = new TextDecoder();
-      // Clear interval as at this point data is received
-      window.clearInterval(loadingMsgIntervalIdReference);
+
       // Indicates the user that loading is done and streaming of the answer is in progress
       setChatHistory((prev) =>
         prev.map((item) => {
@@ -203,6 +218,8 @@ export const InterviewerAI = () => {
       );
       console.error(error);
     }
+    // global answering stop
+    setAnsweringInProgress(false);
   };
 
   const handleQuestionChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -220,23 +237,60 @@ export const InterviewerAI = () => {
     }
   };
 
+  const autoFillQuestion = async (question: string) => {
+    if (formRef.current) {
+      for (let char of question) {
+        setQuestion((prev) => (prev += char));
+
+        await delay(50);
+      }
+
+      formRef.current.requestSubmit();
+    }
+  };
+
+  const autoQuestionSubmit = async (question: string) => {
+    await autoFillQuestion(question);
+
+    if (formRef.current && !!question.length && !streamedAnswer.length) {
+      formRef.current.requestSubmit();
+    }
+  };
+
+  const handleSwitch = (switched: boolean) => {
+    setAutoInterviewOn(!switched);
+  };
+
   return (
     <AnimatePresence>
       <motion.div
         key="visible-ai"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="mx-auto h-[calc(100vh-14rem)] w-full max-w-3xl rounded-lg border-2 bg-black font-mono md:left-auto"
       >
-        <div className="relative flex h-full flex-col pb-4 pl-4 pr-4 pt-10">
-          <div className="mt-8 flex max-h-[calc(100vh-20rem)] flex-col-reverse overflow-y-scroll">
+        <Switch
+          onSwitch={handleSwitch}
+          switched={autoInterviewOn}
+          label="auto interview"
+        />
+        {!autoInterviewOn && !chatHistory.length && (
+          <div className="w-full lg:w-[45%] mx-auto mt-4 text-center">
+            <h1 className="text-center mb-2 text-xl">
+              Hi there 👋. I am Niko's AI clone. Ask anything!
+            </h1>
+            <p>
+              I will answer based on Niko's resume and blog. If you are out of
+              ideas what to ask, you can enable auto interview and pre defined
+              set of question will be asked.
+              <span className="font-bold"> Please note:</span> It might take me
+              same time to answer your first question, so please give me some
+              time. Thanks!
+            </p>
+          </div>
+        )}
+        <div className="relative flex flex-col-reverse w-full lg:w-[45%] mx-auto mt-6 h-[70vh] overflow-y-scroll xl:mt-0">
+          <div>
             <div>
-              {chatHistory.length ? null : (
-                <h1 className="text-center">
-                  Hi there 👋. I am Niko's AI clone. Ask anything!
-                </h1>
-              )}
-
               {chatHistory.map(
                 ({ answer, question, id, loading, streaming, error }) => {
                   if (loading) {
@@ -249,11 +303,7 @@ export const InterviewerAI = () => {
                       >
                         <ChatItem
                           key={id}
-                          answer={
-                            <>
-                              {loadingMsg} <LoadingDots />
-                            </>
-                          }
+                          answer={<LoadingDots />}
                           question={question}
                         />
                       </motion.div>
@@ -296,12 +346,12 @@ export const InterviewerAI = () => {
               )}
             </div>
           </div>
-          <form onSubmit={handleSubmit} ref={formRef} className="mt-auto">
-            <div className="relative flex">
+          <form onSubmit={handleSubmit} ref={formRef}>
+            <div className="flex fixed bottom-20 md:bottom-16 lg:bottom-20 left-0 right-0 px-4 lg:left-[25vw] lg:right-[25vw]">
               <textarea
                 rows={1}
                 ref={textAreaRef}
-                className="w-full resize-none border-2 bg-black pb-2 pl-2 pr-8 pt-2 text-white"
+                className="resize-none border-2 bg-black pb-2 pl-2 pr-8 pt-2 text-white rounded-xl w-full"
                 name="query"
                 value={question}
                 onChange={handleQuestionChange}
@@ -311,7 +361,7 @@ export const InterviewerAI = () => {
               <button
                 type="submit"
                 disabled={submitButtonDisabled}
-                className="absolute bottom-2 right-2 disabled:opacity-40"
+                className="absolute bottom-2 right-6 disabled:opacity-40"
               >
                 <SendIcon className="h-6 w-6 text-white" />
               </button>

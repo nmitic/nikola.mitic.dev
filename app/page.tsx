@@ -4,7 +4,7 @@ import { GraphQLClient, gql } from "graphql-request";
 import { JobsData } from "../types/cv";
 
 const client = new GraphQLClient(
-  process.env.NEXT_PUBLIC_HYGRAPH_READ_ONLY as string,
+  process.env.NEXT_PUBLIC_HYGRAPH_READ_ONLY as string
 );
 
 const query = gql`
@@ -31,7 +31,7 @@ const Home = async () => {
     },
     {
       href: "/tiny_thoughts",
-      text: "Tiny Thoughts (Blog)",
+      text: "Tiny Thoughts",
     },
     {
       href: "/ai_clone_interview",
