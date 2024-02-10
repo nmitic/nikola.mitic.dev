@@ -116,7 +116,7 @@ export const InterviewerAI = () => {
 
   useEffect(() => {
     const noMoreQuestions =
-      autoInterviewQuestionIndex >= autoInterviewQuestions.length - 1;
+      autoInterviewQuestionIndex > autoInterviewQuestions.length - 1;
     if (noMoreQuestions) {
       setAutoInterviewOn(false);
       setAutoInterviewQuestionIndex(0);
@@ -252,7 +252,7 @@ export const InterviewerAI = () => {
   const autoQuestionSubmit = async (question: string) => {
     await autoFillQuestion(question);
 
-    if (formRef.current && !!question.length && !streamedAnswer.length) {
+    if (formRef.current && !question.length) {
       formRef.current.requestSubmit();
     }
   };
@@ -263,18 +263,16 @@ export const InterviewerAI = () => {
 
   return (
     <AnimatePresence>
-      <motion.div
-        key="visible-ai"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-      >
-        <Switch
-          onSwitch={handleSwitch}
-          switched={autoInterviewOn}
-          label="auto interview"
-        />
+      <>
+        <div className="order-2 mb-0">
+          <Switch
+            onSwitch={handleSwitch}
+            switched={autoInterviewOn}
+            label="auto interview"
+          />
+        </div>
         {!autoInterviewOn && !chatHistory.length && (
-          <div className="w-full lg:w-[45%] mx-auto mt-4 text-center">
+          <div className="w-full lg:w-[45%] mx-auto mt-4 mb-auto text-center order-1">
             <h1 className="text-center mb-2 text-xl">
               Hi there 👋. I am Niko's AI clone. Ask anything!
             </h1>
@@ -288,7 +286,7 @@ export const InterviewerAI = () => {
             </p>
           </div>
         )}
-        <div className="relative flex flex-col-reverse w-full lg:w-[45%] mx-auto mt-6 h-[70vh] overflow-y-scroll xl:mt-0">
+        <div className="relative w-full lg:w-[45%] mx-auto mt-6 xl:mt-0 mb-auto">
           <div>
             <div>
               {chatHistory.map(
@@ -368,7 +366,7 @@ export const InterviewerAI = () => {
             </div>
           </form>
         </div>
-      </motion.div>
+      </>
     </AnimatePresence>
   );
 };
