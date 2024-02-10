@@ -345,7 +345,7 @@ export const InterviewerAI = () => {
             </div>
           </div>
           <form onSubmit={handleSubmit} ref={formRef}>
-            <div className="flex fixed bottom-20 md:bottom-16 lg:bottom-20 left-0 right-0 px-4 lg:left-[25vw] lg:right-[25vw]">
+            <div className="flex">
               <textarea
                 rows={1}
                 ref={textAreaRef}
