@@ -356,7 +356,7 @@ export const InterviewerAI = () => {
             <button
               type="submit"
               disabled={submitButtonDisabled}
-              className="disabled:opacity-40 -ml-8"
+              className="disabled:opacity-40 -ml-8 z-10"
             >
               <SendIcon className="h-6 w-6 text-white" />
             </button>
