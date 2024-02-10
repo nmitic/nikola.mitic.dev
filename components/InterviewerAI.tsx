@@ -103,7 +103,7 @@ export const InterviewerAI = () => {
   const [answeringInProgress, setAnsweringInProgress] = useState(false);
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
-  const submitButtonDisabled = !!streamedAnswer;
+  const submitButtonDisabled = !!streamedAnswer || !question;
 
   useAutoSizeTextArea(textAreaRef.current, question);
 
@@ -237,7 +237,7 @@ export const InterviewerAI = () => {
     }
   };
 
-  const autoFillQuestion = async (question: string) => {
+  const autoQuestionSubmit = async (question: string) => {
     if (formRef.current) {
       for (let char of question) {
         setQuestion((prev) => (prev += char));
@@ -245,14 +245,8 @@ export const InterviewerAI = () => {
         await delay(50);
       }
 
-      formRef.current.requestSubmit();
-    }
-  };
+      await delay(500);
 
-  const autoQuestionSubmit = async (question: string) => {
-    await autoFillQuestion(question);
-
-    if (formRef.current && !question.length) {
       formRef.current.requestSubmit();
     }
   };
