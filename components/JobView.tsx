@@ -20,6 +20,9 @@ export const JobView = ({
     industry,
     techStackTools,
     themeColor: { hex },
+    projectManagement,
+    teamMembersJobTitles,
+    jobProjects,
   },
 }: {
   job: Job;
@@ -74,8 +77,74 @@ export const JobView = ({
       <h1 className="text-current">{title}</h1>
 
       <Markdown className="text-white">{markdown}</Markdown>
-      <p className="text-white text-lg font-bold">
-        <span>Industry: </span>
+      {jobProjects.length ? (
+        <>
+          <h2
+            style={{
+              textDecoration: "underline",
+              textDecorationColor: `${hex}`,
+            }}
+          >
+            Projects:{" "}
+          </h2>
+          {jobProjects.map((project) => {
+            return (
+              <>
+                <h3
+                  style={{
+                    textDecoration: "underline",
+                    textDecorationColor: `${hex}`,
+                  }}
+                >
+                  {project.title}
+                </h3>
+                <Markdown className="text-white">
+                  {project.content.markdown}
+                </Markdown>
+              </>
+            );
+          })}
+        </>
+      ) : null}
+      {teamMembersJobTitles.length ? (
+        <p className="text-white text-lg">
+          <h3
+            style={{
+              textDecoration: "underline",
+              textDecorationColor: `${hex}`,
+            }}
+          >
+            Team size and roles:{" "}
+          </h3>
+          <ul>
+            {teamMembersJobTitles.map((role) => (
+              <li>{role}</li>
+            ))}
+          </ul>
+        </p>
+      ) : null}
+      {projectManagement ? (
+        <p className="text-white text-lg">
+          <h3
+            style={{
+              textDecoration: "underline",
+              textDecorationColor: `${hex}`,
+            }}
+          >
+            Project Management:{" "}
+          </h3>
+          {projectManagement}
+        </p>
+      ) : null}
+      <p className="text-white text-lg">
+        <h3
+          style={{
+            textDecoration: "underline",
+            textDecorationColor: `${hex}`,
+          }}
+        >
+          Industry:{" "}
+        </h3>
         {industry}
       </p>
       <div className="text-white">

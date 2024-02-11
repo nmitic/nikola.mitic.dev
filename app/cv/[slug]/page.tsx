@@ -27,6 +27,17 @@ const JobPage = async ({ params }: { params: { slug: string } }) => {
         themeColor {
           hex
         }
+        projectManagement
+        jobProjects {
+          ... on Post {
+            id
+            title
+            content {
+              markdown
+            }
+          }
+        }
+        teamMembersJobTitles
       }
       jobs(orderBy: startDate_DESC) {
         description {
@@ -43,6 +54,17 @@ const JobPage = async ({ params }: { params: { slug: string } }) => {
         themeColor {
           hex
         }
+        projectManagement
+        jobProjects {
+          ... on Post {
+            id
+            title
+            content {
+              markdown
+            }
+          }
+        }
+        teamMembersJobTitles
       }
     }
   `;

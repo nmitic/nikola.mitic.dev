@@ -217,6 +217,8 @@ export const InterviewerAI = () => {
         })
       );
       console.error(error);
+      // stop auto interview if it is on
+      setAutoInterviewOn(false);
     }
     // global answering stop
     setAnsweringInProgress(false);

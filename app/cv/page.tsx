@@ -26,6 +26,17 @@ const CvPage = async () => {
         themeColor {
           hex
         }
+        projectManagement
+        jobProjects {
+          ... on Post {
+            id
+            title
+            content {
+              markdown
+            }
+          }
+        }
+        teamMembersJobTitles
       }
     }
   `;
