@@ -60,40 +60,10 @@ type ChatHistory = {
 type ChatItem = {
   answer: React.ReactNode | string;
   question: string;
-  talkBack?: boolean;
-  answeringDone?: boolean;
+  handleTalkBack?: () => void;
 };
 
-const ChatItem = ({ answer, question, talkBack, answeringDone }: ChatItem) => {
-  const hearMeOut = () => {
-    const options = {
-      method: "POST",
-      headers: {
-        "xi-api-key": "79dce7b9d8e3cc26e334a69f9c46b570",
-        "Content-Type": "application/json",
-      },
-      body: `{"text":"${answer}"}`,
-    };
-
-    fetch(
-      "https://api.elevenlabs.io/v1/text-to-speech/jmQQY8czvA0j0y86X2Kq/stream",
-      options
-    )
-      .then((response) => response.blob())
-      .then((blob) => URL.createObjectURL(blob))
-      .then((url) => {
-        const voice = new Audio(url);
-        voice.play();
-      })
-      .catch((err) => console.error(err));
-  };
-
-  useEffect(() => {
-    if (answeringDone && talkBack) {
-      hearMeOut();
-    }
-  }, [answeringDone, talkBack]);
-
+const ChatItem = ({ answer, question, handleTalkBack }: ChatItem) => {
   return (
     <div className="mb-8">
       <div className="mb-6">
@@ -119,10 +89,10 @@ const ChatItem = ({ answer, question, talkBack, answeringDone }: ChatItem) => {
           width={35}
         />
         <span className="align-middle font-bold">Nikola Mitic</span>
-        {talkBack && (
+        {handleTalkBack && (
           <span>
             <button
-              onClick={hearMeOut}
+              onClick={handleTalkBack}
               className=" text-white align-middle ml-2"
             >
               <SpeakerIcon className="h-6 w-6 text-white" />
@@ -132,6 +102,46 @@ const ChatItem = ({ answer, question, talkBack, answeringDone }: ChatItem) => {
         <p className="ml-14 mt-6 whitespace-pre-line">{answer}</p>
       </div>
     </div>
+  );
+};
+
+const ChatItemTalkBack = ({
+  answer,
+  question,
+  talkBack,
+}: ChatItem & { talkBack: boolean; answer: string }) => {
+  const hearMeOut = () => {
+    let answerWithoutLineBreaks = answer?.replace(/(\r\n|\n|\r)/gm, "");
+    const options = {
+      method: "POST",
+      headers: {
+        "xi-api-key": "79dce7b9d8e3cc26e334a69f9c46b570",
+        "Content-Type": "application/json",
+      },
+      body: `{"text":"${answerWithoutLineBreaks}"}`,
+    };
+
+    fetch(
+      "https://api.elevenlabs.io/v1/text-to-speech/jmQQY8czvA0j0y86X2Kq/stream",
+      options
+    )
+      .then((response) => response.blob())
+      .then((blob) => URL.createObjectURL(blob))
+      .then((url) => {
+        const voice = new Audio(url);
+        voice.play();
+      })
+      .catch((err) => console.error(err));
+  };
+
+  useEffect(() => {
+    if (talkBack) {
+      hearMeOut();
+    }
+  }, [talkBack]);
+
+  return (
+    <ChatItem answer={answer} question={question} handleTalkBack={hearMeOut} />
   );
 };
 
@@ -359,8 +369,6 @@ export const InterviewerAI = () => {
                       key={id}
                       answer={streamedAnswer}
                       question={question}
-                      talkBack={talkBackOn}
-                      answeringDone={!answeringInProgress}
                     />
                   );
                 }
@@ -386,12 +394,11 @@ export const InterviewerAI = () => {
                   );
                 }
                 return (
-                  <ChatItem
+                  <ChatItemTalkBack
                     key={id}
                     answer={answer}
                     question={question}
                     talkBack={talkBackOn}
-                    answeringDone={!answeringInProgress}
                   />
                 );
               }
