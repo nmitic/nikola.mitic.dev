@@ -75,7 +75,7 @@ const ChatItem = ({ answer, question }: ChatItem) => {
         </div>
 
         <span className="font-bold">You</span>
-        <p className="ml-14 mt-6">{question}</p>
+        <p className="ml-14 mt-6 whitespace-pre-line">{question}</p>
       </div>
       <div>
         <Image
@@ -87,7 +87,7 @@ const ChatItem = ({ answer, question }: ChatItem) => {
           width={35}
         />
         <span className="align-middle font-bold">Nikola Mitic</span>
-        <p className="ml-14 mt-6">{answer}</p>
+        <p className="ml-14 mt-6 whitespace-pre-line">{answer}</p>
       </div>
     </div>
   );
