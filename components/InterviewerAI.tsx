@@ -3,6 +3,7 @@
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import SendIcon from "../public/send.svg";
+import SpeakerIcon from "../public/speaker.svg";
 import profilePhoto from "../public/profile_photo.jpeg";
 import { AnimatePresence, motion } from "framer-motion";
 import useAutoSizeTextArea from "../hooks/useAutoResizeTextArea";
@@ -59,9 +60,40 @@ type ChatHistory = {
 type ChatItem = {
   answer: React.ReactNode | string;
   question: string;
+  talkBack?: boolean;
+  answeringDone?: boolean;
 };
 
-const ChatItem = ({ answer, question }: ChatItem) => {
+const ChatItem = ({ answer, question, talkBack, answeringDone }: ChatItem) => {
+  const hearMeOut = () => {
+    const options = {
+      method: "POST",
+      headers: {
+        "xi-api-key": "79dce7b9d8e3cc26e334a69f9c46b570",
+        "Content-Type": "application/json",
+      },
+      body: `{"text":"${answer}"}`,
+    };
+
+    fetch(
+      "https://api.elevenlabs.io/v1/text-to-speech/jmQQY8czvA0j0y86X2Kq/stream",
+      options
+    )
+      .then((response) => response.blob())
+      .then((blob) => URL.createObjectURL(blob))
+      .then((url) => {
+        const voice = new Audio(url);
+        voice.play();
+      })
+      .catch((err) => console.error(err));
+  };
+
+  useEffect(() => {
+    if (answeringDone && talkBack) {
+      hearMeOut();
+    }
+  }, [answeringDone, talkBack]);
+
   return (
     <div className="mb-8">
       <div className="mb-6">
@@ -87,6 +119,16 @@ const ChatItem = ({ answer, question }: ChatItem) => {
           width={35}
         />
         <span className="align-middle font-bold">Nikola Mitic</span>
+        {talkBack && (
+          <span>
+            <button
+              onClick={hearMeOut}
+              className=" text-white align-middle ml-2"
+            >
+              <SpeakerIcon className="h-6 w-6 text-white" />
+            </button>
+          </span>
+        )}
         <p className="ml-14 mt-6 whitespace-pre-line">{answer}</p>
       </div>
     </div>
@@ -98,6 +140,7 @@ export const InterviewerAI = () => {
   const [question, setQuestion] = useState("");
   const [chatHistory, setChatHistory] = useState<ChatHistory>([]);
   const [autoInterviewOn, setAutoInterviewOn] = useState(false);
+  const [talkBackOn, setTalkBackOn] = useState(false);
   const [autoInterviewQuestionIndex, setAutoInterviewQuestionIndex] =
     useState(0);
   const [answeringInProgress, setAnsweringInProgress] = useState(false);
@@ -253,21 +296,34 @@ export const InterviewerAI = () => {
     }
   };
 
-  const handleSwitch = (switched: boolean) => {
+  const handleAutoInterviewSwitch = (switched: boolean) => {
     setAutoInterviewOn(!switched);
+  };
+
+  const handleTalkBackSwitch = (switched: boolean) => {
+    setTalkBackOn(!switched);
   };
 
   return (
     <AnimatePresence>
       <>
         <div className="">
-          <Switch
-            onSwitch={handleSwitch}
-            switched={autoInterviewOn}
-            label="auto interview"
-          />
+          <span className=" mr-4">
+            <Switch
+              onSwitch={handleAutoInterviewSwitch}
+              switched={autoInterviewOn}
+              label="Auto interview"
+            />
+          </span>
+          <span>
+            <Switch
+              onSwitch={handleTalkBackSwitch}
+              switched={talkBackOn}
+              label="Talk back"
+            />
+          </span>
         </div>
-        {!autoInterviewOn && !chatHistory.length && (
+        {!chatHistory.length && (
           <div className="lg:w-[60%] mx-auto">
             <h1 className="text-center mb-2 text-xl">
               Hi there 👋. I am Niko's AI clone. Ask anything!
@@ -303,6 +359,8 @@ export const InterviewerAI = () => {
                       key={id}
                       answer={streamedAnswer}
                       question={question}
+                      talkBack={talkBackOn}
+                      answeringDone={!answeringInProgress}
                     />
                   );
                 }
@@ -328,7 +386,13 @@ export const InterviewerAI = () => {
                   );
                 }
                 return (
-                  <ChatItem key={id} answer={answer} question={question} />
+                  <ChatItem
+                    key={id}
+                    answer={answer}
+                    question={question}
+                    talkBack={talkBackOn}
+                    answeringDone={!answeringInProgress}
+                  />
                 );
               }
             )}

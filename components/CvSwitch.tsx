@@ -6,17 +6,26 @@ import { useState } from "react";
 interface SwitchProps {
   onSwitch: (isSwitched: boolean) => void;
   switched: boolean;
+  disabled?: boolean;
   label: string;
 }
 
-export const Switch = ({ onSwitch, switched, label }: SwitchProps) => {
+export const Switch = ({
+  onSwitch,
+  switched,
+  label,
+  disabled = false,
+}: SwitchProps) => {
   return (
     <label className="relative inline-flex items-center cursor-pointer print:hidden">
       <input
         type="checkbox"
         className="sr-only peer"
+        disabled={disabled}
         onChange={() => {
-          onSwitch(switched);
+          if (!disabled) {
+            onSwitch(switched);
+          }
         }}
         checked={switched}
       />
