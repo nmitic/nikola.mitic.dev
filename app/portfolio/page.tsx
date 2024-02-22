@@ -33,7 +33,7 @@ const Portfolio = async () => {
   const { portfolios }: PortfoliosData = await client.request(query);
 
   return (
-    <div className="grid sm:grid-cols-3 gap-6 container max-w-5xl mx-auto">
+    <div className="grid sm:grid-cols-3 gap-6 container max-w-5xl mx-auto mb-auto mt-auto">
       {portfolios.map((portfolio) => {
         return <PortfolioItem portfolio={portfolio} key={portfolio.id} />;
       })}

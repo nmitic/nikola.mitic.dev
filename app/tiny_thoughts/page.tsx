@@ -24,7 +24,7 @@ const TinyThoughts = async () => {
   const isLoggedIn = !!session;
 
   return (
-    <div className="container max-w-3xl mx-auto">
+    <div className="container max-w-3xl mx-auto mb-auto mt-auto">
       <div className="sticky top-0 z-10 bg-black/60 backdrop-blur-sm">
         <section className="px-4 py-2 flex flex-col">
           <span className="fullName text-2xl">Nikola Mitic</span>
