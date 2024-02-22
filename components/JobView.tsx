@@ -88,37 +88,36 @@ export const JobView = ({
         <>
           <h2
             style={{
-              textDecoration: "underline",
-              textDecorationColor: `${hex}`,
+              color: `${hex}`,
             }}
           >
             Projects:{" "}
           </h2>
-          {jobProjects.map((project) => {
-            return (
-              <>
-                <h3
-                  style={{
-                    textDecoration: "underline",
-                    textDecorationColor: `${hex}`,
-                  }}
-                >
-                  {project.title}
-                </h3>
-                <Markdown className="text-white">
-                  {project.content.markdown}
-                </Markdown>
-              </>
-            );
-          })}
+          <ol>
+            {jobProjects.map((project, index) => {
+              return (
+                <li>
+                  <h4
+                    style={{
+                      color: `${hex}`,
+                    }}
+                  >
+                    {project.title}
+                  </h4>
+                  <Markdown className="text-white">
+                    {project.content.markdown}
+                  </Markdown>
+                </li>
+              );
+            })}
+          </ol>
         </>
       ) : null}
       {teamMembersJobTitles.length ? (
-        <p className="text-white text-lg">
+        <div className="text-white text-lg">
           <h3
             style={{
-              textDecoration: "underline",
-              textDecorationColor: `${hex}`,
+              color: `${hex}`,
             }}
           >
             Team size and roles:{" "}
@@ -128,32 +127,32 @@ export const JobView = ({
               <li>{role}</li>
             ))}
           </ul>
-        </p>
+        </div>
       ) : null}
       {projectManagement ? (
-        <p className="text-white text-lg">
+        <div className="text-white text-lg">
           <h3
             style={{
-              textDecoration: "underline",
-              textDecorationColor: `${hex}`,
+              color: `${hex}`,
             }}
+            className=" inline-block"
           >
             Project Management:{" "}
-          </h3>
+          </h3>{" "}
           {projectManagement}
-        </p>
+        </div>
       ) : null}
-      <p className="text-white text-lg">
+      <div className="text-white text-lg">
         <h3
           style={{
-            textDecoration: "underline",
-            textDecorationColor: `${hex}`,
+            color: `${hex}`,
           }}
+          className=" inline-block"
         >
-          Industry:{" "}
-        </h3>
+          Industry:
+        </h3>{" "}
         {industry}
-      </p>
+      </div>
     </article>
   );
 };
