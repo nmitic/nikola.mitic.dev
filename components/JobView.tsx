@@ -77,6 +77,13 @@ export const JobView = ({
       <h1 className="text-current">{title}</h1>
 
       <Markdown className="text-white">{markdown}</Markdown>
+      <div className="text-white">
+        {techStackTools.map((item) => (
+          <span className=" bg-gray-400 text-white inline-block mr-2 mb-2 p-1 rounded-md">
+            {item}
+          </span>
+        ))}
+      </div>
       {jobProjects.length ? (
         <>
           <h2
@@ -147,13 +154,6 @@ export const JobView = ({
         </h3>
         {industry}
       </p>
-      <div className="text-white">
-        {techStackTools.map((item) => (
-          <span className=" bg-gray-400 text-white inline-block mr-2 mb-2 p-1 rounded-md">
-            {item}
-          </span>
-        ))}
-      </div>
     </article>
   );
 };
