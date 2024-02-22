@@ -12,7 +12,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="h-full">
+    <html lang="en" className="h-full scroll-pt-[224px]">
       <head>
         <link
           rel="stylesheet"

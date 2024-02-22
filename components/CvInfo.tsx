@@ -7,8 +7,8 @@ const contactEmail = "nikola.mitic.dev@gmail.com";
 
 export const CvInfo = () => {
   return (
-    <aside className="text-center mb-10  lg:col-span-2">
-      <div key="cv-info" className="sticky top-5 text-center">
+    <aside className="text-center mb-10 lg:col-span-2">
+      <div key="cv-info" className="sticky top-[232px] text-center">
         <Image
           src={ProfilePicture}
           alt="Nikola Mitic profile picture"

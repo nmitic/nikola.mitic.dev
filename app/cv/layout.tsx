@@ -51,7 +51,7 @@ const CvLayout = async (param: { children: React.ReactNode }) => {
           <DownloadCvLink />
         </div>
         <div className="grid sm:grid-cols-[auto,1fr] gap-3 lg:flex lg:flex-col">
-          <div className="lg:mb-28">
+          <div className="lg:mb-28 sticky top-0 z-10">
             <TimeLine jobs={data.jobs} />
           </div>
           {param?.children ? param.children : null}

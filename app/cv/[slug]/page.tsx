@@ -1,6 +1,6 @@
 import { GraphQLClient, gql } from "graphql-request";
 import { JobData } from "../../../types/cv";
-import { JobView } from "../../../components/JobView";
+import { JobView, JobViewMenu } from "../../../components/JobView";
 import { Job } from "../../../types/cv";
 import { CvInfo } from "../../../components/CvInfo";
 
@@ -72,8 +72,20 @@ const JobPage = async ({ params }: { params: { slug: string } }) => {
 
   return (
     <>
-      <section className="print:hidden">
-        <JobView job={data.job} />
+      <section className="print:hidden grid grid-cols-12">
+        <div
+          style={{
+            color: `${data.job.themeColor.hex}`,
+          }}
+          className="col-span-3"
+        >
+          <div className="sticky top-[232px] hidden lg:block">
+            <JobViewMenu />
+          </div>
+        </div>
+        <div className=" col-span-12 lg:col-span-6">
+          <JobView job={data.job} />
+        </div>
       </section>
       <section className="lg:grid-cols-6 gap-5 hidden print:lg:grid">
         <CvInfo />
