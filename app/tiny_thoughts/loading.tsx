@@ -7,7 +7,7 @@ const LoadingIndicator = dynamic<{}>(
 
 const Loading = () => {
   return (
-    <div>
+    <div className="mb-auto mt-auto">
       <LoadingIndicator />
     </div>
   );
