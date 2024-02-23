@@ -8,9 +8,15 @@ import DateIcon from "../public/date-icon.svg";
 import LinkIcon from "../public/link-icon.svg";
 import { formatDate } from "../utils/formatDate";
 import Link from "next/link";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const MENU = {
   INTRO: { id: "intro", label: "Introduction" },
+  STACK: {
+    id: "stack",
+    label: "Tech stack",
+  },
   PROJECTS: {
     id: "projects",
     label: "Projects",
@@ -27,46 +33,35 @@ const MENU = {
     id: "industry",
     label: "Industry",
   },
-  STACK: {
-    id: "stack",
-    label: "Tech stack",
-  },
 };
 
 export const JobViewMenu = () => {
+  const params = useParams();
+  const [currentHash, setCurrentHash] = useState("");
+
+  const activeClassName = (hash: string, currentHash: string) => {
+    return `#${hash}` === currentHash ? "text-current" : "text-white";
+  };
+
+  useEffect(() => {
+    setCurrentHash(window.location.hash);
+  }, [params]);
+
   return (
     <nav className="underline decoration-current">
       <ul>
-        <li className=" text-lg">
-          <Link href={`#${MENU.INTRO.id}`} className="text-white">
-            {MENU.INTRO.label}
-          </Link>
-        </li>
-        <li className=" text-lg">
-          <Link href={`#${MENU.STACK.id}`} className="text-white">
-            {MENU.STACK.label}
-          </Link>
-        </li>
-        <li className=" text-lg">
-          <Link href={`#${MENU.PROJECTS.id}`} className="text-white">
-            {MENU.PROJECTS.label}
-          </Link>
-        </li>
-        <li className=" text-lg">
-          <Link href={`#${MENU.TEAM.id}`} className="text-white">
-            {MENU.TEAM.label}
-          </Link>
-        </li>
-        <li className=" text-lg">
-          <Link href={`#${MENU.PROJECT_MANAGEMENT.id}`} className="text-white">
-            {MENU.PROJECT_MANAGEMENT.label}
-          </Link>
-        </li>
-        <li className=" text-lg">
-          <Link href={`#${MENU.INDUSTRY.id}`} className="text-white">
-            {MENU.INDUSTRY.label}
-          </Link>
-        </li>
+        {Object.values(MENU).map((item) => {
+          return (
+            <li className="text-lg">
+              <Link
+                href={`#${item.id}`}
+                className={`${activeClassName(item.id, currentHash)}`}
+              >
+                {item.label}
+              </Link>
+            </li>
+          );
+        })}
       </ul>
     </nav>
   );
