@@ -1,39 +1,39 @@
 export type tinyThought = {
-  id: string
+  id: string;
   content: {
-    html: string,
-    markdown: string
-  },
-  createdAt: string
-}
+    html: string;
+    markdown: string;
+  };
+  createdAt: string;
+};
 
 export type tinyThoughtData = {
-  tinyThought: tinyThought
-}
+  tinyThought: tinyThought;
+};
 
 export type tinyThoughtsConnection = {
   aggregate: {
-    count: number
-  }
+    count: number;
+  };
 };
 
 export type tinyThoughtsData = {
-  tinyThoughts: tinyThought[]
-  tinyThoughtsConnection: tinyThoughtsConnection
-}
+  tinyThoughts: tinyThought[];
+  tinyThoughtsConnection: tinyThoughtsConnection;
+};
 
 export type UpdateResponseType = {
-  updateTinyThought: tinyThought;
+  data: tinyThought;
 };
 
 export type PublishResponseType = {
-  publishTinyThought: tinyThought;
+  data: tinyThought;
 };
 
 export type CreateResponseType = {
-  createTinyThought: tinyThought;
+  data: tinyThought;
 };
 
 export type DeleteResponseType = {
-  deleteTinyThought: tinyThought;
+  data: tinyThought;
 };

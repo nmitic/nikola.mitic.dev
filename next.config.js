@@ -63,6 +63,4 @@ const nextConfig = {
   },
 };
 
-console.log(path.join(__dirname, '/app/storage'), 'LOOK HERE!')
-
 module.exports = nextConfig;

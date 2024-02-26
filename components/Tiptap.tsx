@@ -204,18 +204,15 @@ export const AddTipTap = ({
 
   const handleAdd = async (content: string, clearContent: () => void) => {
     try {
-      const responseCreate: CreateResponseType = await client.request(
-        CREATE_NEW_TT,
-        {
-          content: {
-            children: htmlToSlate(content, slateDemoHtmlToSlateConfig),
-          },
-        }
-      );
-      await client.request(PUBLISH_TT, {
-        id: responseCreate.createTinyThought.id,
+      const response = await fetch("/api/content", {
+        method: "POST",
+        body: JSON.stringify({
+          content: htmlToSlate(content, slateDemoHtmlToSlateConfig),
+        }),
       });
-      updateTT((data) => [responseCreate.createTinyThought, ...data]);
+      const { data } = await response.json();
+
+      updateTT((prevData) => [data, ...prevData]);
       clearContent();
       router.refresh();
     } catch (error) {
@@ -259,24 +256,21 @@ export default ({
 
   const handleSave = async (content: string) => {
     try {
-      const responseUpdate: UpdateResponseType = await client.request(
-        UPDATE_TT,
-        {
-          content: {
-            children: htmlToSlate(content, slateDemoHtmlToSlateConfig),
-          },
+      const response = await fetch("/api/content", {
+        method: "PATCH",
+        body: JSON.stringify({
+          content: htmlToSlate(content, slateDemoHtmlToSlateConfig),
           id,
-        }
-      );
-      await client.request(PUBLISH_TT, {
-        id: responseUpdate.updateTinyThought.id,
+        }),
       });
+      const { data } = await response.json();
+
       setEditMode(false);
 
-      updateTT((data) =>
-        data.map((data) => {
-          if (data.id === id) {
-            return responseUpdate.updateTinyThought;
+      updateTT((prevData) =>
+        prevData.map((singleThought) => {
+          if (singleThought.id === id) {
+            return data;
           }
 
           return data;
@@ -289,8 +283,9 @@ export default ({
 
   const handleDelete = async () => {
     try {
-      await client.request(DELETE_TT, {
-        id,
+      await fetch("/api/content", {
+        method: "DELETE",
+        body: JSON.stringify({ id }),
       });
 
       setEditMode(false);

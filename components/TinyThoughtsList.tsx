@@ -147,6 +147,7 @@ const TinyThoughtsList = ({
       {data.map((tinyThought) => {
         return (
           <TinyThoughtsListItem
+            key={tinyThought.id}
             tinyThought={tinyThought}
             isLoggedIn={isLoggedIn}
             setData={setData}

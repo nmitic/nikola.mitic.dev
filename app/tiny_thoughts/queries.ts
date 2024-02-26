@@ -1,7 +1,7 @@
 import { gql } from "graphql-request";
 
 export const QUERY_ALL_TT = gql`
-  query TinyThoughtsQuery($first:Int, $skip: Int) {
+  query TinyThoughtsQuery($first: Int, $skip: Int) {
     tinyThoughts(first: $first, orderBy: createdAt_DESC, skip: $skip) {
       id
       createdAt
@@ -20,11 +20,11 @@ export const QUERY_ALL_TT = gql`
 
 export const UPDATE_TT = gql`
   mutation updateTinyThought($content: RichTextAST, $id: ID) {
-    updateTinyThought(data: { content: $content }, where: { id: $id }) {
+    data: updateTinyThought(data: { content: $content }, where: { id: $id }) {
       id
       createdAt
       content {
-        html,
+        html
         markdown
       }
     }
@@ -33,11 +33,11 @@ export const UPDATE_TT = gql`
 
 export const DELETE_TT = gql`
   mutation deleteTinyThought($id: ID) {
-    deleteTinyThought(where: { id: $id }) {
+    data: deleteTinyThought(where: { id: $id }) {
       id
       createdAt
       content {
-        html,
+        html
         markdown
       }
     }
@@ -46,11 +46,11 @@ export const DELETE_TT = gql`
 
 export const CREATE_NEW_TT = gql`
   mutation createTinyThought($content: RichTextAST) {
-    createTinyThought(data: { content: $content }) {
+    data: createTinyThought(data: { content: $content }) {
       id
       createdAt
       content {
-        html,
+        html
         markdown
       }
     }
@@ -59,11 +59,11 @@ export const CREATE_NEW_TT = gql`
 
 export const PUBLISH_TT = gql`
   mutation publishTinyThought($id: ID) {
-    publishTinyThought(where: { id: $id }) {
+    data: publishTinyThought(where: { id: $id }) {
       id
       createdAt
       content {
-        html,
+        html
         markdown
       }
     }
