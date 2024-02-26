@@ -9,7 +9,7 @@ const client = new GraphQLClient(
 const Portfolio = async () => {
   const query = gql`
     query PortfoliosQuery {
-      portfolios {
+      portfolios(orderBy: createdAt_DESC) {
         id
         imagePreview {
           url
