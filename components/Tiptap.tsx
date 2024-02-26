@@ -3,21 +3,8 @@ import { useRouter } from "next/navigation";
 import { EditorProvider, useCurrentEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { htmlToSlate, slateDemoHtmlToSlateConfig } from "slate-serializers";
-import { GraphQLClient } from "graphql-request";
-import {
-  CREATE_NEW_TT,
-  DELETE_TT,
-  PUBLISH_TT,
-  UPDATE_TT,
-} from "../app/tiny_thoughts/queries";
-import {
-  CreateResponseType,
-  UpdateResponseType,
-  tinyThought,
-} from "../types/tt";
+import { tinyThought } from "../types/tt";
 import Markdown from "markdown-to-jsx";
-
-const client = new GraphQLClient(process.env.NEXT_PUBLIC_HYGRAPH as string);
 
 const MenuBar = () => {
   const { editor } = useCurrentEditor();
