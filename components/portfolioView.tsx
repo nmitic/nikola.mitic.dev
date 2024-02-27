@@ -28,10 +28,16 @@ const PortfolioView = ({ data }: { data: PortfolioData }) => {
         <h1>{data.portfolio.title}</h1>
         <div className="bg-white p-4 rounded-xl float-left mr-4 mb-4 w-full md:w-auto relative z-0 break-inside-avoid">
           <div>
-            <a href={data.portfolio.liveLink} className="text-black block mb-3">
-              <LinkIcon className="inline-block align-middle fill-black w-6 h-6 mr-2 mb-2" />{" "}
-              Preview link
-            </a>
+            {data.portfolio.liveLink && (
+              <a
+                href={data.portfolio.liveLink}
+                className="text-black block mb-3"
+              >
+                <LinkIcon className="inline-block align-middle fill-black w-6 h-6 mr-2 mb-2" />{" "}
+                Preview link
+              </a>
+            )}
+
             <a
               href={data.portfolio.sourceCodeLink}
               className="text-black block mb-3"
