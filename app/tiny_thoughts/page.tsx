@@ -17,7 +17,7 @@ const TinyThoughts = async ({ searchParams }: any) => {
   const first = searchParams?.first ? parseInt(searchParams?.first) : 10;
   const skip = searchParams?.skip ? parseInt(searchParams?.skip) : 0;
 
-  const data = await getTinyThoughtsDataAction(first, skip);
+  const data = await getTinyThoughtsDataAction(first, skip, "/tiny_thoughts");
 
   const session = (await getServerSession(options)) as Session;
 

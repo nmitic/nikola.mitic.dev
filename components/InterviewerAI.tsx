@@ -186,13 +186,10 @@ export const InterviewerAI = () => {
       while (true) {
         const { done, value } = await reader.read();
         if (done) {
-          console.log("End of stream");
-
           break;
         }
         const decodedText = textDecoder.decode(value);
 
-        console.log("Received chunk:", decodedText);
         fullDecodedAnswer = fullDecodedAnswer + decodedText;
 
         setStreamedAnswer((prevAnswer) => prevAnswer + decodedText);

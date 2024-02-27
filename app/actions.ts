@@ -15,7 +15,8 @@ import { revalidatePath } from "next/cache";
 
 export const getTinyThoughtsDataAction = async (
   first: number = 1,
-  skip: number = 0
+  skip: number = 0,
+  pathToRevalidate: string
 ) => {
   try {
     const response: tinyThoughtsData = await hygraphClient.request(
@@ -26,7 +27,7 @@ export const getTinyThoughtsDataAction = async (
       }
     );
 
-    revalidatePath("/tiny_thoughts");
+    revalidatePath(pathToRevalidate);
 
     return response;
   } catch (error) {
@@ -34,7 +35,10 @@ export const getTinyThoughtsDataAction = async (
   }
 };
 
-export const addNewTinyThoughtAction = async (content: any) => {
+export const addNewTinyThoughtAction = async (
+  content: any,
+  pathToRevalidate: string
+) => {
   const session = await getServerSession(options);
 
   if (session) {
@@ -51,7 +55,7 @@ export const addNewTinyThoughtAction = async (content: any) => {
         id: responseCreate.data.id,
       });
 
-      revalidatePath("/tiny_thoughts");
+      revalidatePath(pathToRevalidate);
       return responsePublish;
     } catch (error) {
       console.log(error);
@@ -61,7 +65,11 @@ export const addNewTinyThoughtAction = async (content: any) => {
   }
 };
 
-export const updateTinyThoughtAction = async (content: any, id: string) => {
+export const updateTinyThoughtAction = async (
+  content: any,
+  id: string,
+  pathToRevalidate: string
+) => {
   const session = await getServerSession(options);
 
   if (session) {
@@ -79,7 +87,8 @@ export const updateTinyThoughtAction = async (content: any, id: string) => {
         id: responseUpdate.data.id,
       });
 
-      revalidatePath("/tiny_thoughts");
+      revalidatePath(pathToRevalidate);
+
       return responsePublish;
     } catch (error) {
       console.log(error);
@@ -89,7 +98,10 @@ export const updateTinyThoughtAction = async (content: any, id: string) => {
   }
 };
 
-export const removeTinyThoughtAction = async (id: string) => {
+export const removeTinyThoughtAction = async (
+  id: string,
+  pathToRevalidate: string
+) => {
   const session = await getServerSession(options);
 
   if (session) {
@@ -98,7 +110,7 @@ export const removeTinyThoughtAction = async (id: string) => {
         id,
       });
 
-      revalidatePath("/tiny_thoughts");
+      revalidatePath(pathToRevalidate);
 
       return responseDelete;
     } catch (error) {

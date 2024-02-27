@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { EditorProvider, useCurrentEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { htmlToSlate, slateDemoHtmlToSlateConfig } from "slate-serializers";
@@ -192,10 +192,16 @@ const AddAction = ({
 };
 
 export const AddTipTap = () => {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const first = searchParams.get("first");
+  const skip = searchParams.get("skip");
+
   const handleAdd = async (content: string, clearContent: () => void) => {
     try {
       await addNewTinyThoughtAction(
-        htmlToSlate(content, slateDemoHtmlToSlateConfig)
+        htmlToSlate(content, slateDemoHtmlToSlateConfig),
+        `${pathname}?first=${first}&skip=${skip}`
       );
       clearContent();
     } catch (error) {
@@ -231,12 +237,17 @@ export const RichTextEditor = ({
 }) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const session = useSession();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const first = searchParams.get("first");
+  const skip = searchParams.get("skip");
 
   const handleSave = async (content: string) => {
     try {
       await updateTinyThoughtAction(
         htmlToSlate(content, slateDemoHtmlToSlateConfig),
-        id
+        id,
+        `${pathname}?first=${first}&skip=${skip}`
       );
       setIsEditMode(false);
     } catch (error) {
@@ -246,7 +257,10 @@ export const RichTextEditor = ({
 
   const handleDelete = async () => {
     try {
-      await removeTinyThoughtAction(id);
+      await removeTinyThoughtAction(
+        id,
+        `${pathname}?first=${first}&skip=${skip}`
+      );
       setIsEditMode(false);
     } catch (error) {
       console.error(error);
