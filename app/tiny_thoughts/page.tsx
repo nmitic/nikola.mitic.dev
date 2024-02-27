@@ -13,10 +13,8 @@ import linkIcon from "../../public/link-icon.svg?url";
 import TinyThoughtsList from "../../components/TinyThoughtsList";
 import { getTinyThoughtsDataAction } from "../actions";
 
-export const FIRST = 10;
-
 const TinyThoughts = async ({ searchParams }: any) => {
-  const first = searchParams?.first ? parseInt(searchParams?.first) : FIRST;
+  const first = searchParams?.first ? parseInt(searchParams?.first) : 10;
   const skip = searchParams?.skip ? parseInt(searchParams?.skip) : 0;
 
   const data = await getTinyThoughtsDataAction(first, skip);
