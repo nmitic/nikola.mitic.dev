@@ -37,3 +37,7 @@ export type CreateResponseType = {
 export type DeleteResponseType = {
   data: tinyThought;
 };
+
+export type getAllResponseType = {
+  data: tinyThoughtsData;
+};

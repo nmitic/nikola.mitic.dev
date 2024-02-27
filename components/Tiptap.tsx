@@ -1,10 +1,19 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { EditorProvider, useCurrentEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { htmlToSlate, slateDemoHtmlToSlateConfig } from "slate-serializers";
 import { tinyThought } from "../types/tt";
 import Markdown from "markdown-to-jsx";
+import {
+  addNewTinyThoughtAction,
+  removeTinyThoughtAction,
+  updateTinyThoughtAction,
+} from "../app/actions";
+import EditIcon from "../public/edit-icon.svg";
+import { useSession } from "next-auth/react";
 
 const MenuBar = () => {
   const { editor } = useCurrentEditor();
@@ -182,26 +191,13 @@ const AddAction = ({
   );
 };
 
-export const AddTipTap = ({
-  updateTT,
-}: {
-  updateTT: React.Dispatch<React.SetStateAction<tinyThought[]>>;
-}) => {
-  const router = useRouter();
-
+export const AddTipTap = () => {
   const handleAdd = async (content: string, clearContent: () => void) => {
     try {
-      const response = await fetch("/api/content", {
-        method: "POST",
-        body: JSON.stringify({
-          content: htmlToSlate(content, slateDemoHtmlToSlateConfig),
-        }),
-      });
-      const { data } = await response.json();
-
-      updateTT((prevData) => [data, ...prevData]);
+      await addNewTinyThoughtAction(
+        htmlToSlate(content, slateDemoHtmlToSlateConfig)
+      );
       clearContent();
-      router.refresh();
     } catch (error) {
       console.error(error);
     }
@@ -223,46 +219,26 @@ export const AddTipTap = ({
   );
 };
 
-export default ({
+export const RichTextEditor = ({
   initialContent,
   id,
-  updateTT,
-  editMode,
-  setEditMode,
 }: {
   initialContent: {
     html: string;
     markdown: string;
   };
   id: string;
-  updateTT: React.Dispatch<React.SetStateAction<tinyThought[]>>;
-  setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
-  editMode: boolean;
 }) => {
-  const router = useRouter();
+  const [isEditMode, setIsEditMode] = useState(false);
+  const session = useSession();
 
   const handleSave = async (content: string) => {
     try {
-      const response = await fetch("/api/content", {
-        method: "PATCH",
-        body: JSON.stringify({
-          content: htmlToSlate(content, slateDemoHtmlToSlateConfig),
-          id,
-        }),
-      });
-      const { data } = await response.json();
-
-      setEditMode(false);
-
-      updateTT((prevData) =>
-        prevData.map((singleThought) => {
-          if (singleThought.id === id) {
-            return data;
-          }
-
-          return data;
-        })
+      await updateTinyThoughtAction(
+        htmlToSlate(content, slateDemoHtmlToSlateConfig),
+        id
       );
+      setIsEditMode(false);
     } catch (error) {
       console.error(error);
     }
@@ -270,15 +246,8 @@ export default ({
 
   const handleDelete = async () => {
     try {
-      await fetch("/api/content", {
-        method: "DELETE",
-        body: JSON.stringify({ id }),
-      });
-
-      setEditMode(false);
-      updateTT((data) => data.filter((data) => data.id !== id));
-
-      router.refresh();
+      await removeTinyThoughtAction(id);
+      setIsEditMode(false);
     } catch (error) {
       console.error(error);
     }
@@ -286,20 +255,21 @@ export default ({
 
   return (
     <section className="prose prose-invert max-w-none">
-      {editMode ? (
+      {isEditMode ? (
         <EditorProvider
-          slotBefore={editMode ? <MenuBar /> : null}
+          slotBefore={<MenuBar />}
           extensions={extensions}
           content={initialContent.html}
-          slotAfter={
-            editMode ? (
-              <Actions onSave={handleSave} onDelete={handleDelete} />
-            ) : null
-          }
+          slotAfter={<Actions onSave={handleSave} onDelete={handleDelete} />}
           children={undefined}
         ></EditorProvider>
       ) : (
         <Markdown className="text-white">{initialContent.markdown}</Markdown>
+      )}
+      {session.data?.user && (
+        <div className=" w-6 h-6 cursor-pointer">
+          <EditIcon onClick={() => setIsEditMode((prev) => !prev)} />
+        </div>
       )}
     </section>
   );

@@ -10,18 +10,28 @@ import emailIcon from "../../public/email-icon.svg?url";
 import workIcon from "../../public/work-icon.svg?url";
 import locationIcon from "../../public/location-icon.svg?url";
 import linkIcon from "../../public/link-icon.svg?url";
-import { tinyThoughtsData } from "../../types/tt";
 import TinyThoughtsList from "../../components/TinyThoughtsList";
-import { getTinyThoughtsData } from "./data_getters";
+import { getTinyThoughtsDataAction } from "../actions";
 
-const TinyThoughts = async () => {
-  const {
-    data: { tinyThoughts, tinyThoughtsConnection },
-  }: { data: tinyThoughtsData } = await getTinyThoughtsData();
+export const FIRST = 10;
+
+const TinyThoughts = async ({ searchParams }: any) => {
+  const first = searchParams?.first ? parseInt(searchParams?.first) : FIRST;
+  const skip = searchParams?.skip ? parseInt(searchParams?.skip) : 0;
+
+  const data = await getTinyThoughtsDataAction(first, skip);
 
   const session = (await getServerSession(options)) as Session;
 
   const isLoggedIn = !!session;
+
+  const totalCount = data?.tinyThoughtsConnection.aggregate.count;
+
+  const showLoadMoreBtn = totalCount ? first < totalCount : false;
+
+  if (!data) {
+    return null;
+  }
 
   return (
     <div className="container max-w-3xl mx-auto mb-auto mt-auto">
@@ -29,7 +39,7 @@ const TinyThoughts = async () => {
         <section className="px-4 py-2 flex flex-col">
           <span className="fullName text-2xl">Nikola Mitic</span>
           <span className="text-sm text-slate-500">
-            {tinyThoughtsConnection.aggregate.count} thoughts
+            {data.tinyThoughtsConnection.aggregate.count} thoughts
           </span>
         </section>
       </div>
@@ -95,7 +105,11 @@ const TinyThoughts = async () => {
           </span>
         </div>
       </div>
-      <TinyThoughtsList tinyThoughts={tinyThoughts} isLoggedIn={isLoggedIn} />
+      <TinyThoughtsList
+        tinyThoughts={data?.tinyThoughts}
+        isLoggedIn={isLoggedIn}
+        showLoadMoreBtn={showLoadMoreBtn}
+      />
     </div>
   );
 };
