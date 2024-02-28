@@ -22,6 +22,6 @@ export async function GET() {
 
     return response;
   } catch (error) {
-    return new NextResponse("Error while generating pdf", { status: 500 });
+    return new NextResponse(`${error}`, { status: 500 });
   }
 }
