@@ -11,7 +11,7 @@ async function getBrowser() {
     executablePath: await chromium.executablePath(
       `https://github.com/Sparticuz/chromium/releases/download/v116.0.0/chromium-v116.0.0-pack.tar`
     ),
-    headless: chromium.headless,
+    headless: true,
     ignoreHTTPSErrors: true,
   });
 }
