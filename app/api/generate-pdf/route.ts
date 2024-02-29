@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import puppeteer from "puppeteer";
 
 async function printPDF() {
@@ -22,6 +22,7 @@ export async function GET() {
 
     return response;
   } catch (error) {
-    return new NextResponse(`${error}`, { status: 500 });
+    console.error(error);
+    return new NextResponse("error generating pdf", { status: 500 });
   }
 }
