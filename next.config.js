@@ -10,6 +10,8 @@ const nextConfig = {
     // with nextjs automatic static generation
     workerThreads: false,
     cpus: 1,
+    // fix for puppeteer >> https://github.com/puppeteer/puppeteer/issues/11052
+    serverComponentsExternalPackages: ['puppeteer-core'],
   },
   images: {
     remotePatterns: [

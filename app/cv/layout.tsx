@@ -1,7 +1,4 @@
-"use client";
-
 import { GraphQLClient, gql } from "graphql-request";
-import { AnimatePresence } from "framer-motion";
 import CvSwitch from "../../components/CvSwitch";
 import TimeLine from "../../components/Timeline/Timeline";
 import { markdown } from "../../utils/getMarkdown";
@@ -42,22 +39,20 @@ const CvLayout = async (param: { children: React.ReactNode }) => {
   const data: JobsData = await client.request(query);
 
   return (
-    <AnimatePresence>
-      <section className=" mb-auto">
-        <div className=" mb-5 sm:mb-10">
-          <CvSwitch />
+    <section className=" mb-auto">
+      <div className=" mb-5 sm:mb-10">
+        <CvSwitch />
+      </div>
+      <div className=" mb-5 sm:mb-10">
+        <DownloadCvLink />
+      </div>
+      <div className="grid sm:grid-cols-[auto,1fr] gap-3 lg:flex lg:flex-col">
+        <div className="lg:mb-28 sticky top-0 z-10">
+          <TimeLine jobs={data.jobs} />
         </div>
-        <div className=" mb-5 sm:mb-10">
-          <DownloadCvLink />
-        </div>
-        <div className="grid sm:grid-cols-[auto,1fr] gap-3 lg:flex lg:flex-col">
-          <div className="lg:mb-28 sticky top-0 z-10">
-            <TimeLine jobs={data.jobs} />
-          </div>
-          {param?.children ? param.children : null}
-        </div>
-      </section>
-    </AnimatePresence>
+        {param?.children ? param.children : null}
+      </div>
+    </section>
   );
 };
 
