@@ -6,8 +6,6 @@ import Link from "next/link";
 export const ProfileName = () => {
   const { data: session } = useSession();
 
-  console.log(session?.user);
-
   if (session?.user) {
     return (
       <Link href="/api/auth/signout" className="inline-block">
