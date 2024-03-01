@@ -1,23 +1,17 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import Image from "next/image";
 import Link from "next/link";
 
-export const ProfileImage = () => {
+export const ProfileName = () => {
   const { data: session } = useSession();
 
-  if (session?.user && session?.user.image) {
+  console.log(session?.user);
+
+  if (session?.user) {
     return (
       <Link href="/api/auth/signout" className="inline-block">
-        <Image
-          priority
-          src={session?.user.image}
-          alt="nikola mitic github profile picture"
-          width={40}
-          height={40}
-          className=" rounded-full"
-        />
+        {session.user.name}
       </Link>
     );
   }

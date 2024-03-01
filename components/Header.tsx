@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ProfileImage } from "./ProfileImage";
+import { ProfileName } from "./ProfileName";
 import logoIcon from "../public/logo-inverted.svg?url";
 import Image from "next/image";
 
@@ -14,7 +14,7 @@ export const Header = () => {
           width={200}
         />
       </Link>
-      <ProfileImage />
+      <ProfileName />
     </header>
   );
 };
