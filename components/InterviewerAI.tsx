@@ -153,7 +153,7 @@ export const InterviewerAI = () => {
 
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_AI_INTERVIEWER_SERVICE}?question=${question}`
+        `${process.env.NEXT_PUBLIC_AI_INTERVIEWER_SERVICE}/api/ask?question=${question}`
       );
 
       if (!response.ok) {
