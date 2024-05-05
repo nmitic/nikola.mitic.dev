@@ -342,6 +342,7 @@ export const InterviewerAI = () => {
             onChange={handleQuestionChange}
             required
             onKeyDown={handleKeyDown}
+            autoFocus
           />
           <button
             type="submit"
