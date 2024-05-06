@@ -3,9 +3,13 @@
 import { useEffect, useState } from "react";
 
 const QuestionTranscript = ({
-  onSpeechEnd,
+  onEnd,
+  onStart,
+  listening,
 }: {
-  onSpeechEnd: (question: string) => void;
+  onEnd: (question: string) => void;
+  onStart: () => void;
+  listening: boolean;
 }) => {
   const [finalTranscripts, setFinalTranscripts] = useState("");
   const [interimTranscripts, setInterimTranscripts] = useState("");
@@ -35,74 +39,127 @@ const QuestionTranscript = ({
       setInterimTranscripts(interimTranscriptsTemp);
     };
 
-    recognition.start();
-
     recognition.onend = (_event: Event) => {
-      onSpeechEnd(finalTranscriptsTemp);
+      onEnd(finalTranscriptsTemp);
     };
+
+    recognition.onstart = () => {
+      onStart();
+    };
+
+    if (listening) {
+      recognition.start();
+    } else {
+      recognition.stop();
+    }
 
     return () => {
       recognition.stop();
     };
-  }, []);
+  }, [listening]);
 
   return (
-    <p>
-      {finalTranscripts}
+    <p className="text-3xl">
+      {finalTranscripts ? finalTranscripts + "?" : null}
       <span className=" text-gray-400">{interimTranscripts}</span>
     </p>
   );
 };
 
-const AudioAnswer = ({ question }: { question: string }) => {
-  // useEffect(() => {
-  //   const playAudio = async () => {
-  //     if (!!question) {
-  //       try {
-  //         const response = await fetch(
-  //           `${process.env.NEXT_PUBLIC_AI_INTERVIEWER_SERVICE}/api/talk?question=${question}`
-  //         );
-  //         if (!response.ok) {
-  //           throw new Error(`${response.status} = ${response.statusText}`);
-  //         }
-  //       } catch (error) {
-  //         console.error("Error playing audio:", error);
-  //       }
-  //     }
-  //   };
+const AudioAnswer = ({
+  question,
+  onAnswerDone,
+}: {
+  question: string;
+  onAnswerDone: () => void;
+}) => {
+  setTimeout(() => {
+    onAnswerDone();
+  }, 1000);
 
-  //   playAudio();
-  // }, [question]);
+  return null;
+};
 
-  if (!question) {
-    return null;
+enum TalkStatusEnum {
+  notListening = "not-listening",
+  listening = "listening",
+  thinking = "thinking",
+  talking = "talking",
+}
+
+const getStatusMSG = (status: TalkStatusEnum) => {
+  switch (status) {
+    case TalkStatusEnum.notListening:
+      return "Click here to start talking";
+    case TalkStatusEnum.listening:
+      return "I am listening";
+    case TalkStatusEnum.thinking:
+      return "I am thinking, be patient";
+    case TalkStatusEnum.talking:
+      return "I am talking you better be listening";
+    default:
+      break;
   }
+};
 
+const TalkStatus = ({
+  status,
+  onClick,
+}: {
+  status: TalkStatusEnum;
+  onClick: () => void;
+}) => {
   return (
-    <div>
-      <audio controls autoPlay>
-        <source src="horse.ogg" type="audio/ogg" />
-        <source
-          src={`${process.env.NEXT_PUBLIC_AI_INTERVIEWER_SERVICE}/api/talk?question=${question}`}
-          type="audio/mpeg"
-        />
-        Your browser does not support the audio element.
-      </audio>
+    <div className=" cursor-pointer" onClick={() => onClick()}>
+      {getStatusMSG(status)}
     </div>
   );
 };
 
 export const InterviewerAITalk = () => {
   const [question, setQuestion] = useState("");
+  const [talkStatus, setTalkStatus] = useState<TalkStatusEnum>(
+    TalkStatusEnum.notListening
+  );
+
+  const shouldRenderAudioAnswer =
+    !!question && talkStatus === TalkStatusEnum.thinking;
+
+  const shouldStartSpeechRecognition = talkStatus === TalkStatusEnum.listening;
 
   return (
-    <div>
-      <AudioAnswer question={question} />
-      <QuestionTranscript
-        onSpeechEnd={(question) => {
-          setQuestion(question);
+    <>
+      <TalkStatus
+        status={talkStatus}
+        onClick={() => {
+          setTalkStatus(TalkStatusEnum.listening);
         }}
       />
-    </div>
+      <div className="flex h-full items-center justify-center mb-auto mt-auto">
+        {shouldRenderAudioAnswer ? (
+          <AudioAnswer
+            question={question}
+            onAnswerDone={() => {
+              setTalkStatus(TalkStatusEnum.listening);
+            }}
+          />
+        ) : null}
+
+        <QuestionTranscript
+          onEnd={(question) => {
+            if (!!question) {
+              setQuestion(question);
+              setTalkStatus(TalkStatusEnum.thinking);
+            } else {
+              setTalkStatus(TalkStatusEnum.notListening);
+            }
+          }}
+          onStart={() => {
+            setTalkStatus(TalkStatusEnum.listening);
+          }}
+          listening={shouldStartSpeechRecognition}
+        />
+      </div>
+    </>
   );
 };
