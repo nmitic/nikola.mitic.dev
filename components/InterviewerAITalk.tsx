@@ -59,23 +59,100 @@ const QuestionTranscript = ({
   }, [listening]);
 
   return (
-    <p className="text-3xl">
+    <p className="text-3xl m-auto max-w-[680px]">
       {finalTranscripts ? finalTranscripts + "?" : null}
       <span className=" text-gray-400">{interimTranscripts}</span>
     </p>
   );
 };
 
+const fetchAudioAnswerStream = async (question: string) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_AI_INTERVIEWER_SERVICE}/api/talk?question=${question}&demo=true`
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    // Check if the Response object has a ReadableStream as its body
+    if (!response.body || !response.body.getReader) {
+      console.error("Streaming not supported in this environment.");
+      return;
+    }
+
+    const reader = response.body.getReader();
+
+    const readerResults = await reader.read();
+    const readerResultsValue = readerResults.value;
+
+    return readerResultsValue;
+  } catch (error) {
+    console.error("AudioAnswer", error);
+  }
+};
+
+const audioPlayer = async (
+  question: string
+): Promise<HTMLAudioElement | undefined> => {
+  try {
+    const audioAnswerStream = await fetchAudioAnswerStream(question);
+    const blob = new Blob([audioAnswerStream as BlobPart], {
+      type: "audio/mp3",
+    });
+    const url = window.URL.createObjectURL(blob);
+    const audio = new Audio();
+    audio.src = url;
+    return audio;
+  } catch (error) {
+    console.error("playAnswer", error);
+  }
+};
+
+const playAudio = async ({
+  onAudioEnded,
+  onAnswerStart,
+  question,
+}: {
+  onAudioEnded: () => void;
+  onAnswerStart: () => void;
+  question: string;
+}) => {
+  const audio = await audioPlayer(question);
+  if (audio) {
+    audio?.play();
+    audio.addEventListener("playing", () => {
+      onAnswerStart();
+    });
+    audio.addEventListener("ended", () => {
+      onAudioEnded();
+      console.log("DONE");
+    });
+  }
+};
+
 const AudioAnswer = ({
   question,
   onAnswerDone,
+  onAnswerStart,
 }: {
   question: string;
   onAnswerDone: () => void;
+  onAnswerStart: () => void;
 }) => {
-  setTimeout(() => {
-    onAnswerDone();
-  }, 1000);
+  useEffect(() => {
+    console.log("runnig audio effect");
+    if (question !== "") {
+      console.log("play audio form effect");
+
+      playAudio({
+        onAudioEnded: onAnswerDone,
+        onAnswerStart: onAnswerStart,
+        question,
+      });
+    }
+  }, [question]);
 
   return null;
 };
@@ -122,9 +199,6 @@ export const InterviewerAITalk = () => {
     TalkStatusEnum.notListening
   );
 
-  const shouldRenderAudioAnswer =
-    !!question && talkStatus === TalkStatusEnum.thinking;
-
   const shouldStartSpeechRecognition = talkStatus === TalkStatusEnum.listening;
 
   return (
@@ -135,15 +209,17 @@ export const InterviewerAITalk = () => {
           setTalkStatus(TalkStatusEnum.listening);
         }}
       />
-      <div className="flex h-full items-center justify-center mb-auto mt-auto">
-        {shouldRenderAudioAnswer ? (
-          <AudioAnswer
-            question={question}
-            onAnswerDone={() => {
-              setTalkStatus(TalkStatusEnum.listening);
-            }}
-          />
-        ) : null}
+      <div className="container max-w-3xl mx-auto mb-auto mt-auto">
+        <AudioAnswer
+          question={question}
+          onAnswerDone={() => {
+            setTalkStatus(TalkStatusEnum.listening);
+            setQuestion("");
+          }}
+          onAnswerStart={() => {
+            setTalkStatus(TalkStatusEnum.talking);
+          }}
+        />
 
         <QuestionTranscript
           onEnd={(question) => {
