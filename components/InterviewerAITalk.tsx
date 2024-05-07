@@ -66,95 +66,33 @@ const QuestionTranscript = ({
   );
 };
 
-const fetchAudioAnswerStream = async (question: string) => {
-  try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_AI_INTERVIEWER_SERVICE}/api/talk?question=${question}&demo=true`
-    );
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    // Check if the Response object has a ReadableStream as its body
-    if (!response.body || !response.body.getReader) {
-      console.error("Streaming not supported in this environment.");
-      return;
-    }
-
-    const reader = response.body.getReader();
-
-    const readerResults = await reader.read();
-    const readerResultsValue = readerResults.value;
-
-    return readerResultsValue;
-  } catch (error) {
-    console.error("AudioAnswer", error);
-  }
-};
-
-const audioPlayer = async (
-  question: string
-): Promise<HTMLAudioElement | undefined> => {
-  try {
-    const audioAnswerStream = await fetchAudioAnswerStream(question);
-    const blob = new Blob([audioAnswerStream as BlobPart], {
-      type: "audio/mp3",
-    });
-    const url = window.URL.createObjectURL(blob);
-    const audio = new Audio();
-    audio.src = url;
-    return audio;
-  } catch (error) {
-    console.error("playAnswer", error);
-  }
-};
-
-const playAudio = async ({
-  onAudioEnded,
-  onAnswerStart,
-  question,
-}: {
-  onAudioEnded: () => void;
-  onAnswerStart: () => void;
-  question: string;
-}) => {
-  const audio = await audioPlayer(question);
-  if (audio) {
-    audio?.play();
-    audio.addEventListener("playing", () => {
-      onAnswerStart();
-    });
-    audio.addEventListener("ended", () => {
-      onAudioEnded();
-      console.log("DONE");
-    });
-  }
-};
-
 const AudioAnswer = ({
   question,
   onAnswerDone,
   onAnswerStart,
-  thinking,
+  demo = true,
 }: {
   question: string;
   onAnswerDone: () => void;
   onAnswerStart: () => void;
-  thinking: boolean;
+  demo?: boolean;
 }) => {
-  useEffect(() => {
-    console.log("running audio effect");
-    if (thinking) {
-      playAudio({
-        onAudioEnded: onAnswerDone,
-        onAnswerStart: onAnswerStart,
-        question,
-      });
-    }
-  }, [thinking]);
-
-  return null;
+  return (
+    <audio
+      autoPlay
+      onPlay={() => {
+        onAnswerStart();
+      }}
+      onEnded={() => {
+        onAnswerDone();
+      }}
+    >
+      <source
+        src={`${process.env.NEXT_PUBLIC_AI_INTERVIEWER_SERVICE}/api/talk?question=${question}&demo=${demo}`}
+        type="audio/mp3"
+      />
+    </audio>
+  );
 };
 
 enum TalkStatusEnum {
@@ -201,6 +139,9 @@ export const InterviewerAITalk = () => {
 
   const listening = talkStatus === TalkStatusEnum.listening;
   const thinking = talkStatus === TalkStatusEnum.thinking;
+  const talking = talkStatus === TalkStatusEnum.talking;
+
+  const shouldRenderAudioAnswer = thinking || talking;
 
   return (
     <>
@@ -211,17 +152,18 @@ export const InterviewerAITalk = () => {
         }}
       />
       <div className="container max-w-3xl mx-auto mb-auto mt-auto">
-        <AudioAnswer
-          question={question}
-          thinking={thinking}
-          onAnswerDone={() => {
-            setTalkStatus(TalkStatusEnum.listening);
-            setQuestion("");
-          }}
-          onAnswerStart={() => {
-            setTalkStatus(TalkStatusEnum.talking);
-          }}
-        />
+        {shouldRenderAudioAnswer && (
+          <AudioAnswer
+            question={question}
+            onAnswerDone={() => {
+              setTalkStatus(TalkStatusEnum.listening);
+              setQuestion("");
+            }}
+            onAnswerStart={() => {
+              setTalkStatus(TalkStatusEnum.talking);
+            }}
+          />
+        )}
 
         <QuestionTranscript
           onEnd={(question) => {
