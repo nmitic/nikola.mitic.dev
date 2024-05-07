@@ -78,15 +78,7 @@ const AudioAnswer = ({
   demo?: boolean;
 }) => {
   return (
-    <audio
-      autoPlay
-      onPlay={() => {
-        onAnswerStart();
-      }}
-      onEnded={() => {
-        onAnswerDone();
-      }}
-    >
+    <audio autoPlay onPlay={onAnswerStart} onEnded={onAnswerDone}>
       <source
         src={`${process.env.NEXT_PUBLIC_AI_INTERVIEWER_SERVICE}/api/talk?question=${question}&demo=${demo}`}
         type="audio/mp3"
@@ -125,7 +117,7 @@ const TalkStatus = ({
   onClick: () => void;
 }) => {
   return (
-    <div className=" cursor-pointer" onClick={() => onClick()}>
+    <div className=" cursor-pointer" onClick={onClick}>
       {getStatusMSG(status)}
     </div>
   );
