@@ -136,23 +136,23 @@ const AudioAnswer = ({
   question,
   onAnswerDone,
   onAnswerStart,
+  thinking,
 }: {
   question: string;
   onAnswerDone: () => void;
   onAnswerStart: () => void;
+  thinking: boolean;
 }) => {
   useEffect(() => {
-    console.log("runnig audio effect");
-    if (question !== "") {
-      console.log("play audio form effect");
-
+    console.log("running audio effect");
+    if (thinking) {
       playAudio({
         onAudioEnded: onAnswerDone,
         onAnswerStart: onAnswerStart,
         question,
       });
     }
-  }, [question]);
+  }, [thinking]);
 
   return null;
 };
@@ -199,7 +199,8 @@ export const InterviewerAITalk = () => {
     TalkStatusEnum.notListening
   );
 
-  const shouldStartSpeechRecognition = talkStatus === TalkStatusEnum.listening;
+  const listening = talkStatus === TalkStatusEnum.listening;
+  const thinking = talkStatus === TalkStatusEnum.thinking;
 
   return (
     <>
@@ -212,6 +213,7 @@ export const InterviewerAITalk = () => {
       <div className="container max-w-3xl mx-auto mb-auto mt-auto">
         <AudioAnswer
           question={question}
+          thinking={thinking}
           onAnswerDone={() => {
             setTalkStatus(TalkStatusEnum.listening);
             setQuestion("");
@@ -233,7 +235,7 @@ export const InterviewerAITalk = () => {
           onStart={() => {
             setTalkStatus(TalkStatusEnum.listening);
           }}
-          listening={shouldStartSpeechRecognition}
+          listening={listening}
         />
       </div>
     </>
