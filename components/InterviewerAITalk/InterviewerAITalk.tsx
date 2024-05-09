@@ -28,7 +28,6 @@ export const InterviewerAITalk = () => {
       <div className="container max-w-3xl mx-auto mb-auto mt-auto">
         {shouldRenderAudioAnswer && (
           <AudioAnswer
-            demo
             question={question}
             onAnswerDone={() => {
               setTalkStatus(TalkStatusEnum.listening);

@@ -72,7 +72,7 @@ export const TalkStatus = ({
     <div
       className={`${getStatusColorClass(
         status
-      )} cursor-pointer w-[120px] h-[120px] flex justify-center flex-col items-center text-center rounded-lg text-gree`}
+      )} cursor-pointer w-[120px] h-[120px] flex justify-center flex-col items-center text-center rounded-lg text-gree m-auto`}
       onClick={onClick}
     >
       {getStatusIconAndMsg(status)}
