@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { InterviewerAITalk } from "../../../components/InterviewerAITalk";
+import { InterviewerAITalk } from "../../../components/InterviewerAITalk/InterviewerAITalk";
 
 const AICloneInterviewTalk = async () => {
   return <InterviewerAITalk />;
