@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export const QuestionTranscript = ({
   onEnd,
@@ -11,48 +11,54 @@ export const QuestionTranscript = ({
 }) => {
   const [finalTranscripts, setFinalTranscripts] = useState("");
   const [interimTranscripts, setInterimTranscripts] = useState("");
+  const recognition = useRef<SpeechRecognition | null>(null);
 
   useEffect(() => {
-    const recognition = new (window.SpeechRecognition ||
+    recognition.current = new (window.SpeechRecognition ||
       window.webkitSpeechRecognition)();
 
-    recognition.lang = "en-US";
-    recognition.interimResults = true;
+    recognition.current.lang = "en-US";
+    recognition.current.interimResults = true;
+  }, []);
 
+  useEffect(() => {
     let finalTranscriptsTemp = "";
+    if (recognition.current) {
+      recognition.current.onresult = (event: SpeechRecognitionEvent) => {
+        let interimTranscriptsTemp = "";
 
-    recognition.onresult = (event: SpeechRecognitionEvent) => {
-      let interimTranscriptsTemp = "";
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          const transcript = event.results[i][0].transcript;
 
-      for (let i = event.resultIndex; i < event.results.length; i++) {
-        const transcript = event.results[i][0].transcript;
-
-        if (event.results[i].isFinal) {
-          finalTranscriptsTemp += transcript;
-        } else {
-          interimTranscriptsTemp += transcript;
+          if (event.results[i].isFinal) {
+            finalTranscriptsTemp += transcript;
+          } else {
+            interimTranscriptsTemp += transcript;
+          }
         }
-      }
-      setFinalTranscripts(finalTranscriptsTemp);
-      setInterimTranscripts(interimTranscriptsTemp);
-    };
+        setFinalTranscripts(finalTranscriptsTemp);
+        setInterimTranscripts(interimTranscriptsTemp);
+      };
 
-    recognition.onend = (_event: Event) => {
-      onEnd(finalTranscriptsTemp);
-    };
+      recognition.current.onend = (_event: Event) => {
+        onEnd(finalTranscriptsTemp);
+      };
 
-    recognition.onstart = () => {
-      onStart();
-    };
+      recognition.current.onstart = () => {
+        onStart();
+      };
+    }
+  }, [listening]);
 
+  useEffect(() => {
     if (listening) {
-      recognition.start();
+      recognition?.current?.start();
     } else {
-      recognition.stop();
+      recognition?.current?.stop();
     }
 
     return () => {
-      recognition.stop();
+      recognition?.current?.stop();
     };
   }, [listening]);
 

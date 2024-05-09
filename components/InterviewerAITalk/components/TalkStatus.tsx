@@ -10,52 +10,59 @@ export enum TalkStatusEnum {
   talking = "talking",
 }
 
+const StatusIconMsg = ({
+  icon: Icon,
+  message,
+  bgColorClassName,
+}: {
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  message: string;
+  bgColorClassName: string;
+}) => {
+  return (
+    <div
+      className={`${bgColorClassName} w-[120px] h-[120px] gap-2 flex justify-between p-3 flex-col items-center text-center rounded-3xl text-gree`}
+    >
+      <div className=" text-black">{message}</div>
+      <Icon className="h-12 w-12" />
+    </div>
+  );
+};
+
 export const getStatusIconAndMsg = (status: TalkStatusEnum) => {
   switch (status) {
     case TalkStatusEnum.notListening:
       return (
-        <>
-          <div className=" text-black">Click here to start talking</div>
-          <MicrophoneDisabled className="h-12 w-12" />
-        </>
+        <StatusIconMsg
+          icon={MicrophoneDisabled}
+          message="Click here to start talking"
+          bgColorClassName="bg-white"
+        />
       );
     case TalkStatusEnum.listening:
       return (
-        <>
-          <div className=" text-black">I am listening</div>
-
-          <Microphone className="h-12 w-12" />
-        </>
+        <StatusIconMsg
+          icon={Microphone}
+          message="I am listening"
+          bgColorClassName="bg-green-500"
+        />
       );
     case TalkStatusEnum.thinking:
       return (
-        <>
-          <div className="text-black">I am thinking</div>
-          <Voice className="h-12 w-12 " />
-        </>
+        <StatusIconMsg
+          icon={Voice}
+          message="I am thinking"
+          bgColorClassName="bg-blue-500"
+        />
       );
     case TalkStatusEnum.talking:
       return (
-        <>
-          <div className=" text-black">I am talking</div>
-          <ThoughtBubble className="h-12 w-12 " />
-        </>
+        <StatusIconMsg
+          icon={ThoughtBubble}
+          message="I am talking"
+          bgColorClassName="bg-orange-500"
+        />
       );
-    default:
-      break;
-  }
-};
-
-const getStatusColorClass = (status: TalkStatusEnum) => {
-  switch (status) {
-    case TalkStatusEnum.notListening:
-      return "bg-white";
-    case TalkStatusEnum.listening:
-      return "bg-green-500";
-    case TalkStatusEnum.thinking:
-      return "bg-blue-500";
-    case TalkStatusEnum.talking:
-      return "bg-orange-500";
     default:
       break;
   }
@@ -63,19 +70,30 @@ const getStatusColorClass = (status: TalkStatusEnum) => {
 
 export const TalkStatus = ({
   status,
-  onClick,
+  onStart,
+  onStop,
 }: {
   status: TalkStatusEnum;
-  onClick: () => void;
+  onStart: () => void;
+  onStop: () => void;
 }) => {
   return (
-    <div
-      className={`${getStatusColorClass(
-        status
-      )} cursor-pointer w-[120px] h-[120px] flex justify-center flex-col items-center text-center rounded-lg text-gree m-auto`}
-      onClick={onClick}
-    >
-      {getStatusIconAndMsg(status)}
-    </div>
+    <button className=" mx-auto group">
+      {status === TalkStatusEnum.notListening ? (
+        <div onClick={onStart}>
+          <div>{getStatusIconAndMsg(status)}</div>
+        </div>
+      ) : (
+        <>
+          <div>{getStatusIconAndMsg(status)}</div>
+          <div
+            className="bg-red-500 text-black rounded-3xl w-[120px] p-3 mt-2"
+            onClick={onStop}
+          >
+            Click to stop listening
+          </div>
+        </>
+      )}
+    </button>
   );
 };

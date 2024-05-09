@@ -21,13 +21,17 @@ export const InterviewerAITalk = () => {
     <>
       <TalkStatus
         status={talkStatus}
-        onClick={() => {
+        onStart={() => {
           setTalkStatus(TalkStatusEnum.listening);
+        }}
+        onStop={() => {
+          setTalkStatus(TalkStatusEnum.notListening);
         }}
       />
       <div className="container max-w-3xl mx-auto mb-auto mt-auto">
         {shouldRenderAudioAnswer && (
           <AudioAnswer
+            demo
             question={question}
             onAnswerDone={() => {
               setTalkStatus(TalkStatusEnum.listening);
