@@ -1,8 +1,31 @@
 import { Metadata } from "next";
-import { InterviewerAI } from "../../components/InterviewerAI";
+import MenuItem from "../../components/MenuItem";
+
+const MENU_ITEMS = [
+  {
+    href: `/ai_clone_interview/chat`,
+    text: "Chat with me",
+  },
+  {
+    href: "/ai_clone_interview/talk",
+    text: "Talk with me",
+  },
+];
 
 const AICloneInterview = async () => {
-  return <InterviewerAI />;
+  return (
+    <section className="flex h-full items-center justify-center mb-auto mt-auto">
+      <nav>
+        <ul className="leading-10">
+          {MENU_ITEMS.map((item) => {
+            return (
+              <MenuItem href={item.href} text={item.text} key={item.href} />
+            );
+          })}
+        </ul>
+      </nav>
+    </section>
+  );
 };
 
 export const metadata: Metadata = {
