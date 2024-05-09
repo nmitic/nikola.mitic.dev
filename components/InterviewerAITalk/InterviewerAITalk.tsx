@@ -19,6 +19,18 @@ export const InterviewerAITalk = () => {
 
   return (
     <>
+      <div className="lg:w-[60%] mx-auto">
+        <h1 className="text-center mb-2 text-xl">
+          Hi there 👋. I am Niko's voice AI clone. Ask anything!
+        </h1>
+        <p>Click on the button bellow and use your voice to ask questions!</p>
+        <p>I will answer based on Niko's resume and blog.</p>
+        <p>
+          <span className="font-bold"> Please note:</span> In no way your
+          question or voice is being stored. If in doubt please refer to open
+          source of this project.
+        </p>
+      </div>
       <TalkStatus
         status={talkStatus}
         onStart={() => {

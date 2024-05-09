@@ -265,15 +265,17 @@ export const InterviewerAI = () => {
       {!autoInterviewOn && !chatHistory.length && (
         <div className="lg:w-[60%] mx-auto">
           <h1 className="text-center mb-2 text-xl">
-            Hi there 👋. I am Niko's AI clone. Ask anything!
+            Hi there 👋. I am Niko's chat AI clone. Ask anything!
           </h1>
           <p>
             I will answer based on Niko's resume and blog. If you are out of
             ideas what to ask, you can enable auto interview and pre defined set
             of question will be asked.
-            <span className="font-bold"> Please note:</span> It might take me
-            same time to answer your first question, so please give me some
-            time. Thanks!
+          </p>
+          <p>
+            <span className="font-bold"> Please note:</span> In no way your
+            question or voice is being stored. If in doubt please refer to open
+            source of this project.
           </p>
         </div>
       )}
