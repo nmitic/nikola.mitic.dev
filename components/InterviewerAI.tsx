@@ -8,6 +8,7 @@ import useAutoSizeTextArea from "../hooks/useAutoResizeTextArea";
 import { v4 as uuidv4 } from "uuid";
 import Avatar from "boring-avatars";
 import { Switch } from "./CvSwitch";
+import Link from "next/link";
 
 const fakeAnswer = (delay: number): Promise<string> => {
   return new Promise((resolve) => {
@@ -274,8 +275,13 @@ export const InterviewerAI = () => {
           </p>
           <p>
             <span className="font-bold"> Please note:</span> In no way your
-            question or voice is being stored. If in doubt please refer to open
-            source of this project.
+            question or voice is being stored. If in doubt please refer to{" "}
+            <Link
+              href={"/portfolio/ai-personal-interviewer"}
+              className=" underline"
+            >
+              open source of this project.
+            </Link>
           </p>
         </div>
       )}
