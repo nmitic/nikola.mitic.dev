@@ -35,7 +35,7 @@ export const getStatusIconAndMsg = (status: TalkStatusEnum) => {
       return (
         <StatusIconMsg
           icon={MicrophoneDisabled}
-          message="Click here to start talking"
+          message="Start talking"
           bgColorClassName="bg-white"
         />
       );
@@ -43,7 +43,7 @@ export const getStatusIconAndMsg = (status: TalkStatusEnum) => {
       return (
         <StatusIconMsg
           icon={Microphone}
-          message="I am listening"
+          message="Listening"
           bgColorClassName="bg-green-500"
         />
       );
@@ -51,7 +51,7 @@ export const getStatusIconAndMsg = (status: TalkStatusEnum) => {
       return (
         <StatusIconMsg
           icon={Voice}
-          message="I am thinking"
+          message="Thinking"
           bgColorClassName="bg-blue-500"
         />
       );
@@ -59,7 +59,7 @@ export const getStatusIconAndMsg = (status: TalkStatusEnum) => {
       return (
         <StatusIconMsg
           icon={ThoughtBubble}
-          message="I am talking"
+          message="Talking"
           bgColorClassName="bg-orange-500"
         />
       );
@@ -90,7 +90,7 @@ export const TalkStatus = ({
             className="bg-red-500 text-black rounded-3xl w-[120px] p-3 mt-2"
             onClick={onStop}
           >
-            Click to stop listening
+            Stop
           </div>
         </>
       )}
