@@ -70,7 +70,7 @@ const AudioAnswer = ({
   question,
   onAnswerDone,
   onAnswerStart,
-  demo = true,
+  demo = false,
 }: {
   question: string;
   onAnswerDone: () => void;
