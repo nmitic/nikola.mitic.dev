@@ -1,7 +1,8 @@
-import Microphone from "../../../public/microphone.svg";
-import MicrophoneDisabled from "../../../public/microphone-disabled.svg";
-import Voice from "../../../public/voice.svg";
-import ThoughtBubble from "../../../public/thought-bubble.svg";
+import Lottie from "lottie-react";
+import speakingAnimation from "../../../public/lottie/speaking-lottie.json";
+import recordingAnimation from "../../../public/lottie/recording-lottie.json";
+import thinkingAnimation from "../../../public/lottie/thinking-lottie.json";
+import callAnimation from "../../../public/lottie/call-lottie.json";
 
 export enum TalkStatusEnum {
   notListening = "not-listening",
@@ -10,62 +11,30 @@ export enum TalkStatusEnum {
   talking = "talking",
 }
 
-const StatusIconMsg = ({
-  icon: Icon,
-  message,
-  bgColorClassName,
-}: {
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
-  message: string;
-  bgColorClassName: string;
-}) => {
-  return (
-    <div
-      className={`${bgColorClassName} w-[120px] h-[120px] gap-2 flex justify-between p-3 flex-col items-center text-center rounded-3xl text-gree`}
-    >
-      <div className=" text-black">{message}</div>
-      <Icon className="h-12 w-12" />
-    </div>
-  );
-};
-
-export const getStatusIconAndMsg = (status: TalkStatusEnum) => {
+export const getStatusAnimation = (status: TalkStatusEnum) => {
   switch (status) {
     case TalkStatusEnum.notListening:
-      return (
-        <StatusIconMsg
-          icon={MicrophoneDisabled}
-          message="Start talking"
-          bgColorClassName="bg-white"
-        />
-      );
+      return <Lottie animationData={callAnimation} loop={true} />;
     case TalkStatusEnum.listening:
-      return (
-        <StatusIconMsg
-          icon={Microphone}
-          message="Listening"
-          bgColorClassName="bg-green-500"
-        />
-      );
+      return <Lottie animationData={recordingAnimation} loop={true} />;
     case TalkStatusEnum.thinking:
-      return (
-        <StatusIconMsg
-          icon={Voice}
-          message="Thinking"
-          bgColorClassName="bg-blue-500"
-        />
-      );
+      return <Lottie animationData={thinkingAnimation} loop={true} />;
     case TalkStatusEnum.talking:
-      return (
-        <StatusIconMsg
-          icon={ThoughtBubble}
-          message="Talking"
-          bgColorClassName="bg-orange-500"
-        />
-      );
+      return <Lottie animationData={speakingAnimation} loop={true} />;
     default:
       break;
   }
+};
+
+const StopBtn = ({ onStop }: { onStop: () => void }) => {
+  return (
+    <div
+      className="bg-red-500 text-black rounded-3xl w-full p-3 mt-2"
+      onClick={onStop}
+    >
+      Stop
+    </div>
+  );
 };
 
 export const TalkStatus = ({
@@ -78,22 +47,13 @@ export const TalkStatus = ({
   onStop: () => void;
 }) => {
   return (
-    <button className=" mx-auto group">
-      {status === TalkStatusEnum.notListening ? (
-        <div onClick={onStart}>
-          <div>{getStatusIconAndMsg(status)}</div>
+    <button className=" mx-auto group flex flex-col items-center">
+      <div onClick={onStart} className=" bg-white rounded-3xl">
+        <div className=" w-[120px] h-[120px] p-2">
+          {getStatusAnimation(status)}
         </div>
-      ) : (
-        <>
-          <div>{getStatusIconAndMsg(status)}</div>
-          <div
-            className="bg-red-500 text-black rounded-3xl w-[120px] p-3 mt-2"
-            onClick={onStop}
-          >
-            Stop
-          </div>
-        </>
-      )}
+      </div>
+      {status !== TalkStatusEnum.notListening && <StopBtn onStop={onStop} />}
     </button>
   );
 };
