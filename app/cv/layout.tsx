@@ -4,6 +4,8 @@ import TimeLine from "../../components/Timeline/Timeline";
 import { markdown } from "../../utils/getMarkdown";
 import { JobsData } from "../../types/cv";
 import { DownloadCvLink } from "../../components/DownloadCv";
+import { Drawer } from "../../components/Drawer";
+import { DrawerAI } from "../../components/DrawerAI";
 
 const client = new GraphQLClient(
   process.env.NEXT_PUBLIC_HYGRAPH_READ_ONLY as string
@@ -43,8 +45,9 @@ const CvLayout = async (param: { children: React.ReactNode }) => {
       <div className=" mb-5 sm:mb-10">
         <CvSwitch />
       </div>
-      <div className=" mb-5 sm:mb-10">
+      <div className=" mb-5 sm:mb-10 flex gap-3">
         <DownloadCvLink />
+        <DrawerAI />
       </div>
       <div className="grid sm:grid-cols-[auto,1fr] gap-3 lg:flex lg:flex-col">
         <div className="lg:mb-28 sticky top-0 z-10">

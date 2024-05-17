@@ -2,13 +2,13 @@ export const AudioAnswer = ({
   question,
   onAnswerDone,
   onAnswerStart,
-  demo = false,
 }: {
   question: string;
   onAnswerDone: () => void;
   onAnswerStart: () => void;
-  demo?: boolean;
 }) => {
+  const demo = process.env.NEXT_PUBLIC_AI_DEMO === "true";
+
   return (
     <audio autoPlay onPlay={onAnswerStart} onEnded={onAnswerDone}>
       <source
