@@ -35,7 +35,7 @@ export const DrawerAI = () => {
       </button>
       <Drawer isOpen={isOpen} setIsOpen={setIsOpen}>
         <div className=" flex flex-col-reverse h-full overflow-y-scroll">
-          <div className=" pb-6">
+          <div className=" pb-12">
             <ChatHistory
               history={chatHistory}
               streamedAnswer={streamedAnswer}
