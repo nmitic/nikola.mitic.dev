@@ -39,9 +39,10 @@ export const Drawer = ({
       />
       <div
         className={cn(
-          " transition-transform ease-in-out translate-x-[35vw] fixed z-50 w-[35vw] bg-black border-[0.5px] border-gray-500 top-0 bottom-0 right-0 rounded-tl-xl rounded-bl-2xl p-6",
+          " transition-transform ease-in-out fixed z-50 w-[35vw] bg-black border-[0.5px] border-gray-500 top-0 bottom-0 right-0 rounded-tl-xl rounded-bl-2xl p-6",
           {
             ["translate-x-0"]: isOpen,
+            ["translate-x-[35vw]"]: !isOpen,
           }
         )}
       >

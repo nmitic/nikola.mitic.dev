@@ -3,7 +3,7 @@ const CopyPlugin = require('copy-webpack-plugin')
 const path = require('path')
 
 const nextConfig = {
-  reactStrictMode: false,
+  reactStrictMode: true,
   experimental: {
     // This is experimental but can
     // be enabled to allow parallel threads
