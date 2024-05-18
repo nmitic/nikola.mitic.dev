@@ -48,7 +48,7 @@ export const InterviewerAI = () => {
     useChat();
   const { question, handleSubmit, handleQuestionChange, submitButtonDisabled } =
     useChatForm(streamedAnswer, ask);
-  const { openPdfInNewTab } = useChatHistoryPdf(chatHistory);
+  const { downloadPdf } = useChatHistoryPdf(chatHistory);
 
   const introShown = !autoInterviewOn && !chatHistory.length;
 
@@ -83,10 +83,7 @@ export const InterviewerAI = () => {
           label="auto interview"
         />
         {chatHistory.length && !autoInterviewOn ? (
-          <button
-            onClick={() => openPdfInNewTab()}
-            className=" hover:underline"
-          >
+          <button onClick={() => downloadPdf()} className=" hover:underline">
             Download conversation in PDF
           </button>
         ) : null}

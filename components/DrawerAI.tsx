@@ -18,10 +18,10 @@ export const DrawerAI = () => {
       "Hi Nikola, what a nice CV you have! Can you please summarize all your positions and responsibilities so far? I want to know how many years you spend in each position, location, your role, tech stack, team size and projects you worked on."
     );
   };
-  const { openPdfInNewTab } = useChatHistoryPdf(chatHistory);
+  const { downloadPdf } = useChatHistoryPdf(chatHistory);
 
   const handlePdfDownload = () => {
-    openPdfInNewTab();
+    downloadPdf();
   };
 
   useEffect(() => {
