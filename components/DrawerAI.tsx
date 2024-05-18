@@ -6,6 +6,7 @@ import { useChat } from "./InterviewerAI/InterviewerAI.hooks";
 import { ChatHistory } from "./InterviewerAI/components/ChatHistory";
 import { ChatForm } from "./InterviewerAI/components/ChatForm";
 import { useChatForm } from "./InterviewerAI/InterviewerAI";
+import { useChatHistoryPdf } from "./components.hooks";
 
 export const DrawerAI = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,6 +17,11 @@ export const DrawerAI = () => {
     await ask(
       "Hi Nikola, what a nice CV you have! Can you please summarize all your positions and responsibilities so far? I want to know how many years you spend in each position, location, your role, tech stack, team size and projects you worked on."
     );
+  };
+  const { openPdfInNewTab } = useChatHistoryPdf(chatHistory);
+
+  const handlePdfDownload = () => {
+    openPdfInNewTab();
   };
 
   useEffect(() => {
@@ -33,7 +39,17 @@ export const DrawerAI = () => {
       >
         Ask AI to summarize!
       </button>
-      <Drawer isOpen={isOpen} setIsOpen={setIsOpen}>
+      <Drawer
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        title={
+          <>
+            <button onClick={handlePdfDownload} className=" hover:underline">
+              Download conversation in PDF
+            </button>
+          </>
+        }
+      >
         <div className=" flex flex-col-reverse h-full overflow-y-scroll">
           <div className=" pb-20">
             <ChatHistory

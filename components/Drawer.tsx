@@ -6,10 +6,12 @@ import CloseIcon from "../public/close.svg";
 
 export const Drawer = ({
   children,
+  title,
   setIsOpen,
   isOpen,
 }: {
   children: React.ReactNode;
+  title?: string | React.ReactNode;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   isOpen: boolean;
 }) => {
@@ -47,9 +49,12 @@ export const Drawer = ({
           }
         )}
       >
-        <button onClick={() => setIsOpen(false)}>
-          <CloseIcon className=" w-10" />
-        </button>
+        <div className="flex mb-6">
+          <button onClick={() => setIsOpen(false)}>
+            <CloseIcon className=" w-10" />
+          </button>
+          <div className=" m-auto">{title}</div>
+        </div>
         {children}
       </div>
     </>

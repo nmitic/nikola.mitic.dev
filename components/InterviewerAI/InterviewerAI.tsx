@@ -6,6 +6,7 @@ import { ChatHistory } from "./components/ChatHistory";
 import { Intro } from "./components/ChatIntro";
 import { ChatForm } from "./components/ChatForm";
 import { useChat } from "./InterviewerAI.hooks";
+import { useChatHistoryPdf } from "../components.hooks";
 
 const autoInterviewQuestions = [
   "What is your current job?",
@@ -47,6 +48,8 @@ export const InterviewerAI = () => {
     useChat();
   const { question, handleSubmit, handleQuestionChange, submitButtonDisabled } =
     useChatForm(streamedAnswer, ask);
+  const { openPdfInNewTab } = useChatHistoryPdf(chatHistory);
+
   const introShown = !autoInterviewOn && !chatHistory.length;
 
   const handleSwitch = (switched: boolean) => {
@@ -73,12 +76,20 @@ export const InterviewerAI = () => {
 
   return (
     <>
-      <div>
+      <div className=" flex gap-6">
         <Switch
           onSwitch={handleSwitch}
           switched={autoInterviewOn}
           label="auto interview"
         />
+        {chatHistory.length && !autoInterviewOn ? (
+          <button
+            onClick={() => openPdfInNewTab()}
+            className=" hover:underline"
+          >
+            Download conversation in PDF
+          </button>
+        ) : null}
       </div>
       {introShown && (
         <div className="lg:w-[60%] mx-auto">
