@@ -1,12 +1,13 @@
 "use client";
 
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { Switch } from "../CvSwitch";
 import { ChatHistory } from "./components/ChatHistory";
 import { Intro } from "./components/ChatIntro";
 import { ChatForm } from "./components/ChatForm";
 import { useChat } from "./InterviewerAI.hooks";
 import { useChatHistoryPdf } from "../components.hooks";
+import { Button } from "../ui/Button";
+import { Switch } from "../ui/Switch";
 
 const autoInterviewQuestions = [
   "What is your current job?",
@@ -54,7 +55,6 @@ export const InterviewerAI = () => {
 
   const handleSwitch = (switched: boolean) => {
     setAutoInterviewOn(!switched);
-    clearChat();
   };
 
   useEffect(() => {
@@ -83,9 +83,7 @@ export const InterviewerAI = () => {
           label="auto interview"
         />
         {chatHistory.length && !autoInterviewOn ? (
-          <button onClick={() => downloadPdf()} className=" hover:underline">
-            Download conversation in PDF
-          </button>
+          <Button onClick={() => downloadPdf()}>Save interview</Button>
         ) : null}
       </div>
       {introShown && (

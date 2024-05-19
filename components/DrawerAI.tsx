@@ -7,6 +7,7 @@ import { ChatHistory } from "./InterviewerAI/components/ChatHistory";
 import { ChatForm } from "./InterviewerAI/components/ChatForm";
 import { useChatForm } from "./InterviewerAI/InterviewerAI";
 import { useChatHistoryPdf } from "./components.hooks";
+import { Button } from "./ui/Button";
 
 export const DrawerAI = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,29 +34,20 @@ export const DrawerAI = () => {
   }, [isOpen]);
   return (
     <>
-      <button
-        onClick={() => setIsOpen(true)}
-        className="print:hidden bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow self-start inline-block"
-      >
-        Ask AI to summarize!
-      </button>
+      <Button onClick={() => setIsOpen(true)}>Ask AI to summarize!</Button>
       <Drawer
         isOpen={isOpen}
         setIsOpen={setIsOpen}
-        title={
-          <>
-            <button onClick={handlePdfDownload} className=" hover:underline">
-              Download conversation in PDF
-            </button>
-          </>
-        }
+        title="Nikola Mitic AI clone - interview"
       >
         <div className=" flex flex-col-reverse h-full overflow-y-scroll">
-          <div className=" pb-20">
+          <div className=" pb-32">
             <ChatHistory
               history={chatHistory}
               streamedAnswer={streamedAnswer}
             />
+
+            <Button onClick={handlePdfDownload}>Save interview</Button>
           </div>
           <div className=" fixed bottom-6 left-0 right-0">
             <ChatForm
