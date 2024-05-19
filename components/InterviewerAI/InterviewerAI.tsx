@@ -18,6 +18,7 @@ const autoInterviewQuestions = [
   "What is the team size and roles in your current job?",
   "What technologies are you using for the current role?",
   "Are you using scrum or agile at the current company?",
+  "What is your preferred way of working, home office, onsite or hybrid",
   "What is your notice period?",
   "What is your expected salary range for Berlin - Germany?",
 ];
@@ -31,16 +32,35 @@ export const useChatForm = (
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setQuestion("");
-    await ask(question);
+    ask(question);
   };
 
   const handleQuestionChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setQuestion(event.target.value);
   };
 
+  const setQuestionSimulate = (question: string) => {
+    return new Promise((resolve) => {
+      const words = question.split(" ");
+      let completedTimeouts = 0;
+
+      words.forEach((item, index) => {
+        setTimeout(() => {
+          setQuestion((prev) => prev + " " + item);
+          completedTimeouts++;
+
+          if (completedTimeouts === words.length) {
+            resolve(undefined); // Resolve the promise when the last timeout is done
+          }
+        }, 120 * index);
+      });
+    });
+  };
+
   return {
     question,
     setQuestion,
+    setQuestionSimulate,
     submitButtonDisabled,
     handleSubmit,
     handleQuestionChange,
@@ -49,10 +69,14 @@ export const useChatForm = (
 
 export const InterviewerAI = () => {
   const [autoInterviewOn, setAutoInterviewOn] = useState(false);
-  const { streamedAnswer, chatHistory, ask, answeringInProgress, clearChat } =
-    useChat();
-  const { question, handleSubmit, handleQuestionChange, submitButtonDisabled } =
-    useChatForm(streamedAnswer, ask);
+  const { streamedAnswer, chatHistory, ask, answeringInProgress } = useChat();
+  const {
+    question,
+    handleSubmit,
+    handleQuestionChange,
+    submitButtonDisabled,
+    setQuestionSimulate,
+  } = useChatForm(streamedAnswer, ask);
   const { downloadPdf } = useChatHistoryPdf(chatHistory);
 
   const introShown = !autoInterviewOn && !chatHistory.length;
@@ -69,8 +93,13 @@ export const InterviewerAI = () => {
 
     if (shouldKeepAsking) {
       const question = autoInterviewQuestions[chatHistory.length];
-
-      ask(question);
+      setQuestionSimulate(question).then(() => {
+        setTimeout(() => {
+          if (document.chatFrom) {
+            document.chatFrom.requestSubmit();
+          }
+        }, 100);
+      });
     }
 
     if (allQuestionAsked) {

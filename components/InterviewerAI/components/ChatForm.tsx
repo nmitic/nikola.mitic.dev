@@ -28,7 +28,7 @@ export const ChatForm = ({
   };
 
   return (
-    <form onSubmit={onSubmit} ref={formRef}>
+    <form onSubmit={onSubmit} ref={formRef} name="chatFrom">
       <div className="flex px-4">
         <textarea
           rows={1}
