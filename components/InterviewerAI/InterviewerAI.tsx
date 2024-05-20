@@ -10,16 +10,18 @@ import { Button } from "../ui/Button";
 import { Switch } from "../ui/Switch";
 
 const autoInterviewQuestions = [
-  "Are you looking for the new job?",
-  "Which roles are you looking for in your next job?",
   "What is your current job?",
   "And what are your responsibilities in the current work?",
   "What are the project you are working on currently?",
   "What is the team size and roles in your current job?",
   "What technologies are you using for the current role?",
   "Are you using scrum or agile at the current company?",
+  "Are you looking for the new job?",
+  "Why are you looking for a new job?",
+  "What are you looking in your future employer and job position?",
+  "Which roles are you looking for in your next job?",
   "What is your preferred way of working, home office, onsite or hybrid",
-  "What is your notice period?",
+  "What is your notice period, and when you are going to be available for new job?",
   "What is your expected salary range for Berlin - Germany?",
 ];
 
