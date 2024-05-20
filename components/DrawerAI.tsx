@@ -55,6 +55,7 @@ export const DrawerAI = () => {
               onSubmit={handleSubmit}
               onChange={handleQuestionChange}
               disabled={submitButtonDisabled}
+              autoFocus={false}
             />
           </div>
         </div>

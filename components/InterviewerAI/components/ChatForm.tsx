@@ -7,11 +7,13 @@ export const ChatForm = ({
   onSubmit,
   onChange,
   disabled,
+  autoFocus = true,
 }: {
   question: string;
   onSubmit: FormEventHandler<HTMLFormElement>;
   onChange: ChangeEventHandler<HTMLTextAreaElement>;
   disabled: boolean;
+  autoFocus?: boolean;
 }) => {
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
@@ -39,7 +41,7 @@ export const ChatForm = ({
           onChange={onChange}
           required
           onKeyDown={handleKeyDown}
-          autoFocus
+          autoFocus={autoFocus}
         />
         <button
           type="submit"
