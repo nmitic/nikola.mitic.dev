@@ -12,7 +12,6 @@ import { Switch } from "../ui/Switch";
 const autoInterviewQuestions = [
   "What is your current job?",
   "And what are your responsibilities in the current work?",
-  "What are the project you are working on currently?",
   "What is the team size and roles in your current job?",
   "What technologies are you using for the current role?",
   "Are you using scrum or agile at the current company?",
