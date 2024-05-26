@@ -10,13 +10,14 @@ import { Button } from "../ui/Button";
 import { Switch } from "../ui/Switch";
 
 const autoInterviewQuestions = [
-  "What is your current job?",
-  "And what are your responsibilities in the current work?",
-  "What is the team size and roles in your current job?",
-  "What technologies are you using for the current role?",
-  "Are you using scrum or agile at the current company?",
+  "Where do you currently work?",
+  "And what are your responsibilities?",
+  "What is the team size and roles job?",
+  "What technologies are you using in your latest role?",
+  "Are you using scrum or agile in your latest role?",
   "Are you looking for the new job?",
-  "Why are you looking for a new job?",
+  "And why?",
+  "Looking at your resume one can notice you have been changing jobs very often, why is that?",
   "What are you looking in your future employer and job position?",
   "Which roles are you looking for in your next job?",
   "What is your preferred way of working, home office, onsite or hybrid",
@@ -80,7 +81,9 @@ export const InterviewerAI = () => {
   } = useChatForm(streamedAnswer, ask);
   const { downloadPdf } = useChatHistoryPdf(chatHistory);
 
-  const introShown = !autoInterviewOn && !chatHistory.length;
+  const shouldShowIntro = !autoInterviewOn && !chatHistory.length;
+  const shouldShowPdfDownloadBtn =
+    !answeringInProgress && chatHistory.length && !autoInterviewOn;
 
   const handleSwitch = (switched: boolean) => {
     setAutoInterviewOn(!switched);
@@ -116,11 +119,11 @@ export const InterviewerAI = () => {
           switched={autoInterviewOn}
           label="auto interview"
         />
-        {chatHistory.length && !autoInterviewOn ? (
+        {shouldShowPdfDownloadBtn ? (
           <Button onClick={() => downloadPdf()}>Save interview</Button>
         ) : null}
       </div>
-      {introShown && (
+      {shouldShowIntro && (
         <div className="lg:w-[60%] mx-auto">
           <Intro />
         </div>

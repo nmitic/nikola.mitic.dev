@@ -11,7 +11,8 @@ import { Button } from "./ui/Button";
 
 export const DrawerAI = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { streamedAnswer, chatHistory, ask, clearChat } = useChat();
+  const { streamedAnswer, chatHistory, ask, clearChat, answeringInProgress } =
+    useChat();
   const { question, handleSubmit, handleQuestionChange, submitButtonDisabled } =
     useChatForm(streamedAnswer, ask);
   const askQuestion = async () => {
@@ -47,7 +48,9 @@ export const DrawerAI = () => {
               streamedAnswer={streamedAnswer}
             />
 
-            <Button onClick={handlePdfDownload}>Save interview</Button>
+            {!answeringInProgress && (
+              <Button onClick={handlePdfDownload}>Save interview</Button>
+            )}
           </div>
           <div className=" fixed bottom-6 left-0 right-0">
             <ChatForm
