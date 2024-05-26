@@ -34,7 +34,7 @@ const Home = async () => {
       text: "Tiny Thoughts",
     },
     {
-      href: "/ai_clone_interview",
+      href: "/ai_clone_interview/talk",
       text: "Interview my AI clone",
     },
   ];

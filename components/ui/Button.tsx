@@ -2,7 +2,7 @@ export const Button = ({
   onClick,
   children,
 }: {
-  onClick: () => void;
+  onClick?: () => void;
   children: React.ReactNode;
 }) => {
   return (
