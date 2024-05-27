@@ -1,3 +1,4 @@
+import Markdown from "markdown-to-jsx";
 import { ChatItem } from "./ChatItem";
 import { LoadingDots } from "./LoadingDots";
 
@@ -29,7 +30,11 @@ export const ChatHistory = ({
         }
         if (streaming) {
           return (
-            <ChatItem key={id} answer={streamedAnswer} question={question} />
+            <ChatItem
+              key={id}
+              answer={<Markdown>{streamedAnswer}</Markdown>}
+              question={question}
+            />
           );
         }
 
@@ -53,7 +58,13 @@ export const ChatHistory = ({
             />
           );
         }
-        return <ChatItem key={id} answer={answer} question={question} />;
+        return (
+          <ChatItem
+            key={id}
+            answer={<Markdown>{answer}</Markdown>}
+            question={question}
+          />
+        );
       })}
     </div>
   );

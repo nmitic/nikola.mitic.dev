@@ -17,7 +17,13 @@ export const DrawerAI = () => {
     useChatForm(streamedAnswer, ask);
   const askQuestion = async () => {
     await ask(
-      "Hi Nikola, what a nice CV you have! Can you please summarize all your positions and responsibilities so far? I want to know how many years you spend in each position, location, your role, tech stack, team size and projects you worked on."
+      `
+        List all companies you have worked for so far, 
+        including duration of employment in years, position title, 
+        link to company website.
+
+        Present data in table view.
+      `
     );
   };
   const { downloadPdf } = useChatHistoryPdf(chatHistory);
