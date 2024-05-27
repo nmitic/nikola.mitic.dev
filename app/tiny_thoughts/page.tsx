@@ -12,6 +12,9 @@ import locationIcon from "../../public/location-icon.svg?url";
 import linkIcon from "../../public/link-icon.svg?url";
 import TinyThoughtsList from "../../components/TinyThoughtsList";
 import { getTinyThoughtsDataAction } from "../actions";
+import Link from "next/link";
+import { Alert } from "../../components/ui/Alert";
+import { Button } from "../../components/ui/Button";
 
 const TinyThoughts = async ({ searchParams }: any) => {
   const first = searchParams?.first ? parseInt(searchParams?.first) : 10;
@@ -66,7 +69,7 @@ const TinyThoughts = async ({ searchParams }: any) => {
         >
           <Image src={emailIcon} alt="email icon" width={30} />
         </a>
-        <button className="bg-white hover:opacity-90 transition-opacity text-black font-bold py-2 px-4 rounded-full">
+        <button className="bg-white hover:opacity-90 transition-opacity text-black font-bold py-2 px-4 rounded-full hidden">
           Subscribe
         </button>
       </div>
@@ -102,6 +105,17 @@ const TinyThoughts = async ({ searchParams }: any) => {
             <a href="https://nikola-mitic.dev/">nikola-mitic.dev</a>
           </span>
         </div>
+      </div>
+      <div className="mb-5 md:mb-10 text-center">
+        <Alert>
+          <span>
+            Did you know? You can <span className=" font-bold">interview</span>{" "}
+            my AI clone?
+          </span>
+          <Button>
+            <Link href={"/ai_clone_interview/chat"}>Chat now!</Link>
+          </Button>
+        </Alert>
       </div>
       <TinyThoughtsList
         tinyThoughts={data?.tinyThoughts}

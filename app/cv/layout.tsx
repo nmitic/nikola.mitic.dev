@@ -6,6 +6,9 @@ import { JobsData } from "../../types/cv";
 import { DownloadCvLink } from "../../components/DownloadCv";
 import { Drawer } from "../../components/Drawer";
 import { DrawerAI } from "../../components/DrawerAI";
+import { Alert } from "../../components/ui/Alert";
+import { Button } from "../../components/ui/Button";
+import Link from "next/link";
 
 const client = new GraphQLClient(
   process.env.NEXT_PUBLIC_HYGRAPH_READ_ONLY as string
@@ -47,7 +50,20 @@ const CvLayout = async (param: { children: React.ReactNode }) => {
       </div>
       <div className=" mb-5 sm:mb-10 flex gap-3">
         <DownloadCvLink />
-        <DrawerAI />
+        <div className="print:hidden">
+          <DrawerAI />
+        </div>
+      </div>
+      <div className=" print:hidden">
+        <Alert>
+          <span>
+            Did you know? You can <span className=" font-bold">interview</span>{" "}
+            my AI clone?
+          </span>
+          <Button>
+            <Link href={"/ai_clone_interview/chat"}>Chat now!</Link>
+          </Button>
+        </Alert>
       </div>
       <div className="grid sm:grid-cols-[auto,1fr] gap-3 lg:flex lg:flex-col">
         <div className="lg:mb-28 sticky top-0 z-10">
