@@ -10,19 +10,23 @@ import { Button } from "../ui/Button";
 import { Switch } from "../ui/Switch";
 
 const autoInterviewQuestions = [
+  "How many years of experience do you have?",
+  "Looking at your resume one can notice you have been changing jobs very often, why is that?",
   "Where do you currently work?",
   "And what are your responsibilities?",
-  "What is the team size and roles job?",
+  "What is the team size and roles at your latest job?",
   "What technologies are you using in your latest role?",
+  "How many years of experience fo you have in React JS and Next JS?",
   "Are you using scrum or agile in your latest role?",
   "Are you looking for the new job?",
   "And why?",
-  "Looking at your resume one can notice you have been changing jobs very often, why is that?",
   "What are you looking in your future employer and job position?",
   "Which roles are you looking for in your next job?",
   "What is your preferred way of working, home office, onsite or hybrid",
+  "Do you need relocation support for Germany?",
   "What is your notice period, and when you are going to be available for new job?",
   "What is your expected salary range for Berlin - Germany?",
+  "What are your contact details?",
 ];
 
 export const useChatForm = (
@@ -72,6 +76,7 @@ export const useChatForm = (
 export const InterviewerAI = () => {
   const [autoInterviewOn, setAutoInterviewOn] = useState(false);
   const { streamedAnswer, chatHistory, ask, answeringInProgress } = useChat();
+  const [autoQuestion, setAutoQuestion] = useState(autoInterviewQuestions);
   const {
     question,
     handleSubmit,
@@ -90,17 +95,17 @@ export const InterviewerAI = () => {
   };
 
   useEffect(() => {
-    const allQuestionAsked =
-      chatHistory.length >= autoInterviewQuestions.length;
+    const allQuestionAsked = !autoQuestion.length;
     const shouldKeepAsking =
       !answeringInProgress && autoInterviewOn && !allQuestionAsked;
 
     if (shouldKeepAsking) {
-      const question = autoInterviewQuestions[chatHistory.length];
+      const question = autoQuestion[0];
       setQuestionSimulate(question).then(() => {
         setTimeout(() => {
           if (document.chatFrom) {
             document.chatFrom.requestSubmit();
+            setAutoQuestion(autoQuestion.slice(1));
           }
         }, 100);
       });
