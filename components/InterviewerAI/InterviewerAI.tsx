@@ -113,6 +113,7 @@ export const InterviewerAI = () => {
 
     if (allQuestionAsked) {
       setAutoInterviewOn(false);
+      setAutoQuestion(autoInterviewQuestions);
     }
   }, [answeringInProgress, autoInterviewOn]);
 
