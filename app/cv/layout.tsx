@@ -54,7 +54,7 @@ const CvLayout = async (param: { children: React.ReactNode }) => {
           <DrawerAI />
         </div>
       </div>
-      <div className=" print:hidden mb-6 text-center sm:text-left">
+      <div className="mb-6 text-center sm:text-left">
         <Alert>
           <span>
             Did you know? You can <span className=" font-bold">interview</span>{" "}
